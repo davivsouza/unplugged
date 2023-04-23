@@ -7,7 +7,7 @@ type Props = {
 export function FormHeader({ heading, text }: Props) {
   return (
     <VStack my={4}>
-       <Heading fontSize="4xl" fontFamily="heading">
+       <Heading fontSize="4xl" fontFamily="heading" mt={12}>
         {heading}
       </Heading>
       <Text fontFamily="body" color="gray.400">
