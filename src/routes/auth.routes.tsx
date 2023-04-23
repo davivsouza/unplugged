@@ -2,11 +2,11 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import { HasAccount } from "@screens/HasAccount";
-import { Home } from "@screens/Home";
+import { Welcome } from "@screens/Welcome";
+import { SignIn } from "@screens/SignIn";
 
 type AuthRoutes = {
-  hasAccount: undefined;
+  welcome: undefined;
   signIn: undefined;
   signUp: undefined;
 };
@@ -15,24 +15,14 @@ export type AuthNavigatorRouteProps = NativeStackNavigationProp<AuthRoutes>;
 
 const { Navigator, Screen } = createNativeStackNavigator<AuthRoutes>();
 
-
-const config = {
-    animation: 'spring',
-    config: {
-      stiffness: 1000,
-      damping: 500,
-      mass: 3,
-      overshootClamping: true,
-      restDisplacementThreshold: 0.01,
-      restSpeedThreshold: 0.01,
-    },
-  };
-
 export function AuthRoutes() {
   return (
-    <Navigator screenOptions={{ headerShown: false}}>
-      <Screen name="hasAccount" component={HasAccount}/>
-      <Screen name="signIn" component={Home} />
+    <Navigator screenOptions={{ headerShown: false, contentStyle: {
+      paddingVertical: 90,
+      paddingHorizontal: 32,
+    }}}>
+      <Screen name="welcome" component={Welcome}/>
+      <Screen name="signIn" component={SignIn} />
     </Navigator>
   );
 }
