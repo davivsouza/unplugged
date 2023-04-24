@@ -10,6 +10,7 @@ export const THEME = extendTheme({
   fonts: {
     heading: "Epilogue_700Bold",
     body: "Epilogue_400Regular",
+    semiBold: 'Epilogue_600SemiBold'
   },
   fontSizes: {
     xs: 12,
@@ -17,5 +18,7 @@ export const THEME = extendTheme({
     md: 16,
     lg: 18,
     xl: 20,
+    '2xl': 25,
+    '3xl': 32,
   },
 });
