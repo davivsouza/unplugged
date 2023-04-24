@@ -3,7 +3,7 @@ import { FormHeader } from "@components/FormHeader";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { TouchableOpacity } from "react-native";
-import { GoBack } from "@components/GoBack";
+import { ChangeScreenButton } from "@components/ChangeScreenButton";
 import { useNavigation } from "@react-navigation/native";
 import { ThirdPartyAuth } from "@components/ThirdPartyAuth";
 
@@ -14,7 +14,7 @@ export function SignIn() {
   }
   return (
     <VStack flex={1} bg="white">
-      <GoBack onPress={handleGoBack} />
+      <ChangeScreenButton onPress={handleGoBack} />
       <FormHeader heading="Olá de novo" text="Sentimos sua falta, bem vindo de volta ao Unplugged." />
       <VStack mt={16}>
         <Input placeholder="E-mail" autoCapitalize="none" />
