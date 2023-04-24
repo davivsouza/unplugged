@@ -1,9 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
-import { Center } from "native-base";
+import { AuthNavigatorRouteProps } from "@routes/auth.routes";
+import { Center, Text } from "native-base";
 import { useEffect } from "react";
+import { TouchableOpacity } from "react-native";
 
 export function Questionnaire() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthNavigatorRouteProps>();
   useEffect(() => {
     navigation.addListener("beforeRemove", (e) => {
       // Prevent default behavior of leaving the screen
@@ -17,5 +19,12 @@ export function Questionnaire() {
     };
   }, [navigation]);
 
-  return <Center>SEXO</Center>;
+  return (
+    <Center>
+      Você tem problemas mentais?
+      <TouchableOpacity onPress={() => navigation.navigate('signUp')}>
+        <Text fontSize="lg" borderWidth={1} rounded="lg" p={2} mt={2}>Tenho</Text>
+      </TouchableOpacity>
+    </Center>
+  );
 }
