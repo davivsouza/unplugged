@@ -12,7 +12,7 @@ export function ThirdPartyAuth(){
         <Heading flexGrow={2} textAlign="center" w={1} fontSize="lg" fontFamily="semiBold">Acesso rápido</Heading>
         <Box flexGrow={1} h={0.5} bg="black" />
       </HStack>
-      <HStack flex={1} justifyContent="space-around" mt={8}>
+      <HStack  justifyContent="space-around" mt={8}>
         <GoogleSvg/>
         <FaceSvg/>
         <TwitterSvg/>
