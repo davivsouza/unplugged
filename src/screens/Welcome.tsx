@@ -8,6 +8,9 @@ export function Welcome() {
   const navigation = useNavigation<AuthNavigatorRouteProps>()
 
   function handleNewUser() {
+    navigation.navigate('introSlider')
+  }
+  function handleGoSignIn() {
     navigation.navigate('signIn')
   }
   return (
@@ -23,7 +26,7 @@ export function Welcome() {
           label="Já tenho conta"
           description="Use essa opção para entrar na sua conta."
           hasAccount
-          onPress={handleNewUser}
+          onPress={handleGoSignIn}
         />
       </VStack>
     </VStack>
