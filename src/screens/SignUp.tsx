@@ -1,12 +1,14 @@
-import { Pressable, Text, VStack } from "native-base";
+import { Text, VStack } from "native-base";
 import { FormHeader } from "@components/FormHeader";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { ThirdPartyAuth } from "@components/ThirdPartyAuth";
+import { AuthNavigatorRouteProps } from "@routes/auth.routes";
 
 export function SignUp() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthNavigatorRouteProps>();
+
 
   return (
     <VStack flex={1} bg="white">
@@ -15,7 +17,7 @@ export function SignUp() {
         <Input placeholder="Nome completo" autoCapitalize="sentences" />
         <Input placeholder="E-mail" autoCapitalize="none" />
         <Input placeholder="Senha" secureTextEntry autoCapitalize="none" />
-        <Button title="Entrar" mt={12} />
+        <Button title="Entrar" mt={12} onPress={()=> navigation.navigate('dashboard')}/>
       </VStack>
 
       <ThirdPartyAuth />
