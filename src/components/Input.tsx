@@ -1,20 +1,25 @@
-import {Input as NativeBaseInput, IInputProps} from 'native-base'
-export function Input({...rest}: IInputProps){
+import { Input as NativeBaseInput, IInputProps } from "native-base";
+
+type Props = IInputProps & {
+  underline?: boolean;
+};
+export function Input({ underline = false, ...rest }: Props) {
   return (
     <NativeBaseInput
       mb={4}
       h={12}
-      borderWidth={3}
-      rounded="lg"
+      borderWidth={underline ? 0: 3}
+      borderBottomWidth={3}
+      rounded={underline? 'none' :"lg"}
       fontSize="md"
       fontFamily="body"
-      placeholderTextColor='gray.400'  
+      placeholderTextColor="gray.400"
       _focus={{
-        bg:"transparent",
-        borderWidth: 3,
-        borderColor: "purple.400",
-      }}    
+        bg: "transparent",
+        borderWidth: underline ? 0 : 3,
+        borderColor: underline ? "black" : 'purple.500',
+      }}
       {...rest}
     />
-  )
+  );
 }
