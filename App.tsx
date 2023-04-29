@@ -7,11 +7,10 @@ import {
   Epilogue_600SemiBold,
   Epilogue_700Bold,
 } from "@expo-google-fonts/epilogue";
-import {LinearGradient} from 'expo-linear-gradient'
+import { LinearGradient } from "expo-linear-gradient";
 
 import { Loading } from "@components/Loading";
-import {THEME} from './src/theme'
-
+import { THEME } from "./src/theme";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -22,10 +21,10 @@ export default function App() {
 
   const config = {
     dependencies: {
-      'linear-gradient': LinearGradient
-    }
+      "linear-gradient": LinearGradient,
+    },
   };
-  
+
   return (
     <NativeBaseProvider theme={THEME} config={config}>
       <StatusBar

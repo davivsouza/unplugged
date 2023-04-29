@@ -2,37 +2,16 @@ import {
   Heading,
   Image,
   PresenceTransition,
-  Pressable,
   Text,
   VStack,
   useTheme,
 } from "native-base";
 import Carousel from "react-native-app-intro-slider";
-import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRouteProps } from "@routes/auth.routes";
 import { ChangeScreenButton } from "@components/ChangeScreenButton";
+import {slides} from '@utils/slides'
 
-const slides = [
-  {
-    key: "1",
-    title: "Bem vindo ao Unplugged",
-    text: "O Unplugged é um aplicativo desenvolvido com base em métodos científicos para ajudar você a substituir vícios por bons hábitos de uma maneira simples e descomplicada.",
-    image: require("@assets/slider1.png"),
-  },
-  {
-    key: "2",
-    title: "Suporte Exclusivo",
-    text: "O Unplugged possui várias ferramentas que vão te dar suporte durante a jornada, o aplicativo disponibiliza uma comunidade, conteúdos informativos, métodos e assistência.",
-    image: require("@assets/slider2.png"),
-  },
-  {
-    key: "3",
-    title: "Qual é a sua montanha?",
-    text: "O Unplugged foi projetado para se adaptar as suas dificuldades e objetivos, porém antes é necessário que você responda um rápido questionário.",
-    image: require("@assets/slider3.png"),
-  },
-];
 export function AppIntroSlider() {
   const { colors } = useTheme();
   const navigation = useNavigation<AuthNavigatorRouteProps>();
@@ -41,8 +20,8 @@ export function AppIntroSlider() {
     navigation.goBack();
   }
 
-  function handleGoToQuestionnaire() {
-    navigation.navigate("questionnaire");
+  function handleGoToSignUp() {
+    navigation.navigate("signUp");
   }
   return (
     <VStack flex={1}>
@@ -88,7 +67,7 @@ export function AppIntroSlider() {
             }}
           >
             <ChangeScreenButton
-              onPress={handleGoToQuestionnaire}
+              onPress={handleGoToSignUp}
               isForNextPage
               position="absolute"
               top={50}
