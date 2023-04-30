@@ -26,7 +26,7 @@ export function SignUp() {
           <VStack position="relative">
             <QuestionnaireHeader title="Como devemos chamá-lo?" />
             <Input underline placeholder="Nome de usuário" mt={20} />
-            <Button title="Finalizar" mt={20} onPress={() => navigate("dashboard")} />
+            <Button title="Finalizar" mt={20} />
           </VStack>
         </VStack>
       ) : (
