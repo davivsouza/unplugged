@@ -10,11 +10,10 @@ import { useState } from "react";
 import { Button } from "@components/Button";
 
 export function SignUp() {
-  const { goBack, navigate } = useNavigation<AuthNavigatorRouteProps>();
-
+  const { navigate } = useNavigation<AuthNavigatorRouteProps>();
 
   const [usernameForm, setUsernameForm] = useState(false);
-  
+
   function handleAskName() {
     setUsernameForm(true);
   }
@@ -22,7 +21,7 @@ export function SignUp() {
     <VStack flex={1} bg="white">
       {usernameForm ? (
         <VStack flex={1}>
-          <ChangeScreenButton onPress={() => goBack()} />
+          <ChangeScreenButton onPress={() => setUsernameForm(false)} />
           <VStack position="relative">
             <QuestionnaireHeader title="Como devemos chamá-lo?" />
             <Input underline placeholder="Nome de usuário" mt={20} />
@@ -53,6 +52,12 @@ export function SignUp() {
             onPress={handleAskName}
             isForNextPage
             mt={8}
+            alignSelf="flex-end"
+          />
+
+          <ChangeScreenButton
+            onPress={() => navigate("welcome")}
+            
             alignSelf="flex-end"
           />
         </>
