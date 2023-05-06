@@ -13,8 +13,7 @@ type AuthRoutes = {
   signIn: undefined;
   signUp: undefined;
   introSlider: undefined
-  questionnaire: undefined;
-  dashboard: undefined;
+  appHome: undefined
 };
 
 export type AuthNavigatorRouteProps = NativeStackNavigationProp<AuthRoutes>;
@@ -27,11 +26,11 @@ export function AuthRoutes() {
       paddingVertical: 90,
       paddingHorizontal: 32,
     }}}>
+      <Screen name="appHome" component={Dashboard}/>
       <Screen name="signUp" component={SignUp}/>
       <Screen name="welcome" component={Welcome}/>
       <Screen name="signIn" component={SignIn} />
       <Screen name="introSlider" component={AppIntroSlider} />
-      <Screen name="dashboard" component={Dashboard} />
     </Navigator>
   );
 }
