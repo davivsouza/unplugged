@@ -10,6 +10,12 @@ export function Button({ title, ...rest }: Props) {
       bg="purple.500"
 
       rounded="3xl"
+      _pressed={
+        {
+          bgColor: 'purple.600',
+        }
+      }
+      
       {...rest}
     >
       <Text
