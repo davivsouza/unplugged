@@ -4,7 +4,12 @@ export const THEME = extendTheme({
   colors: {
     gray: {
         50: '#F8F8F8',
-        700: '#181818'
+        700: '#181818',
+        800: '#0D0C10',
+    },
+    purple: {
+      500: '#6C63FF',
+      800: '#221E2B',
     },
     white: "#FFFFFF",
   },

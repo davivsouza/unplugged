@@ -4,7 +4,7 @@ import {
 } from "@react-navigation/native-stack";
 import { Welcome } from "@screens/Welcome";
 import { SignIn } from "@screens/SignIn";
-import { AppIntroSlider } from "@screens/AppIntroSlider";
+import { AuthIntroSlider } from "@screens/AuthIntroSlider";
 import { SignUp } from "@screens/SignUp";
 
 type AuthRoutes = {
@@ -27,7 +27,7 @@ export function AuthRoutes() {
       <Screen name="welcome" component={Welcome}/>
       <Screen name="signUp" component={SignUp}/>
       <Screen name="signIn" component={SignIn} />
-      <Screen name="introSlider" component={AppIntroSlider} />
+      <Screen name="introSlider" component={AuthIntroSlider} />
     </Navigator>
   );
 }

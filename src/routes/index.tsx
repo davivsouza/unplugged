@@ -3,6 +3,7 @@ import { Box, useTheme } from "native-base";
 import { AuthRoutes } from "./auth.routes";
 import {useColorMode} from 'native-base'
 import { useState } from "react";
+import { AppRoutes } from "./app.routes";
 export function Routes() {
   const [isLoggedIn, setIsLoggedIn] = useState(true)
 
@@ -16,7 +17,7 @@ export function Routes() {
     <Box flex={1} bg={colorMode === 'light' ? 'white' : 'black'}>
       <NavigationContainer theme={theme}>
         {
-          isLoggedIn ? <AuthRoutes />:<AuthRoutes/>
+          isLoggedIn ? <AppRoutes />:<AuthRoutes/>
         }
       </NavigationContainer>
     </Box>
