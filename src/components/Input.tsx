@@ -1,25 +1,38 @@
-import { Input as NativeBaseInput, IInputProps } from "native-base";
+import { Input as NativeBaseInput, IInputProps, FormControl } from "native-base";
 
 type Props = IInputProps & {
   underline?: boolean;
+  errorMessage?: string | null
 };
-export function Input({ underline = false, ...rest }: Props) {
+export function Input({ underline = false, errorMessage = null, isInvalid, ...rest }: Props) {
+  const invalid = !!errorMessage || isInvalid
   return (
-    <NativeBaseInput
-      mb={4}
-      h={12}
-      borderWidth={underline ? 0: 3}
-      borderBottomWidth={3}
-      rounded={underline? 'none' :"lg"}
-      fontSize="md"
-      fontFamily="body"
-      placeholderTextColor="gray.400"
-      _focus={{
-        bg: "transparent",
-        borderWidth: underline ? 0 : 3,
-        borderColor: underline ? "black" : 'purple.500',
-      }}
-      {...rest}
-    />
+
+    <FormControl isInvalid={invalid}>
+      <NativeBaseInput
+        h={12}
+        my={invalid ? 0 : 4}
+        borderWidth={underline ? 0 : 3}
+        borderBottomWidth={3}
+        rounded={underline ? 'none' : "lg"}
+        fontSize="md"
+        fontFamily="body"
+        placeholderTextColor="gray.400"
+        isInvalid={invalid}
+        _invalid={{
+          borderColor: 'red.500'
+        }}
+        _focus={{
+          bg: "transparent",
+          borderWidth: underline ? 0 : 3,
+          borderColor: underline ? "black" : 'purple.500',
+        }}
+        {...rest}
+      />
+
+      <FormControl.ErrorMessage mb={4}>
+        {errorMessage}
+      </FormControl.ErrorMessage>
+    </FormControl>
   );
 }

@@ -12,7 +12,7 @@ import { AuthNavigatorRouteProps } from "@routes/auth.routes";
 import { ChangeScreenButton } from "@components/ChangeScreenButton";
 import {slides} from '@utils/slides'
 
-export function AppIntroSlider() {
+export function AuthIntroSlider() {
   const { colors } = useTheme();
   const navigation = useNavigation<AuthNavigatorRouteProps>();
 

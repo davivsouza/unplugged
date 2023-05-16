@@ -8,14 +8,37 @@ import { ChangeScreenButton } from "@components/ChangeScreenButton";
 import { QuestionnaireHeader } from "@components/QuestionnaireHeader";
 import { useState } from "react";
 import { Button } from "@components/Button";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from 'yup';
 
+
+type FormDataProps = {
+  nickname: string,
+  name: string
+  email: string
+  password: string
+}
+
+const signUpSchema = yup.object({
+  nickname: yup.string().required('Informe o seu nome de usuário!'),
+  name: yup.string().required('Informe seu nome completo.'),
+  email: yup.string().required('Informe seu E-mail').email('E-mail inválido.'),
+  password: yup.string().required('Informe a senha').min(6, 'A senha deve ter pelo menos 6 dígitos.')
+})
 export function SignUp() {
   const { navigate } = useNavigation<AuthNavigatorRouteProps>();
 
   const [usernameForm, setUsernameForm] = useState(false);
-
+  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
+    resolver: yupResolver(signUpSchema)
+  })
   function handleAskName() {
     setUsernameForm(true);
+  }
+
+  function handleSignUp({ nickname, name, email, password }: FormDataProps) {
+    console.log('tá lá')
   }
   return (
     <VStack flex={1} bg="white">
@@ -24,20 +47,47 @@ export function SignUp() {
           <ChangeScreenButton onPress={() => setUsernameForm(false)} />
           <VStack position="relative">
             <QuestionnaireHeader title="Como devemos chamá-lo?" />
-            <Input underline placeholder="Nome de usuário" mt={20} />
-            <Button title="Finalizar" mt={20} />
+            <Controller
+              control={control}
+              name="nickname"
+              render={({ field: { onChange, value } }) => (
+                <Input underline placeholder="Nome de usuário" mt={20} onChangeText={onChange} value={value} errorMessage={errors.nickname?.message}/>
+              )}
+            />
+            <Button title="Finalizar" mt={20} onPress={handleSubmit(handleSignUp)}/>
           </VStack>
         </VStack>
       ) : (
         <>
+          <VStack >
+         <ChangeScreenButton
+            onPress={() => navigate("welcome")}
+          />
           <FormHeader
             heading="Vamos Começar"
             text="Preencha os campos abaixo."
           />
-          <VStack mt={14}>
-            <Input placeholder="Nome completo" autoCapitalize="words" />
-            <Input placeholder="E-mail" autoCapitalize="none" />
-            <Input placeholder="Senha" secureTextEntry autoCapitalize="none" />
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { onChange, value } }) => (
+                <Input placeholder="Nome completo" autoCapitalize="words" onChangeText={onChange} value={value} errorMessage={errors.name?.message}/>
+              )}
+            />
+            <Controller
+              control={control}
+              name="email"
+              render={({ field: { onChange, value } }) => (
+                <Input placeholder="E-mail" autoCapitalize="none" onChangeText={onChange} value={value} errorMessage={errors.email?.message}/>
+              )}
+            />
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { onChange, value } }) => (
+                <Input placeholder="Senha" secureTextEntry autoCapitalize="none" returnKeyType="send" onChangeText={onChange} value={value} errorMessage={errors.password?.message} onSubmitEditing={handleSubmit(handleSignUp)} />
+              )}
+            />
           </VStack>
 
           <ThirdPartyAuth />
@@ -49,17 +99,13 @@ export function SignUp() {
             do aplicativo.
           </Text>
           <ChangeScreenButton
-            onPress={handleAskName}
+            onPress={handleSubmit(handleSignUp)}
             isForNextPage
-            mt={8}
+            mt={4}
             alignSelf="flex-end"
           />
 
-          <ChangeScreenButton
-            onPress={() => navigate("welcome")}
-            
-            alignSelf="flex-end"
-          />
+         
         </>
       )}
     </VStack>
