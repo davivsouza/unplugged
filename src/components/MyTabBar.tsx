@@ -1,5 +1,5 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
-import { HStack, Pressable, useTheme } from 'native-base'
+import { Box, HStack, Pressable, useTheme } from 'native-base'
 import { useState } from 'react';
 import JourneySvg from "@assets/Journey-icon.svg";
 import MeditationSvg from "@assets/Meditation-icon.svg";
@@ -15,13 +15,13 @@ export function MyTabBar({ state, navigation }: Props) {
     return (
       <HStack position="absolute" bottom={3}>
         {state.routeNames.map((route,idx) => (
-          <>
+          <Box  flex={1}key={idx}>
             {route === "journey" ? (
               <Pressable
                 width={16}
                 height={16}
-                mx={4}
-                key={idx}
+                ml={2}
+                key={route}
                 bg="purple.500"
                 rounded="full" 
                 alignItems="center"
@@ -35,7 +35,7 @@ export function MyTabBar({ state, navigation }: Props) {
               <Pressable
                 flex={1}
                 height={16}
-                key={idx}
+                
                 bg="transparent"
                 alignItems="center"
                 justifyContent="center"
@@ -53,7 +53,7 @@ export function MyTabBar({ state, navigation }: Props) {
                 {route === "shop" && <ShopSvg fill={selectedTab === 'shop' ? colors.purple[500] : '#fff'} width={37} height={37} />}
               </Pressable>
             )}
-          </>
+          </Box>
         ))}
       </HStack>
     );
