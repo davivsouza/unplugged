@@ -26,7 +26,11 @@ export function Input({ underline = false, errorMessage = null, isInvalid, ...re
           bg: "transparent",
           borderWidth: underline ? 0 : 3,
           borderColor: underline ? "black" : 'purple.500',
+          _android: {
+            selectionColor: 'purple.500'
+          }
         }}
+        
         {...rest}
       />
 

@@ -2,10 +2,10 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import { Welcome } from "@screens/Welcome";
-import { SignIn } from "@screens/SignIn";
-import { AuthIntroSlider } from "@screens/AuthIntroSlider";
-import { SignUp } from "@screens/SignUp";
+import { Welcome } from "@screens/AuthScreens/Welcome";
+import { SignIn } from "@screens/AuthScreens/SignIn";
+import { AuthIntroSlider } from "@screens/AuthScreens/AuthIntroSlider";
+import { SignUp } from "@screens/AuthScreens/SignUp";
 
 type AuthRoutes = {
   welcome: undefined;
