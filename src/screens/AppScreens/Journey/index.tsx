@@ -8,6 +8,7 @@ type modulesDataProps = {
   videosLength: number;
   completedVideos: number;
 };
+
 export function Journey() {
   const [modulesData, setModulesData] = useState<modulesDataProps[]>([
     {
@@ -30,6 +31,7 @@ export function Journey() {
     },
     
   ]);
+
   return (
     <VStack
       flex={1}

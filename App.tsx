@@ -1,5 +1,6 @@
 import { StatusBar } from "react-native";
 import { NativeBaseProvider } from "native-base";
+import {useState} from 'react'
 import { Routes } from "./src/routes";
 import {
   useFonts,
@@ -13,6 +14,8 @@ import { Loading } from "@components/Loading";
 import { THEME } from "./src/theme";
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
+
   const [fontsLoaded] = useFonts({
     Epilogue_400Regular,
     Epilogue_700Bold,
@@ -28,7 +31,7 @@ export default function App() {
   return (
     <NativeBaseProvider theme={THEME} config={config}>
       <StatusBar
-        barStyle="dark-content"
+        barStyle={isLoggedIn ? "light-content" : "dark-content"}
         backgroundColor="transparent"
         translucent
       />

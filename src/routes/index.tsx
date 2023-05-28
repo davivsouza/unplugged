@@ -5,7 +5,7 @@ import {useColorMode} from 'native-base'
 import { useState } from "react";
 import { AppRoutes } from "./app.routes";
 export function Routes() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
 
   const { colors } = useTheme();
   const {colorMode} = useColorMode()

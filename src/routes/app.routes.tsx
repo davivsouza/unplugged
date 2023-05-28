@@ -3,7 +3,9 @@ import {
   createBottomTabNavigator,
   BottomTabNavigationProp,
 } from "@react-navigation/bottom-tabs";
-import { Journey } from "@screens/Journey";
+import { Journey } from "@screens/AppScreens/Journey";
+import { Module } from "@screens/AppScreens/Journey/Module";
+import { Module as ModuleDTO } from "../@types/module";
 
 type AppRoutes = {
   journey: undefined;
@@ -11,6 +13,9 @@ type AppRoutes = {
   habits: undefined;
   shop: undefined;
   binaural: undefined;
+  module: {
+    module: ModuleDTO
+  }
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -40,6 +45,13 @@ export function AppRoutes() {
       <Screen name="journey" component={Journey} />
       <Screen name="meditation" component={Journey} />
       <Screen name="shop" component={Journey} />
+      <Screen
+        name="module"
+        component={Module}
+        options={{
+          tabBarButton: () => null
+        }}
+      />
     </Navigator>
   );
 }
