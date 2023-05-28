@@ -13,7 +13,7 @@ export function MyTabBar({ state, navigation }: Props) {
   const { colors } = useTheme();
   return (
     <HStack position="absolute" bottom={3}>
-      {state.routeNames.map((route, idx) => (
+      {state.routeNames.slice(0, 5).map((route, idx) => (
         <Box flex={1} key={idx}>
           {route === "journey" ? (
             <Pressable
