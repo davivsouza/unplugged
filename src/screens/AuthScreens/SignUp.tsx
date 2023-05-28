@@ -5,15 +5,14 @@ import { useNavigation } from "@react-navigation/native";
 import { ThirdPartyAuth } from "@components/ThirdPartyAuth";
 import { AuthNavigatorRouteProps } from "@routes/auth.routes";
 import { ChangeScreenButton } from "@components/ChangeScreenButton";
-import { QuestionnaireHeader } from "@components/QuestionnaireHeader";
 import { useState } from "react";
-import { Button } from "@components/Button";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { UsernameForm } from "@components/UsernameForm";
 
-type FormDataProps = {
-  nickname: string;
+export type SignUpFormDataProps = {
+  username: string;
   name: string;
   email: string;
   password: string;
@@ -26,43 +25,39 @@ const signUpSchema = yup.object({
     .string()
     .min(8, "A senha deve ter pelo menos 8 dígitos.")
     .required("Informe a senha")
-    .matches(/[0-9]/, 'Senha deve conter pelo menos 1 número')
-    .matches(/[A-Z0-9]/, 'Senha deve conter pelo menos 1 letra maiúscula')
-    .matches(/\W|_/, 'Senha deve conter pelo menos 1 caractere especial')
+    .matches(/[0-9]/, "Senha deve conter pelo menos 1 número")
+    .matches(/[A-Z]/, "Senha deve conter pelo menos 1 letra maiúscula")
+    .matches(/\W|_/, "Senha deve conter pelo menos 1 caractere especial"),
 });
 export function SignUp() {
   const { navigate } = useNavigation<AuthNavigatorRouteProps>();
+  const [tempUserData, setTempUserData] = useState<SignUpFormDataProps>();
 
   const [usernameForm, setUsernameForm] = useState(false);
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormDataProps>({
+  } = useForm<SignUpFormDataProps>({
     resolver: yupResolver(signUpSchema),
   });
-  function handleAskName() {
+
+  function handleAskUsername() {
     setUsernameForm(true);
   }
 
-  function handleSignUp({ nickname, name, email, password }: FormDataProps) {
-    console.log({ nickname, name, email, password });
+  async function handleTempData(data: SignUpFormDataProps) {
+    try {
+      setTempUserData(data);
+      handleAskUsername();
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <VStack flex={1} bg="white">
       {usernameForm ? (
-        <VStack flex={1}>
-          <ChangeScreenButton onPress={() => setUsernameForm(false)} />
-          <VStack position="relative">
-            <QuestionnaireHeader title="Como devemos chamá-lo?" />
-            <Input underline placeholder="Nome de usuário" mt={20} />
-            <Button
-              title="Finalizar"
-              mt={20}
-              onPress={handleSubmit(handleSignUp)}
-            />
-          </VStack>
-        </VStack>
+        <UsernameForm tempData={tempUserData} />
       ) : (
         <>
           <VStack>
@@ -91,9 +86,10 @@ export function SignUp() {
                 <Input
                   placeholder="E-mail"
                   autoCapitalize="none"
-                  onChangeText={(text) => {
-                    onChange(text.trim());
-                  }}
+                  autoCorrect={false}
+                  keyboardType="email-address"
+                  autoComplete='email'
+                  onChangeText={onChange}
                   value={value}
                   errorMessage={errors.email?.message}
                 />
@@ -107,11 +103,11 @@ export function SignUp() {
                   placeholder="Senha"
                   secureTextEntry
                   autoCapitalize="none"
-                  returnKeyType="send"
                   onChangeText={onChange}
                   value={value}
                   errorMessage={errors.password?.message}
-                  onSubmitEditing={handleSubmit(handleSignUp)}
+                  returnKeyType="send"
+                  onSubmitEditing={handleSubmit(handleTempData)}
                 />
               )}
             />
@@ -126,7 +122,7 @@ export function SignUp() {
             do aplicativo.
           </Text>
           <ChangeScreenButton
-            onPress={handleSubmit(handleSignUp)}
+            onPress={handleSubmit(handleTempData)}
             isForNextPage
             mt={4}
             alignSelf="flex-end"
