@@ -13,7 +13,7 @@ type Props = {
 };
 
 export function Modules({
-  module: { moduleName, completedVideos, videosLength, moduleNumber },
+  module: { name, completedVideos, videosLength, number, content, description },
 }: Props) {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
@@ -22,10 +22,12 @@ export function Modules({
       onPress={() =>
         navigate("module", {
           module: {
-            moduleName,
-            moduleNumber,
+            name,
+            number,
             completedVideos,
             videosLength,
+            content,
+            description,
           },
         })
       }
@@ -35,7 +37,7 @@ export function Modules({
           <VStack>
             <HStack alignItems="center">
               <Heading fontFamily="heading" color="white" fontSize="md">
-                Módulo {moduleNumber}: {moduleName}
+                Módulo {number}: {name}
               </Heading>
             </HStack>
             <HStack mt={3} alignItems="center">

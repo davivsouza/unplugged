@@ -1,6 +1,15 @@
 export type Module = {
-    moduleNumber: number;
-    moduleName: string;
+    number: number;
+    name: string;
     videosLength: number;
     completedVideos: number;
+    description: string
+    content: 
+      {
+        videoNumber: number,
+        videoTitle: string,
+        duration: number,
+
+      }[]
+    
   };
