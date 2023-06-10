@@ -1,9 +1,18 @@
-import { VStack, Text, HStack, Divider, Progress, Box } from "native-base";
+import {
+  VStack,
+  Text,
+  HStack,
+  Divider,
+  Progress,
+  Box,
+  Pressable,
+} from "native-base";
 
 import { useRoute } from "@react-navigation/native";
 import { Module as ModuleDTO } from "../../../@types/module";
 
 import VideosSvg from "@assets/journey/videos-icon.svg";
+import { ModuleDetails } from "@components/ModuleDetails";
 
 type RouteParams = {
   module: ModuleDTO;
@@ -12,9 +21,7 @@ type RouteParams = {
 export function Module() {
   const route = useRoute();
 
-  const {
-    module: { moduleName, moduleNumber, completedVideos, videosLength },
-  } = route.params as RouteParams;
+  const { module } = route.params as RouteParams;
   return (
     <VStack
       flex={1}
@@ -29,13 +36,13 @@ export function Module() {
       }}
     >
       <Text fontFamily="body" color="white" fontSize="3xl">
-        Módulo {moduleNumber}: {moduleName}
+        Módulo {module.number}: {module.name}
       </Text>
 
       <HStack mt={3} alignItems="center">
         <VideosSvg />
         <Text color="gray.50" fontFamily="body" fontSize="xs">
-          {completedVideos}/{videosLength}
+          {module.completedVideos}/{module.videosLength}
         </Text>
       </HStack>
       <HStack alignItems="center">
@@ -59,7 +66,9 @@ export function Module() {
         </Text>
       </HStack>
       <Divider my={7} />
-      
+      <ModuleDetails
+        module={module}
+      />
     </VStack>
   );
 }
