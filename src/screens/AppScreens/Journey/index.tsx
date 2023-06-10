@@ -12,12 +12,21 @@ export function Journey() {
       completedVideos: 3,
       name: "Introdução",
       videosLength: 4,
-      description: 'bbla bla bla bla num sei oq n sei o qlá',
+      description: 'bbla bla bla bla num sei oq n sei o que lá',
       content: [
         {
           videoNumber: 1,
           videoTitle: "Introdução",
           duration: 5,
+          comments: [
+            {
+              userId: "22asfi3@Ufhn",
+              username:'Musashi',
+              comment: 'Que professor sigma!',
+              likes: 90,
+              stars: 5,
+            }
+          ]
         },
         {
           videoNumber: 2,
@@ -40,7 +49,7 @@ export function Journey() {
       content: [
         {
           videoNumber: 3,
-          videoTitle: "Ser sigma vale a pena?",
+          videoTitle: "Teste",
           duration: 7,
         },
       ],
@@ -54,7 +63,7 @@ export function Journey() {
       content: [
         {
           videoNumber: 3,
-          videoTitle: "Ser sigma vale a pena?",
+          videoTitle: "Teste",
           duration: 7,
         },
       ],

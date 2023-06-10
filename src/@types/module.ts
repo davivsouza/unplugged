@@ -4,12 +4,20 @@ export type Module = {
     videosLength: number;
     completedVideos: number;
     description: string
-    content: 
-      {
+    content: {
         videoNumber: number,
         videoTitle: string,
         duration: number,
+        comments?: [
+          {
+            userId: string,
+          username: string
 
+            comment: string,
+            likes: number
+            stars: number
+          }
+        ]
       }[]
-    
+ 
   };

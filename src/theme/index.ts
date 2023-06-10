@@ -4,6 +4,8 @@ export const THEME = extendTheme({
   colors: {
     gray: {
         50: '#F8F8F8',
+        200: "#CACACA",
+        500: "#232227",
         700: '#181818',
         800: '#0D0C10',
     },
@@ -13,6 +15,9 @@ export const THEME = extendTheme({
       800: '#221E2B',
       900: '#2B2634',
     },
+    red: {
+      300: "#FF6584"
+  },
     white: "#FFFFFF",
   },
   fonts: {

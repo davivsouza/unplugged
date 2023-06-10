@@ -9,20 +9,19 @@ import {
 } from "native-base";
 import { useState } from "react";
 import { ModuleDetailsButton } from "./ModuleDetailsButton";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@routes/app.routes";
+import { Module } from "../@types/module";
 type Props = {
-  description: string;
-  content: {
-    videoNumber: number;
-    videoTitle: string;
-    duration: number;
-  }[];
-};
+  module: Module
+}
 
-export function ModuleDetails({ description, content }: Props) {
+export function ModuleDetails({module}: Props) {
   const [selectedInfo, setSelectedInfo] = useState<
     "about" | "downloaded" | "content"
   >("about");
 
+  const {navigate} = useNavigation<AppNavigatorRoutesProps>();
   return (
     <VStack>
       <HStack alignItems="center" justifyContent="space-evenly" mb={20}>
@@ -44,12 +43,12 @@ export function ModuleDetails({ description, content }: Props) {
       </HStack>
       {selectedInfo === "about" && (
         <Text color="white" fontFamily="body" fontSize="md">
-          {description}
+          {module.description}
         </Text>
       )}
       {selectedInfo === "content" && (
         <FlatList
-          data={content}
+          data={module.content}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.videoTitle}
           renderItem={({ item: content }) => (
@@ -89,6 +88,13 @@ export function ModuleDetails({ description, content }: Props) {
                 borderColor="purple.500"
                 rounded="xl"
                 justifyContent="center"
+                onPress={()=> navigate('moduleVideo', {
+                  moduleNumber: module.number,
+                  duration: content.duration,
+                  videoNumber: content.videoNumber,
+                  videoTitle: content.videoTitle,
+                  comments: content.comments
+                })}
               >
                 <Text color="purple.500">Assistir</Text>
               </Pressable>

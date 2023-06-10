@@ -67,8 +67,7 @@ export function Module() {
       </HStack>
       <Divider my={7} />
       <ModuleDetails
-        content={module.content}
-        description={module.description}
+        module={module}
       />
     </VStack>
   );

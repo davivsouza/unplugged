@@ -11,8 +11,12 @@ type Props = BottomTabBarProps;
 export function MyTabBar({ state, navigation }: Props) {
   const [selectedTab, setSelectedTab] = useState("journey");
   const { colors } = useTheme();
+  function handleSelectedTab(route: string) {
+    setSelectedTab(route);
+    navigation.navigate(route);
+  }
   return (
-    <HStack position="absolute" bottom={3}>
+    <HStack position="absolute" bottom={3} zIndex={1}>
       {state.routeNames.slice(0, 5).map((route, idx) => (
         <Box flex={1} key={idx}>
           {route === "journey" ? (
@@ -25,7 +29,9 @@ export function MyTabBar({ state, navigation }: Props) {
               rounded="full"
               alignItems="center"
               justifyContent="center"
-              onPress={() => setSelectedTab(route)}
+              onPress={() => {
+                handleSelectedTab(route);
+              }}
             >
               <JourneySvg fill="#fff" width={28} height={28} />
             </Pressable>
@@ -36,7 +42,9 @@ export function MyTabBar({ state, navigation }: Props) {
               bg="transparent"
               alignItems="center"
               justifyContent="center"
-              onPress={() => setSelectedTab(route)}
+              onPress={() => {
+                handleSelectedTab(route);
+              }}
             >
               {route === "habits" && (
                 <HabitsSvg
@@ -52,6 +60,9 @@ export function MyTabBar({ state, navigation }: Props) {
                   }
                   width={40}
                   height={40}
+                  onPress={() => {
+                    handleSelectedTab(route);
+                  }}
                 />
               )}
               {route === "meditation" && (
