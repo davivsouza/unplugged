@@ -1,4 +1,6 @@
 import { Button } from "@components/Button";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import {
   Container,
   Button as NativeBaseButton,
@@ -7,10 +9,16 @@ import {
   VStack,
   View,
   Heading,
+  Pressable
 } from "native-base";
 import { useState } from "react";
 
-export function BinauralForm() {
+
+type Props = {
+  setCategories: React.Dispatch<React.SetStateAction<String[]>>
+}
+
+export function BinauralForm({setCategories}:Props) {
   const categories = [
     "Foco",
     "Criatividade",
@@ -25,6 +33,8 @@ export function BinauralForm() {
     "Memória",
   ];
 
+  const {navigate} = useNavigation<AppNavigatorRoutesProps>()
+
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   function handleSelectedCategory(category: string) {
@@ -34,13 +44,22 @@ export function BinauralForm() {
         (ct) => ct !== category
       );
 
+      
       return setSelectedCategories(filteredSelectedCategories);
     }
 
     setSelectedCategories((prevState) => [...prevState, category]);
   }
+
+  function handleNavigate(){
+    setCategories(selectedCategories)
+    navigate('binaural');
+  }
   return (
     <VStack>
+      <Pressable onPress={handleNavigate}>
+        <Text underline color="white" fontFamily="body" fontSize="sm" alignSelf="flex-end">Pular</Text>
+      </Pressable>
       <Heading
         textAlign="center"
         fontFamily="semiBold"
@@ -107,7 +126,7 @@ export function BinauralForm() {
           </SimpleGrid>
         </View>
       </Container>
-      <Button w="70%" mx="auto" title="Começar"/>
+      <Button onPress={handleNavigate} w="70%" mx="auto" title="Começar"/>
     </VStack>
   );
 }

@@ -48,7 +48,7 @@ export function MyTabBar({ state, navigation }: Props) {
             >
               {route === "habits" && (
                 <HabitsSvg
-                  fill={selectedTab === "habits" ? colors.purple[500] : "#fff"}
+                  stroke={selectedTab === "habits" ? colors.purple[500] : "#fff"}
                   width={30}
                   height={30}
                 />
