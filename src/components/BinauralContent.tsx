@@ -12,7 +12,7 @@ import { View } from "react-native";
 
 import BeatsBgTemplate from "@assets/binauralsounds/beat-bg-template.png";
 import BtnPlay from "@assets/binauralsounds/btnPlay.svg";
-import { BinauralSoundCard } from "@components/BinauralSoundCard";
+import { PlaylistCard } from "@components/PlaylistCard";
 
 
 export function BinauralContent() {
@@ -103,9 +103,9 @@ export function BinauralContent() {
 
       <Text color="white" fontFamily="semiBold" fontSize="lg" mt={12}>Lançamentos</Text>
       <ScrollView h={210} showsVerticalScrollIndicator={false}>
-        <BinauralSoundCard title="Relaxamento" beatsQuantity={10}/>
-        <BinauralSoundCard title="Foco" beatsQuantity={7}/>
-        <BinauralSoundCard title="Criatividade" beatsQuantity={3}/>
+        <PlaylistCard title="Relaxamento" beatsQuantity={10}/>
+        <PlaylistCard title="Foco" beatsQuantity={7}/>
+        <PlaylistCard title="Criatividade" beatsQuantity={3}/>
         
       </ScrollView>
     </VStack>

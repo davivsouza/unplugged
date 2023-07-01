@@ -14,6 +14,7 @@ import ShopSvg from "@assets/shop-icon.svg";
 import BinauralSvg from "@assets/Binaural-icon.svg";
 import HabitsSvg from "@assets/Habits-icon.svg";
 import { Box, Pressable, useTheme, VStack } from "native-base";
+import { Playlist } from "@screens/AppScreens/BinauralSounds/Playlist";
 
 type AppRoutes = {
   journey: undefined;
@@ -39,6 +40,7 @@ type AppRoutes = {
     ];
   };
   binauralSounds: undefined;
+  playlist: undefined
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -155,6 +157,13 @@ export function AppRoutes() {
       <Screen
         name="moduleVideo"
         component={ModuleVideo}
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Screen
+        name="playlist"
+        component={Playlist}
         options={{
           tabBarButton: () => null,
         }}

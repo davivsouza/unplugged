@@ -1,23 +1,38 @@
-import { HStack, Image, Text, VStack } from "native-base";
+import { HStack, Image, Pressable, Text, VStack, useTheme } from "native-base";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@routes/app.routes";
+import { Feather } from "@expo/vector-icons";
 import BinauralThumb from '@assets/binauralsounds/beat-bg-template.png'
 import DotMenuSvg from '@assets/binauralsounds/dotmenu-icon.svg'
 type Props = {
   title: string
-  beatsQuantity: number
+  author: string
 }
 
-export function BinauralSoundCard({ beatsQuantity, title }: Props) {
+export function BinauralSoundCard({ author,title }: Props) {
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const { colors } = useTheme()
+  function handleNavigate() {
+    navigate('playlist')
+  }
   return (
-    <HStack flex={1} mt={6}alignItems="center" justifyContent="space-between">
-      <HStack>
+    <Pressable onPress={handleNavigate} mb={3}>
+      <HStack flex={1} mt={6} alignItems="flex-start" justifyContent="space-between">
+        <HStack>
 
-      <Image source={BinauralThumb} alt="Thumbnail do som binaural" w={120} h={20} rounded="3xl" mr={4} />
-      <VStack alignItems="flex-start">
-        <Text color="white" fontFamily="body" fontSize="lg">{title}</Text>
-        <Text color="white" fontFamily="body" fontSize="xs">{beatsQuantity} beats</Text>
-      </VStack>
+          <Image source={BinauralThumb} alt="Thumbnail do som binaural" w={60} h={60} rounded="xl" mr={4} />
+          <VStack alignItems="flex-start">
+            <Text color="white" fontFamily="body" fontSize="md">{title}</Text>
+            <Text color="gray.300" fontFamily="body" fontSize="xs">{author}</Text>
+          </VStack>
+        </HStack>
+        <HStack alignItems="center">
+          <Feather name={'heart'} size={20} color={colors.gray[300]} />
+          <DotMenuSvg width={15} height={15} fill={colors.gray[300]} style={{marginLeft: 8}}/>
+        </HStack>
+
       </HStack>
-      <DotMenuSvg width={25} height={25}/>
-    </HStack>
+    </Pressable>
+
   )
 }
