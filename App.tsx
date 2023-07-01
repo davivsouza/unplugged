@@ -30,11 +30,7 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={THEME} config={config}>
-      <StatusBar
-        barStyle={isLoggedIn ? "light-content" : "dark-content"}
-        backgroundColor="transparent"
-        translucent
-      />
+      
       {fontsLoaded ? <Routes /> : <Loading />}
     </NativeBaseProvider>
   );
