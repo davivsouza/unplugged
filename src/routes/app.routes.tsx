@@ -13,7 +13,7 @@ import MeditationSvg from "@assets/Meditation-icon.svg";
 import ShopSvg from "@assets/shop-icon.svg";
 import BinauralSvg from "@assets/Binaural-icon.svg";
 import HabitsSvg from "@assets/Habits-icon.svg";
-import { Pressable, useTheme } from "native-base";
+import { Box, Pressable, useTheme, VStack } from "native-base";
 
 type AppRoutes = {
   journey: undefined;
@@ -69,64 +69,82 @@ export function AppRoutes() {
     >
       <Screen name="habits" component={Journey} options={{
         tabBarIcon: ({ focused }) => (
-          <HabitsSvg
-            stroke={focused ? colors.purple[500] : "#fff"}
-            strokeWidth={3}
-            width={30}
-            height={30}
-          />
+          <VStack position="relative">
+
+            <HabitsSvg
+              stroke="#fff"
+              strokeWidth={3}
+              width={30}
+              height={30}
+            />
+            {focused && (
+              <Box position="absolute" top={"170%"} w={8} h={4} bg="purple.500" borderTopLeftRadius="full" borderTopRightRadius="full" />
+            )}
+          </VStack>
         ),
       }} />
       <Screen name="binaural" component={BinauralSounds} options={{
         tabBarIcon: ({ focused }) => (
-          <BinauralSvg
-            fill={
-             focused ? colors.purple[500] : "#fff"
-            }
-            width={40}
-            height={40}
-          />
+          <VStack position="relative">
+
+            <BinauralSvg
+              fill="#fff"
+              width={40}
+              height={40}
+            />
+            {focused && (
+              <Box position="absolute" left={1} top={"140%"} w={8} h={4} bg="purple.500" borderTopLeftRadius="full" borderTopRightRadius="full" />
+            )}
+          </VStack>
         )
       }} />
 
       <Screen name="journey" component={Journey} options={{
-        tabBarIcon: ({focused}) => (
+        tabBarIcon: ({ focused }) => (
           <Pressable
-              width={16}
-              height={16}
-              bg="purple.500"
-              rounded="full"
-              alignItems="center"
-              justifyContent="center"
-              
-            >
-              <JourneySvg fill="#fff" width={28} height={28} />
-            </Pressable>
+            width={16}
+            height={16}
+            bg="purple.500"
+            rounded="full"
+            alignItems="center"
+            justifyContent="center"
+
+          >
+            <JourneySvg fill="#fff" width={28} height={28} />
+          </Pressable>
         )
 
-      }}/>
+      }} />
       <Screen name="meditation" component={Journey} options={{
         tabBarIcon: ({ focused }) => (
-          <MeditationSvg
-            fill={
-             focused ? colors.purple[500] : "#fff"
-            }
-            width={40}
-            height={40}
-          />
+          <VStack position="relative">
+
+            <MeditationSvg
+              fill="#fff"
+              width={40}
+              height={40}
+            />
+            {focused && (
+              <Box position="absolute" left={1} top={"140%"} w={8} h={4} bg="purple.500" borderTopLeftRadius="full" borderTopRightRadius="full" />
+            )}
+          </VStack>
         )
-      }}/>
+      }} />
       <Screen name="shop" component={Journey} options={{
         tabBarIcon: ({ focused }) => (
-          <ShopSvg
-            fill={
-             focused ? colors.purple[500] : "#fff"
-            }
-            width={30}
-            height={30}
-          />
+          <VStack>
+
+            <ShopSvg
+              fill="#fff"
+              width={30}
+              height={30}
+            />
+            {focused && (
+              <Box position="absolute" top={"170%"} w={8} h={4} bg="purple.500" borderTopLeftRadius="full" borderTopRightRadius="full" />
+            )}
+          </VStack>
         )
-      }}/>
+      }} />
       <Screen
         name="module"
         component={Module}
