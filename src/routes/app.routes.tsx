@@ -13,9 +13,10 @@ import MeditationSvg from "@assets/Meditation-icon.svg";
 import ShopSvg from "@assets/shop-icon.svg";
 import BinauralSvg from "@assets/Binaural-icon.svg";
 import HabitsSvg from "@assets/Habits-icon.svg";
-import { Box, Pressable, useTheme, VStack } from "native-base";
+import { Box, useTheme, VStack } from "native-base";
 import { Playlist } from "@screens/AppScreens/BinauralSounds/Playlist";
 import { Meditations } from "@screens/AppScreens/Meditations";
+import { Habits } from "@screens/AppScreens/Habits";
 
 type AppRoutes = {
   journey: undefined;
@@ -70,7 +71,7 @@ export function AppRoutes() {
         },
       }}
     >
-      <Screen name="habits" component={Journey} options={{
+      <Screen name="habits" component={Habits} options={{
         tabBarIcon: ({ focused }) => (
           <VStack position="relative">
 
@@ -103,8 +104,8 @@ export function AppRoutes() {
       }} />
 
       <Screen name="journey" component={Journey} options={{
-        tabBarIcon: ({ focused }) => (
-          <Pressable
+        tabBarIcon: () => (
+          <Box
             width={16}
             height={16}
             bg="purple.500"
@@ -114,7 +115,7 @@ export function AppRoutes() {
 
           >
             <JourneySvg fill="#fff" width={28} height={28} />
-          </Pressable>
+          </Box>
         )
 
       }} />
