@@ -11,7 +11,7 @@ export function MeditationCategory({ onSelectCategory, selectedCategory = 'Sono'
   const { colors } = useTheme()
   return (
 
-    <Pressable w={16} h={16} onPress={() => onSelectCategory(category)} alignItems="center" mt={12} mr={4} >
+    <Pressable w={16} h={16} onPress={() => onSelectCategory(category)} alignItems="center" mt={12} mr={6} >
       <Box
         w={16} 
         h={16}
