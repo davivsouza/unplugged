@@ -1,7 +1,7 @@
 import { MeditationCategory } from '@components/MeditationCategory'
 import { VStack, Text, HStack, Image, FlatList, ScrollView} from 'native-base'
 import { useState } from 'react'
-import { meditationsCategories, meditationTimeDurations } from '../../../services/meditationsCategories'
+import { meditationsCategories, meditationTimeDurations } from '../../../utils/meditationsCategories'
 import { MeditationTimeDurationCategory } from '@components/MeditationTimeDurationCategory'
 import { MeditationCard } from '@components/MeditationCard'
 
