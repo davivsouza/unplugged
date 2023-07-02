@@ -1,8 +1,9 @@
 import { MeditationCategory } from '@components/MeditationCategory'
-import { VStack, Text, HStack, Image, FlatList } from 'native-base'
+import { VStack, Text, HStack, Image, FlatList, ScrollView} from 'native-base'
 import { useState } from 'react'
 import { meditationsCategories, meditationTimeDurations } from '../../../services/meditationsCategories'
 import { MeditationTimeDurationCategory } from '@components/MeditationTimeDurationCategory'
+import { MeditationCard } from '@components/MeditationCard'
 
 export function Meditations() {
   const [selectedCategory, setSelectedCategory] = useState('Sono')
@@ -11,7 +12,7 @@ export function Meditations() {
   function handleSelectedCategory(category: string) {
     setSelectedCategory(category)
   }
-  function handleSelectedTimeDuration(timeDuration: string){
+  function handleSelectedTimeDuration(timeDuration: string) {
     setSelectedTimeDuration(timeDuration)
   }
 
@@ -57,7 +58,7 @@ export function Meditations() {
 
       <VStack>
         <FlatList
-        height={170}
+          height={170}
           data={meditationsCategories}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -76,14 +77,18 @@ export function Meditations() {
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => item}
           renderItem={({ item }) => (
-            <MeditationTimeDurationCategory 
-              timeDuration={item} 
-              onSelectTimeDuration={handleSelectedTimeDuration} 
-              selectedTimeDuration={selectedTimeDuration} 
+            <MeditationTimeDurationCategory
+              timeDuration={item}
+              onSelectTimeDuration={handleSelectedTimeDuration}
+              selectedTimeDuration={selectedTimeDuration}
             />
           )}
         />
       </VStack>
+      <ScrollView mt={12} showsVerticalScrollIndicator={false}>
+        <MeditationCard title="Relaxamento profundo" genre="Meditação guiada" durationMinutes={20} />
+        <MeditationCard title="Mindfulness" genre="Meditação guiada" durationMinutes={10} />
+      </ScrollView>
     </VStack>
   )
 }
