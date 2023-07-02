@@ -15,10 +15,11 @@ import BinauralSvg from "@assets/Binaural-icon.svg";
 import HabitsSvg from "@assets/Habits-icon.svg";
 import { Box, Pressable, useTheme, VStack } from "native-base";
 import { Playlist } from "@screens/AppScreens/BinauralSounds/Playlist";
+import { Meditations } from "@screens/AppScreens/Meditations";
 
 type AppRoutes = {
   journey: undefined;
-  meditation: undefined;
+  meditations: undefined;
   habits: undefined;
   shop: undefined;
   binaural: undefined;
@@ -117,7 +118,7 @@ export function AppRoutes() {
         )
 
       }} />
-      <Screen name="meditation" component={Journey} options={{
+      <Screen name="meditations" component={Meditations} options={{
         tabBarIcon: ({ focused }) => (
           <VStack position="relative">
 
