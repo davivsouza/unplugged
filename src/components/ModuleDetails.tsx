@@ -8,7 +8,7 @@ import {
   Heading,
 } from "native-base";
 import { useState } from "react";
-import { ModuleDetailsButton } from "./ModuleDetailsButton";
+import { DetailsButton } from "./DetailsButton";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { Module } from "../@types/module";
@@ -25,17 +25,17 @@ export function ModuleDetails({module}: Props) {
   return (
     <VStack>
       <HStack alignItems="center" justifyContent="space-evenly" mb={20}>
-        <ModuleDetailsButton
+        <DetailsButton
           title="Sobre"
           isSelected={selectedInfo === "about" && true}
           onPress={() => setSelectedInfo("about")}
         />
-        <ModuleDetailsButton
+        <DetailsButton
           title="Conteúdo"
           isSelected={selectedInfo === "content" && true}
           onPress={() => setSelectedInfo("content")}
         />
-        <ModuleDetailsButton
+        <DetailsButton
           title="Baixados"
           isSelected={selectedInfo === "downloaded" && true}
           onPress={() => setSelectedInfo("downloaded")}
