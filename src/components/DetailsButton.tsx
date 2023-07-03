@@ -4,7 +4,7 @@ type Props = IPressableProps & {
   title: string;
   isSelected?: boolean
 };
-export function ModuleDetailsButton({ title,isSelected, ...rest }: Props) {
+export function DetailsButton({ title,isSelected, ...rest }: Props) {
   return (
     <Pressable {...rest}>
         <HStack alignItems="center">
