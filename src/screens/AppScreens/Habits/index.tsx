@@ -44,8 +44,8 @@ export function Habits() {
         />
       </HStack>
       <HabitsNavigation selectedItem={selectedItem} onSelectItem={handleSelectedItem}/>
-      <HabitsFloatButton />
       <HabitsContent item={selectedItem} />
+      <HabitsFloatButton />
     </VStack>
   )
 }
