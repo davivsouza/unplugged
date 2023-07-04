@@ -18,6 +18,10 @@ export function HabitsFloatButton() {
       alignItems="center"
       justifyContent="center"
       onPress={handleOpenModal}
+      zIndex={10}
+      style={{
+        elevation: 2,
+      }}
     >
       <Feather name="plus" size={40} color="white" />
     </Pressable>
