@@ -23,6 +23,12 @@ export const THEME = extendTheme({
       300: "#FF6584"
   },
     white: "#FFFFFF",
+    green: {
+      300: '#66FF63'
+    },
+    yellow: {
+      300: '#FCC400',
+    }
   },
   fonts: {
     heading: "Epilogue_700Bold",
