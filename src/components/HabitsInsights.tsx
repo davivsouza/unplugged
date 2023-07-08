@@ -1,6 +1,6 @@
-import { Box, HStack, Text, VStack, ScrollView, useTheme } from "native-base";
+import { ScrollView, useTheme } from "native-base";
 import { InsightsCard } from "./InsightsCard";
-import { VictoryPie, VictoryBar, VictoryChart, VictoryTheme } from 'victory-native'
+import { VictoryPie } from 'victory-native'
 
 
 export function HabitsInsights() {
@@ -27,12 +27,7 @@ export function HabitsInsights() {
       color: colors.green[300]
     },
   ]
-  const dataBars = [
-    { year: '2011', earnings: 13000 },
-    { year: '2012', earnings: 16500 },
-    { year: '2013', earnings: 14250 },
-    { year: '2014', earnings: 19000 }
-  ];
+
   return (
     <ScrollView height="70%" contentContainerStyle={{
       paddingBottom: 100,
@@ -51,13 +46,8 @@ export function HabitsInsights() {
         />
 
       </InsightsCard>
-      <InsightsCard>
-        <VictoryChart width={350} theme={VictoryTheme.material}>
-          <VictoryBar data={dataBars} x="quarter" y="earnings" colorScale={[colors.purple[500]]}/>
-        </VictoryChart>
-
-      </InsightsCard>
-    </ScrollView>
+      
+    </ScrollView >
 
   )
 }
