@@ -1,6 +1,6 @@
 import { HabitsContent } from "@components/HabitsContent";
-import { HabitsFloatButton } from "@components/HabitsFloatButton";
 import { HabitsNavigation } from "@components/HabitsNavigation";
+import { ScreenContainer } from "@components/ScreenContainer";
 import { HStack, Image, Text, VStack } from "native-base";
 import {useState} from 'react'
 
@@ -14,19 +14,7 @@ export function Habits() {
   }
 
   return (
-    <VStack
-      flex={1}
-      py={90}
-      px={5}
-      bg={{
-        linearGradient: {
-          colors: ["gray.800", "purple.800"],
-          start: [0, 0.4],
-          end: [0, 1],
-        },
-      }}
-      position="relative"
-    >
+    <ScreenContainer>
       <HStack alignItems="center" justifyContent="center" position="relative" mb={12}>
         <Text color="white" fontFamily="semiBold" fontSize="3xl" textAlign="center">
           Hábitos
@@ -45,7 +33,7 @@ export function Habits() {
       </HStack>
       <HabitsNavigation selectedItem={selectedItem} onSelectItem={handleSelectedItem}/>
       <HabitsContent item={selectedItem} />
-      <HabitsFloatButton />
-    </VStack>
+      
+    </ScreenContainer>
   )
 }

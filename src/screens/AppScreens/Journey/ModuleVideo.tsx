@@ -1,5 +1,6 @@
 import { Comments } from "@components/Comments";
 import { ModuleVideoButton } from "@components/ModuleVideoButton";
+import { ScreenContainer } from "@components/ScreenContainer";
 import { useRoute } from "@react-navigation/native";
 import { Divider, HStack, Heading, Image, Text, VStack } from "native-base";
 
@@ -26,18 +27,7 @@ export function ModuleVideo() {
     route.params as RouteParams;
 
   return (
-    <VStack
-      flex={1}
-      py={90}
-      px={5}
-      bg={{
-        linearGradient: {
-          colors: ["gray.800", "purple.800"],
-          start: [0, 0.4],
-          end: [0, 1],
-        },
-      }}
-    >
+    <ScreenContainer>
       <Heading fontFamily="heading" fontSize="3xl" color="white">
         Módulo {moduleNumber}: {videoTitle}
       </Heading>
@@ -63,6 +53,6 @@ export function ModuleVideo() {
       </HStack>
         <Divider my={7}/>
         <Comments comments={comments}/>
-    </VStack>
+    </ScreenContainer>
   );
 }

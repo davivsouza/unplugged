@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Divider, FlatList, Heading, Text, VStack } from "native-base";
 import { Modules } from "@components/Modules";
 import { Module } from "../../../@types/module";
+import { ScreenContainer } from "@components/ScreenContainer";
 
 type modulesDataProps = Module;
 
@@ -71,18 +72,7 @@ export function Journey() {
   ]);
 
   return (
-    <VStack
-      flex={1}
-      py={90}
-      px={5}
-      bg={{
-        linearGradient: {
-          colors: ["gray.800", "purple.800"],
-          start: [0, 0.4],
-          end: [0, 1],
-        },
-      }}
-    >
+    <ScreenContainer>
       <Heading
         fontFamily="body"
         fontWeight="normal"
@@ -102,6 +92,6 @@ export function Journey() {
         keyExtractor={(item) => item.name}
         renderItem={({ item: module }) => <Modules module={module} />}
       />
-    </VStack>
+    </ScreenContainer>
   );
 }

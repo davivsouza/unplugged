@@ -13,6 +13,7 @@ import { Module as ModuleDTO } from "../../../@types/module";
 
 import VideosSvg from "@assets/journey/videos-icon.svg";
 import { ModuleDetails } from "@components/ModuleDetails";
+import { ScreenContainer } from "@components/ScreenContainer";
 
 type RouteParams = {
   module: ModuleDTO;
@@ -23,18 +24,7 @@ export function Module() {
 
   const { module } = route.params as RouteParams;
   return (
-    <VStack
-      flex={1}
-      py={90}
-      px={5}
-      bg={{
-        linearGradient: {
-          colors: ["gray.800", "purple.800"],
-          start: [0, 0.4],
-          end: [0, 1],
-        },
-      }}
-    >
+    <ScreenContainer>
       <Text fontFamily="body" color="white" fontSize="3xl">
         Módulo {module.number}: {module.name}
       </Text>
@@ -69,6 +59,6 @@ export function Module() {
       <ModuleDetails
         module={module}
       />
-    </VStack>
+    </ScreenContainer>
   );
 }

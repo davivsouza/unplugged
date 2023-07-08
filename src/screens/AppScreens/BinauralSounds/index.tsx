@@ -3,9 +3,10 @@ import {
   Text,
   VStack,
 } from "native-base";
-import { BinauralForm } from "./BinauralForm";
+import { BinauralForm } from "@components/BinauralForm";
 
 import { BinauralContent } from "@components/BinauralContent";
+import { ScreenContainer } from "@components/ScreenContainer";
 
 export function BinauralSounds() {
   const [categories, setCategories] = useState<String[]>([
@@ -15,23 +16,12 @@ export function BinauralSounds() {
   ]);
 
   return (
-    <VStack
-      flex={1}
-      py={90}
-      px={5}
-      bg={{
-        linearGradient: {
-          colors: ["gray.800", "purple.800"],
-          start: [0, 0.4],
-          end: [0, 1],
-        },
-      }}
-    >
+    <ScreenContainer>
       {categories.length > 0 ? (
         <BinauralContent />
       ) : (
         <BinauralForm setCategories={setCategories} />
       )}
-    </VStack>
+    </ScreenContainer>
   );
 }

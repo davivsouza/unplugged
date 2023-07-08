@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { meditationsCategories, meditationTimeDurations } from '../../../utils/meditationsCategories'
 import { MeditationTimeDurationCategory } from '@components/MeditationTimeDurationCategory'
 import { MeditationCard } from '@components/MeditationCard'
+import { ScreenContainer } from '@components/ScreenContainer'
 
 export function Meditations() {
   const [selectedCategory, setSelectedCategory] = useState('Sono')
@@ -17,18 +18,7 @@ export function Meditations() {
   }
 
   return (
-    <VStack
-      flex={1}
-      py={90}
-      px={5}
-      bg={{
-        linearGradient: {
-          colors: ["gray.800", "purple.800"],
-          start: [0, 0.4],
-          end: [0, 1],
-        },
-      }}
-    >
+    <ScreenContainer>
       <HStack alignItems="center" justifyContent="space-between">
         <VStack>
 
@@ -89,6 +79,6 @@ export function Meditations() {
         <MeditationCard title="Relaxamento profundo" genre="Meditação guiada" durationMinutes={20} />
         <MeditationCard title="Mindfulness" genre="Meditação guiada" durationMinutes={10} />
       </ScrollView>
-    </VStack>
+    </ScreenContainer>
   )
 }
