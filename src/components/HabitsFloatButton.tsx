@@ -13,8 +13,8 @@ export function HabitsFloatButton() {
       rounded="full"
       bg="purple.500"
       position="absolute"
-      bottom={100}
       right={4}
+      top={380}
       alignItems="center"
       justifyContent="center"
       onPress={handleOpenModal}
