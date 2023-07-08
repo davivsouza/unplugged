@@ -16,6 +16,7 @@ import HabitsSvg from "@assets/Habits-icon.svg";
 import { Box, useTheme, VStack } from "native-base";
 import { Playlist } from "@screens/AppScreens/BinauralSounds/Playlist";
 import { Meditations } from "@screens/AppScreens/Meditations";
+import { MeditationPlayer } from "@screens/AppScreens/Meditations/MeditationPlayer";
 import { Habits } from "@screens/AppScreens/Habits";
 
 type AppRoutes = {
@@ -43,6 +44,7 @@ type AppRoutes = {
   };
   binauralSounds: undefined;
   playlist: undefined
+  meditationPlayer: undefined
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -166,6 +168,13 @@ export function AppRoutes() {
       <Screen
         name="playlist"
         component={Playlist}
+        options={{
+          tabBarButton: () => null,
+        }}
+      />
+      <Screen
+        name="meditationPlayer"
+        component={MeditationPlayer}
         options={{
           tabBarButton: () => null,
         }}
