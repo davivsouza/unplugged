@@ -1,4 +1,4 @@
-import { Box, HStack, Image, Pressable, Text, VStack } from "native-base";
+import { HStack, Image, Pressable, Text, VStack } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import GoBackSvg from "@assets/goback.svg";
