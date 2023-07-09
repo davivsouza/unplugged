@@ -2,6 +2,8 @@ import { View, VStack, Text, HStack, Pressable } from 'native-base'
 import { ImageBackground } from 'react-native'
 import PlayButtonSvg from '@assets/meditations/btnPlay.svg'
 import MedidationCardBg from '@assets/meditations/meditation-card-bg.jpg'
+import { useNavigation } from '@react-navigation/native'
+import { AppNavigatorRoutesProps } from '@routes/app.routes'
 type Props = {
   title: string
   durationMinutes: number
@@ -9,8 +11,13 @@ type Props = {
 }
 
 export function MeditationCard({ durationMinutes, genre, title }: Props) {
+  const {navigate}  = useNavigation<AppNavigatorRoutesProps>()
+
+  function handleNavigate() {
+    navigate('meditationPlayer')
+  }
   return (
-    <Pressable mb={6} overflow="hidden" rounded="3xl" shadow={9} style={{elevation: 10}}>
+    <Pressable mb={6} overflow="hidden" rounded="3xl" shadow={9} style={{elevation: 10}} onPress={handleNavigate}>
 
       <ImageBackground source={MedidationCardBg} resizeMode='cover' style={{
         flex: 1,

@@ -1,16 +1,24 @@
 import { AudioPlayer } from '@components/AudioPlayer'
-import {VStack, Text, Slider} from 'native-base'
-type Props ={
+import { ImageBackground } from 'react-native'
+import AudioBanner from '@assets/meditations/meditation-card-bg.jpg'
+
+type Props = {
   data: {
     id: string
     audioPath: string
 
   }
 }
-export function MedidationPlayer(){
+
+export function MeditationPlayer() {
+
   return (
-    <VStack>
-     <AudioPlayer/>
-    </VStack>
+    <ImageBackground source={AudioBanner} blurRadius={7} resizeMode='cover' style={{
+      flex: 1,
+    }}>
+     
+      <AudioPlayer />
+
+    </ImageBackground>
   )
 }
