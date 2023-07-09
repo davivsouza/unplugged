@@ -8,8 +8,8 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#000"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -25,13 +25,23 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#000"
       },
-      "permissions": ["android.permission.PACKAGE_USAGE_STATS"]
-      
+      "permissions": [
+        "AUDIO_RECORDING",
+        "AUDIO_SETTINGS",
+        "WAKE_LOCK",
+        "FOREGROUND_SERVICE"
+      ],
+      "package": "com.unplugged"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f56b7d15-21cf-4bfa-b6c0-9240358b2a0d"
+      }
     }
   }
 }
