@@ -50,10 +50,8 @@ type AppRoutes = {
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
 
 const { Navigator, Screen } = createBottomTabNavigator<AppRoutes>();
-
 export function AppRoutes() {
-
-  const { colors } = useTheme()
+  
   return (
     <Navigator
       // tabBar={(props) => <MyTabBar {...props} />}
@@ -176,7 +174,12 @@ export function AppRoutes() {
         name="meditationPlayer"
         component={MeditationPlayer}
         options={{
+          unmountOnBlur: true,
+          tabBarStyle: {
+            display: "none",
+          },
           tabBarButton: () => null,
+          
         }}
       />
     </Navigator>
