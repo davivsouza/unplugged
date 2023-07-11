@@ -3,23 +3,27 @@ import { useCallback, useEffect, useState } from 'react'
 import { BackHandler } from 'react-native';
 import { Audio } from 'expo-av'
 import { formatTime } from "@utils/formatTime";
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { MaterialCommunityIcons, AntDesign, Entypo } from '@expo/vector-icons'
+
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import DotMenuSvg from '@assets/binauralsounds/dotmenu-icon.svg'
 import AudioBanner from '@assets/meditations/meditation-card-bg.jpg'
 import GoBackSvg from "@assets/goback.svg";
 import { AudioPlayerButton } from "./AudioPlayerButton";
 
-export function AudioPlayer() {
+type Props = {
+  title: string
+  artist: string
+}
+export function MeditationAudioPlayer({artist,title}:Props) {
 
   const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [sliderValue, setSliderValue] = useState(0);
   const [duration, setDuration] = useState<number | undefined>();
   const [position, setPosition] = useState<number | null>(null);
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
-
+  
   async function handleNavigate() {
     if (sound) {
       await sound.stopAsync()
@@ -86,7 +90,7 @@ export function AudioPlayer() {
   async function loadAudio() {
     try {
       await Audio.setAudioModeAsync({ staysActiveInBackground: true });
-      const { sound } = await Audio.Sound.createAsync(require('../assets/meditations/audios/meditation.mp3'));
+      const { sound } = await Audio.Sound.createAsync(require('../assets/audios/meditation.mp3'));
       sound.setOnPlaybackStatusUpdate((status) => {
         if (status.isLoaded) {
           setDuration(status.durationMillis);
@@ -136,10 +140,10 @@ export function AudioPlayer() {
         <VStack mb={5}>
           <Image source={AudioBanner} alt="Banner do áudio" w="300" height="300" rounded="xl" mb={4} />
           <Text color="white" fontSize="lg" fontFamily="semiBold">
-            Relaxamento profundo - {Math.floor((duration! / 1000) / 60)} min
+            {title}
           </Text>
           <Text color="gray.300" fontSize="xs" fontFamily="body">
-            Feito por Mônica Lelis
+            Feito por {artist}
           </Text>
         </VStack>
         <Slider
@@ -172,10 +176,29 @@ export function AudioPlayer() {
           </Pressable>
 
           {isPlaying ? (
-            <AudioPlayerButton icon="pause" onPress={pauseTrack}/>
+            <AudioPlayerButton
+              bg="white"
+              onPress={pauseTrack}
+              shadow={9}
+              style={{
+                elevation: 10,
+              }} >
+              <AntDesign name="pause" size={50} color="black" />
+            </AudioPlayerButton>
           ) : (
-            <AudioPlayerButton icon="play" onPress={playTrack}/>
-          )}
+            <AudioPlayerButton
+              bg="white"
+              onPress={playTrack}
+              alignItems="center"
+              justifyContent="center"
+              pl={2}
+              shadow={9}
+              style={{
+                elevation: 10,
+              }} >
+              <Entypo name="controller-play" size={60} color="black" />
+            </AudioPlayerButton>)
+          }
           <Pressable onPress={handleSkipForward}>
             <MaterialCommunityIcons name="fast-forward-15" size={30} color="white" />
           </Pressable>
