@@ -1,10 +1,10 @@
-import { VStack } from "native-base";
+import { VStack, IStackProps } from "native-base";
 
-type Props = {
+type Props = IStackProps  & {
   children: React.ReactNode
 }
 
-export function ScreenContainer({ children }: Props) {
+export function ScreenContainer({ children, ...rest }: Props) {
   return (
       <VStack
         flex={1}
@@ -17,6 +17,7 @@ export function ScreenContainer({ children }: Props) {
             end: [0, 1],
           },
         }}
+        {...rest}
       >
         {children}
       </VStack>
