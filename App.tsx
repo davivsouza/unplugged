@@ -1,6 +1,5 @@
-import { StatusBar } from "react-native";
 import { NativeBaseProvider } from "native-base";
-import {useState} from 'react'
+import { useState } from 'react'
 import { Routes } from "./src/routes";
 import {
   useFonts,
@@ -12,10 +11,12 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import { Loading } from "@components/Loading";
 import { THEME } from "./src/theme";
+import { Splash } from "@components/Splash";
+import { preventAutoHideAsync } from 'expo-splash-screen'
+preventAutoHideAsync();
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
-
+  const [splashComplete, setSplashComplete] = useState(false)
   const [fontsLoaded] = useFonts({
     Epilogue_400Regular,
     Epilogue_700Bold,
@@ -30,8 +31,11 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={THEME} config={config}>
-      
-      {fontsLoaded ? <Routes /> : <Loading />}
+      {splashComplete
+        ? fontsLoaded ? <Routes /> : <Loading />
+        : <Splash onComplete={setSplashComplete} />
+      }
+
     </NativeBaseProvider>
   );
 }
