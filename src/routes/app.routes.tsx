@@ -18,6 +18,7 @@ import { Playlist } from "@screens/AppScreens/BinauralSounds/Playlist";
 import { Meditations } from "@screens/AppScreens/Meditations";
 import { MeditationPlayer } from "@screens/AppScreens/Meditations/MeditationPlayer";
 import { Habits } from "@screens/AppScreens/Habits";
+import { Shop } from "@screens/AppScreens/Shop";
 import { BinauralSound } from "@screens/AppScreens/BinauralSounds/BinauralSound";
 
 type AppRoutes = {
@@ -63,7 +64,7 @@ export function AppRoutes() {
   return (
     <Navigator
       // tabBar={(props) => <MyTabBar {...props} />}
-      initialRouteName="journey"
+      initialRouteName="shop"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -142,7 +143,7 @@ export function AppRoutes() {
           </VStack>
         )
       }} />
-      <Screen name="shop" component={Journey} options={{
+      <Screen name="shop" component={Shop} options={{
         tabBarIcon: ({ focused }) => (
           <VStack>
 
