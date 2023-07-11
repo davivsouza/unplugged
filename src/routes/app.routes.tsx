@@ -18,6 +18,7 @@ import { Playlist } from "@screens/AppScreens/BinauralSounds/Playlist";
 import { Meditations } from "@screens/AppScreens/Meditations";
 import { MeditationPlayer } from "@screens/AppScreens/Meditations/MeditationPlayer";
 import { Habits } from "@screens/AppScreens/Habits";
+import { BinauralSound } from "@screens/AppScreens/BinauralSounds/BinauralSound";
 
 type AppRoutes = {
   journey: undefined;
@@ -44,14 +45,21 @@ type AppRoutes = {
   };
   binauralSounds: undefined;
   playlist: undefined
-  meditationPlayer: undefined
+  meditationPlayer: {
+    title: string
+    artist: string
+  }
+  binauralSound: {
+    title: string
+    artist: string
+  }
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
 
 const { Navigator, Screen } = createBottomTabNavigator<AppRoutes>();
 export function AppRoutes() {
-  
+
   return (
     <Navigator
       // tabBar={(props) => <MyTabBar {...props} />}
@@ -179,7 +187,19 @@ export function AppRoutes() {
             display: "none",
           },
           tabBarButton: () => null,
-          
+
+        }}
+      />
+      <Screen
+        name="binauralSound"
+        component={BinauralSound}
+        options={{
+          unmountOnBlur: true,
+          tabBarStyle: {
+            display: "none",
+          },
+          tabBarButton: () => null,
+
         }}
       />
     </Navigator>
