@@ -6,14 +6,14 @@ import BinauralThumb from '@assets/binauralsounds/beat-bg-template.png'
 import DotMenuSvg from '@assets/binauralsounds/dotmenu-icon.svg'
 type Props = {
   title: string
-  author: string
+  artist: string
 }
 
-export function BinauralSoundCard({ author,title }: Props) {
+export function BinauralSoundCard({ artist,title }: Props) {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const { colors } = useTheme()
   function handleNavigate() {
-    navigate('playlist')
+    navigate('binauralSound', {title, artist})
   }
   return (
     <Pressable onPress={handleNavigate} mb={3}>
@@ -23,7 +23,7 @@ export function BinauralSoundCard({ author,title }: Props) {
           <Image source={BinauralThumb} alt="Thumbnail do som binaural" w={60} h={60} rounded="xl" mr={4} />
           <VStack alignItems="flex-start">
             <Text color="white" fontFamily="body" fontSize="md">{title}</Text>
-            <Text color="gray.300" fontFamily="body" fontSize="xs">{author}</Text>
+            <Text color="gray.300" fontFamily="body" fontSize="xs">{artist}</Text>
           </VStack>
         </HStack>
         <HStack alignItems="center">
