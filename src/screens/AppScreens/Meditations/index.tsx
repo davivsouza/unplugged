@@ -76,8 +76,8 @@ export function Meditations() {
         />
       </VStack>
       <ScrollView mt={12} showsVerticalScrollIndicator={false}>
-        <MeditationCard title="Relaxamento profundo" genre="Meditação guiada" durationMinutes={20} />
-        <MeditationCard title="Mindfulness" genre="Meditação guiada" durationMinutes={10} />
+        <MeditationCard title="Relaxamento profundo" artist="Rebeca Cagni" durationMinutes={20} />
+        <MeditationCard title="Mindfulness" artist="Halisson Aparecido" durationMinutes={10} />
       </ScrollView>
     </ScreenContainer>
   )

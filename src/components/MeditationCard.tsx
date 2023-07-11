@@ -7,14 +7,17 @@ import { AppNavigatorRoutesProps } from '@routes/app.routes'
 type Props = {
   title: string
   durationMinutes: number
-  genre: string
+  artist: string
 }
 
-export function MeditationCard({ durationMinutes, genre, title }: Props) {
+export function MeditationCard({ durationMinutes, artist, title }: Props) {
   const {navigate}  = useNavigation<AppNavigatorRoutesProps>()
 
   function handleNavigate() {
-    navigate('meditationPlayer')
+    navigate('meditationPlayer', {
+      title,
+      artist
+    })
   }
   return (
     <Pressable mb={6} overflow="hidden" rounded="3xl" shadow={9} style={{elevation: 10}} onPress={handleNavigate}>
@@ -31,7 +34,7 @@ export function MeditationCard({ durationMinutes, genre, title }: Props) {
               </Text>
               <HStack>
                 <Text fontFamily="body" color="white" fontSize="xs">
-                  {genre} - {durationMinutes} min
+                  {artist} - {durationMinutes} min
                 </Text>
               </HStack>
             </VStack>
