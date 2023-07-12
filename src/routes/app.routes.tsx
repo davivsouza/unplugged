@@ -20,6 +20,7 @@ import { MeditationPlayer } from "@screens/AppScreens/Meditations/MeditationPlay
 import { Habits } from "@screens/AppScreens/Habits";
 import { Shop } from "@screens/AppScreens/Shop";
 import { BinauralSound } from "@screens/AppScreens/BinauralSounds/BinauralSound";
+import { Cart } from "@screens/AppScreens/Shop/Cart";
 
 type AppRoutes = {
   journey: undefined;
@@ -54,6 +55,7 @@ type AppRoutes = {
     title: string
     artist: string
   }
+  cart: undefined
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -183,7 +185,6 @@ export function AppRoutes() {
         name="meditationPlayer"
         component={MeditationPlayer}
         options={{
-          unmountOnBlur: true,
           tabBarStyle: {
             display: "none",
           },
@@ -195,12 +196,22 @@ export function AppRoutes() {
         name="binauralSound"
         component={BinauralSound}
         options={{
-          unmountOnBlur: true,
           tabBarStyle: {
             display: "none",
           },
           tabBarButton: () => null,
 
+        }}
+      />
+      <Screen
+        name="cart"
+        component={Cart}
+
+        options={{
+          tabBarStyle: {
+            display: "none",
+          },
+          tabBarButton: () => null,
         }}
       />
     </Navigator>
