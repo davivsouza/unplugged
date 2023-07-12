@@ -16,14 +16,14 @@ type Props = {
   title: string
   artist: string
 }
-export function MeditationAudioPlayer({artist,title}:Props) {
+export function MeditationAudioPlayer({ artist, title }: Props) {
 
   const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState<number | undefined>();
   const [position, setPosition] = useState<number | null>(null);
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
-  
+
   async function handleNavigate() {
     if (sound) {
       await sound.stopAsync()
@@ -128,7 +128,13 @@ export function MeditationAudioPlayer({artist,title}:Props) {
       space={40}
     >
       <HStack alignItems="center" justifyContent="space-between" >
-        <Pressable onPress={handleNavigate}>
+        <Pressable
+          py={3}
+          pr={8}
+          alignItems="center"
+          justifyContent="center"
+          onPress={handleNavigate}
+        >
           <GoBackSvg fill="#fff" />
         </Pressable>
         <Text color="white" fontSize="2xl" fontFamily="heading" style={{

@@ -26,8 +26,8 @@ export function BinauralSound() {
   const [position, setPosition] = useState<number | null>(null);
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const route = useRoute()
-  
-  const {artist,title} = route.params as RouteParams;
+
+  const { artist, title } = route.params as RouteParams;
 
   async function handleNavigate() {
     if (sound) {
@@ -128,8 +128,14 @@ export function BinauralSound() {
   return (
     <ScreenContainer space={40}>
       <HStack alignItems="center" justifyContent="space-between" >
-        <Pressable onPress={handleNavigate}>
-          <GoBackSvg fill="#fff" />
+        <Pressable
+          py={3}
+          pr={8}
+          alignItems="center"
+          justifyContent="center"
+          onPress={handleNavigate}>
+          <GoBackSvg fill="#fff"
+        />
         </Pressable>
         <Text color="white" fontSize="2xl" fontFamily="heading" style={{
           elevation: 10
