@@ -1,11 +1,19 @@
-import { ScrollView, Text } from "native-base";
+import { FlatList } from "native-base";
 import {CartMyOrderItem} from '@components/CartMyOrderItem'
 export function CartMyOrders(){
+  const orders = [1]
+  
   return (
-    <ScrollView height="70%" contentContainerStyle={{
-      paddingBottom: 100,
-    }} showsVerticalScrollIndicator={false}>
+   <FlatList
+    data={orders}
+    keyExtractor={item => String(item)}
+    renderItem={({ item }) => (
       <CartMyOrderItem />
-    </ScrollView>
+    )}
+    showsVerticalScrollIndicator={false}
+    contentContainerStyle={{
+      paddingBottom: 16
+    }}
+   />
   )
 }

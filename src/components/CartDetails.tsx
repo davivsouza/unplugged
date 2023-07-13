@@ -6,7 +6,7 @@ import { CartAddress } from "./CartAddress";
 import { Button } from "./Button";
 import { useState } from "react";
 export function CartDetails() {
-  const carts: ArrayLike<any> | null | undefined = []
+  const carts: ArrayLike<any> | null = [1,2,3]
   const [showModal, setShowModal] = useState(false);
 
   function handleOpenModal() {
