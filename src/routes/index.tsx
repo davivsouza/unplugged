@@ -15,9 +15,9 @@ export function Routes() {
 
 
   return (
-    <Box flex={1} bg={colorMode === 'light' ? 'white' : 'black'}>
+    <Box flex={1}>
       <StatusBar
-        barStyle={isLoggedIn ? "light-content" : "dark-content"}
+        barStyle={isLoggedIn ? "light-content" : 'dark-content'}
         backgroundColor="transparent"
         translucent
       />

@@ -24,10 +24,6 @@ import { Cart } from "@screens/AppScreens/Shop/Cart";
 
 type AppRoutes = {
   journey: undefined;
-  meditations: undefined;
-  habits: undefined;
-  shop: undefined;
-  binaural: undefined;
   module: {
     module: ModuleDTO;
   };
@@ -45,17 +41,22 @@ type AppRoutes = {
       }
     ];
   };
-  binauralSounds: undefined;
-  playlist: undefined
+  meditations: undefined;
   meditationPlayer: {
     title: string
     artist: string
   }
+  habits: undefined;
+  shop: undefined;
+  cart: undefined
+  binaural: undefined;
+  playlist: undefined
+  binauralSounds: undefined;
   binauralSound: {
     title: string
     artist: string
   }
-  cart: undefined
+ 
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -65,8 +66,7 @@ export function AppRoutes() {
 
   return (
     <Navigator
-      // tabBar={(props) => <MyTabBar {...props} />}
-      initialRouteName="shop"
+      initialRouteName="cart"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
