@@ -12,8 +12,8 @@ export function Input({ underline = false, errorMessage = null, isInvalid, ...re
       <NativeBaseInput
         h={12}
         my={invalid ? 0 : 4}
-        borderWidth={underline ? 0 : 3}
-        borderBottomWidth={3}
+        borderWidth={underline ? 0 : 2}
+        borderBottomWidth={2}
         rounded={underline ? 'none' : "lg"}
         fontSize="md"
         fontFamily="body"
@@ -24,13 +24,14 @@ export function Input({ underline = false, errorMessage = null, isInvalid, ...re
         }}
         _focus={{
           bg: "transparent",
-          borderWidth: underline ? 0 : 3,
+          borderWidth: underline ? 0 : 2,
+          borderBottomWidth: 2,
           borderColor: underline ? "black" : 'purple.500',
           _android: {
             selectionColor: 'purple.500'
           }
         }}
-        
+
         {...rest}
       />
 
