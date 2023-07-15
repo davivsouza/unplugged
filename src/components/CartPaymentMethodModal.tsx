@@ -3,10 +3,9 @@ import { Box, HStack, Modal, Text, VStack } from "native-base";
 import { Button } from "@components/Button";
 import { CartPaymentDetails } from "@components/CartPaymentDetails";
 import { CardPaymentMethods } from "@components/CardPaymentMethods";
-import CreditCardSvg from '@assets/shop/credit-icon.svg'
-import BoletoSvg from '@assets/shop/boleto-icon.svg'
-import PixSvg from '@assets/shop/pix-icon.svg'
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@routes/app.routes";
 
 type Props = {
   isModalOpen: boolean
@@ -15,11 +14,13 @@ type Props = {
 
 export function CartPaymentMethodModal({ isModalOpen, onOpenModal }: Props) {
   const [selectedMethod, setSelectedMethod] = useState<'credit' | 'boleto' | 'pix'>('credit')
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   function handleSelectMethod(method: 'credit' | 'boleto' | 'pix') {
     setSelectedMethod(method)
   }
   function handleContinue() {
     onOpenModal(false)
+    navigate('creditCards')
   }
   return (
     <Modal
