@@ -6,7 +6,7 @@ export function CartItem() {
   const { colors } = useTheme();
 
   return (
-    <HStack bg='gray.500' flex={1} p={3} rounded="2xl" space={4} mb={4} shadow={6}>
+    <HStack bg='gray.500' flex={1} p={3} rounded="2xl" space={4} mb={2} shadow={6}>
       <Box bg="white" rounded="2xl">
         <Image
           w={20}

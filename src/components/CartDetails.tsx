@@ -6,7 +6,7 @@ import { CartAddress } from "./CartAddress";
 import { Button } from "./Button";
 import { useState } from "react";
 export function CartDetails() {
-  const carts: ArrayLike<any> | null = [1,2,3]
+  const carts: ArrayLike<any> | null = [1,2, 3]
   const [showModal, setShowModal] = useState(false);
 
   function handleOpenModal() {
@@ -21,11 +21,10 @@ export function CartDetails() {
         renderItem={({ item }) => (
           <>
             <CartItem />
-            <CartItem />
-            <CartItem />
           </>
         )}
-        height={ "40%" }
+        
+        height={carts.length > 1 ? '40%' : 'auto'}
         mb={4}
         contentContainerStyle={{
           paddingHorizontal: 4
@@ -41,7 +40,7 @@ export function CartDetails() {
       />
 
       {carts.length > 0 && (
-        <ScrollView height="50%" showsVerticalScrollIndicator={false} contentContainerStyle={{
+        <ScrollView height={carts.length > 1 ? '50%' : '90%'} showsVerticalScrollIndicator={false} contentContainerStyle={{
           paddingBottom: 16,
         }}>
           <Divider mb={3} />
