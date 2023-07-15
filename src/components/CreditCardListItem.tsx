@@ -4,9 +4,12 @@ import { Entypo } from '@expo/vector-icons';
 import MasterCard from '@assets/shop/mastercard-card.png'
 import MasterCardIcon from '@assets/shop/mastercard-icon.svg'
 
-export function CreditCardListItem() {
+type Props = {
+  number?: string
+}
+export function CreditCardListItem({ number }: Props) {
   return (
-    <Pressable w={'full'} h={190} bg="gray.500" overflow="hidden" rounded="xl" shadow={8}>
+    <Pressable w="full" h={190} bg="black" overflow="hidden" rounded="xl" shadow={8}>
       <ImageBackground
         source={MasterCard}
         resizeMode='contain'
@@ -18,32 +21,51 @@ export function CreditCardListItem() {
           right: -120,
           bottom: 0,
         }}
-      >
+      />
+      {
+        number ? (
+          <Box flex={1} py={8} px={4}>
+            <Text color="white" fontFamily="semiBold" fontSize="lg">
+              {number}
+            </Text>
+            <MasterCardIcon
+              width={50}
+              height={50}
+              style={{
+                position: 'absolute',
+                bottom: 4,
+                right: 15,
+              }}
+            />
+          </Box>
+        ) : (
+          <HStack flex={1} space={4} p={8}>
+            <Text
+              color="white"
+              fontFamily="heading"
+              fontSize="3xl"
+              style={{
+                transform: [
+                  { translateY: -14 }
+                ]
+              }}
+            >....
+            </Text>
+            <Text color="white" fontFamily="semiBold" fontSize="2xl">7777</Text>
+            <MasterCardIcon
+              width={50}
+              height={50}
+              style={{
+                position: 'absolute',
+                bottom: 4,
+                right: 15,
+              }}
+            />
+          </HStack>
+        )
+      }
 
-      </ImageBackground>
-      <HStack flex={1} space={4} p={8}>
-        <Text
-          color="white"
-          fontFamily="heading"
-          fontSize="3xl"
-          style={{
-            transform: [
-              {translateY: -14}
-            ]
-          }}
-        >....
-        </Text>
-        <Text color="white" fontFamily="semiBold" fontSize="2xl">7777</Text>
-          <MasterCardIcon 
-          width={50} 
-          height={50}
-          style={{
-            position:'absolute',
-            bottom: 4,
-            right: 15,
-          }}
-          />
-      </HStack>
+
     </Pressable>
   )
 }
