@@ -68,7 +68,7 @@ export function AppRoutes() {
 
   return (
     <Navigator
-      initialRouteName="cart"
+      initialRouteName="habits"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,

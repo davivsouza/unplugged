@@ -1,6 +1,7 @@
-import { ScrollView, useTheme } from "native-base";
+import { Box, FlatList, HStack, ScrollView, Text, VStack, useTheme } from "native-base";
 import { InsightsCard } from "./InsightsCard";
 import { VictoryPie } from 'victory-native'
+import { HabitsChart } from "./HabitsChart";
 
 
 export function HabitsInsights() {
@@ -46,7 +47,21 @@ export function HabitsInsights() {
         />
 
       </InsightsCard>
-      
+     <InsightsCard >
+      <HStack space={4} position="absolute" top={8} right={8}>
+        <HStack alignItems='center' space={1}>
+          <Box w={2} h={2} rounded="full" bg="gray.200"/>
+          <Text color="gray.200" fontSize="md">Planejados</Text>
+        </HStack>
+        <HStack alignItems='center' space={1}>
+        <Box w={2} h={2} rounded="full" bg="purple.500"/>
+          <Text color="gray.200" fontSize="md">Conclúidos</Text>
+        </HStack>
+      </HStack>
+      <HabitsChart/>
+       
+     </InsightsCard>
+
     </ScrollView >
 
   )
