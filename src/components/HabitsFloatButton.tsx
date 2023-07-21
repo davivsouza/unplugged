@@ -1,6 +1,7 @@
-import { Pressable } from 'native-base'
+import { IPressableProps, Pressable } from 'native-base'
 import { Feather } from '@expo/vector-icons'
-export function HabitsFloatButton() {
+type Props = IPressableProps
+export function HabitsFloatButton({...rest} : Props) {
 
   function handleOpenModal(){
     console.log('criar hábito')
@@ -22,6 +23,7 @@ export function HabitsFloatButton() {
       style={{
         elevation: 2,
       }}
+      {...rest}
     >
       <Feather name="plus" size={40} color="white" />
     </Pressable>
