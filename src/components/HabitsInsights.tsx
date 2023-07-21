@@ -1,11 +1,15 @@
-import { Box, FlatList, HStack, ScrollView, Text, VStack, useTheme } from "native-base";
+import { Box, FlatList, HStack, Pressable, ScrollView, Text, VStack, useTheme } from "native-base";
 import { InsightsCard } from "./InsightsCard";
 import { VictoryPie } from 'victory-native'
 import { HabitsChart } from "./HabitsChart";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@routes/app.routes";
 
 
 export function HabitsInsights() {
   const { colors } = useTheme()
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+
   const DATA = [
     {
       x: 'Youtube',
@@ -29,12 +33,26 @@ export function HabitsInsights() {
     },
   ]
 
+  function handleNavigate() {
+    navigate('bemestarPainel')
+
+  }
+
   return (
     <ScrollView height="70%" contentContainerStyle={{
       paddingBottom: 100,
     }} showsVerticalScrollIndicator={false}>
 
+
       <InsightsCard>
+        <Pressable
+          position="absolute"
+          width="full"
+          height="full"
+          onPress={handleNavigate}
+          zIndex={22}
+          
+        />
         <VictoryPie
           data={DATA}
           colorScale={DATA.map(player => player.color)}
@@ -46,21 +64,22 @@ export function HabitsInsights() {
           height={300}
         />
 
+
       </InsightsCard>
-     <InsightsCard >
-      <HStack space={4} position="absolute" top={8} right={8}>
-        <HStack alignItems='center' space={1}>
-          <Box w={2} h={2} rounded="full" bg="gray.200"/>
-          <Text color="gray.200" fontSize="md">Planejados</Text>
+      <InsightsCard >
+        <HStack space={4} position="absolute" top={8} right={8}>
+          <HStack alignItems='center' space={1}>
+            <Box w={2} h={2} rounded="full" bg="gray.200" />
+            <Text color="gray.200" fontSize="md">Planejados</Text>
+          </HStack>
+          <HStack alignItems='center' space={1}>
+            <Box w={2} h={2} rounded="full" bg="purple.500" />
+            <Text color="gray.200" fontSize="md">Concluídos</Text>
+          </HStack>
         </HStack>
-        <HStack alignItems='center' space={1}>
-        <Box w={2} h={2} rounded="full" bg="purple.500"/>
-          <Text color="gray.200" fontSize="md">Conclúidos</Text>
-        </HStack>
-      </HStack>
-      <HabitsChart/>
-       
-     </InsightsCard>
+        <HabitsChart />
+
+      </InsightsCard>
 
     </ScrollView >
 

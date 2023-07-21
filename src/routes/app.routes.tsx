@@ -22,6 +22,7 @@ import { Shop } from "@screens/AppScreens/Shop";
 import { BinauralSound } from "@screens/AppScreens/BinauralSounds/BinauralSound";
 import { Cart } from "@screens/AppScreens/Shop/Cart";
 import { CreditCards } from "@screens/AppScreens/Shop/CreditCards";
+import { Painel } from "@screens/AppScreens/Habits/Painel";
 
 type AppRoutes = {
   journey: undefined;
@@ -48,6 +49,7 @@ type AppRoutes = {
     artist: string
   }
   habits: undefined;
+  bemestarPainel: undefined
   shop: undefined;
   cart: undefined
   creditCards: undefined
@@ -219,6 +221,17 @@ export function AppRoutes() {
       <Screen
         name="creditCards"
         component={CreditCards}
+
+        options={{
+          tabBarStyle: {
+            display: "none",
+          },
+          tabBarButton: () => null,
+        }}
+      />
+      <Screen
+        name="bemestarPainel"
+        component={Painel}
 
         options={{
           tabBarStyle: {

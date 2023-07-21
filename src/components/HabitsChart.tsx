@@ -19,12 +19,7 @@ export function HabitsChart() {
         <HabitsChartItem weekDay="Qui" maxTask={5} taskCompleted={0}  w={20}/>
         <HabitsChartItem weekDay="Sex" maxTask={3} taskCompleted={0}  w={20}/>
         <HabitsChartItem weekDay="Sáb" maxTask={3} taskCompleted={0}  w={20}/>
-        {/* <HabitsChartItem weekDay="Seg" taskCompleted={4} position="absolute" right={-60} />
-        <HabitsChartItem weekDay="Ter" taskCompleted={3} position="absolute" right={-120} />
-        <HabitsChartItem weekDay="Qua" taskCompleted={2} position="absolute" right={-180} />
-        <HabitsChartItem weekDay="Qui" taskCompleted={1} position="absolute" right={-240} />
-        <HabitsChartItem weekDay="Sex" taskCompleted={0} position="absolute" right={-300} />
-        <HabitsChartItem weekDay="Sáb" taskCompleted={0} position="absolute" right={-360} /> */}
+        
       </HStack>
     </ScrollView>
 

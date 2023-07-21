@@ -1,9 +1,16 @@
 import { ScreenContainer } from "@components/ScreenContainer";
-import { Text, ScrollView, useTheme, HStack, Pressable } from "native-base";
+import { Text, ScrollView, useTheme, HStack, Pressable, Box, Image, VStack } from "native-base";
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryLabel } from 'victory-native'
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
+import { WellbeingApp } from "@components/WellbeingApp";
 import GoBackSvg from "@assets/goback.svg";
+import TikTokIcon from '@assets/habits/tiktok-icon.svg'
+import SpotifyIcon from '@assets/habits/spotify-icon.svg'
+import YoutubeIcon from '@assets/habits/youtube-icon.svg'
+import GoogleIcon from '@assets/habits/google-icon.svg'
+import TwitterIcon from '@assets/habits/twitter-icon.svg'
+
 
 const sharedAxisStyle = {
   axis: {
@@ -27,73 +34,113 @@ export function Painel() {
   }
 
   return (
-    <ScreenContainer>
-       <HStack alignItems="center" justifyContent="space-between" >
-        <Pressable onPress={handleNavigate}>
+    <ScreenContainer py={0} pt={90}>
+      <HStack alignItems="center" justifyContent="space-between"   >
+        <Pressable
+          py={3}
+          pr={8}
+          onPress={handleNavigate}
+          alignItems="center"
+          justifyContent="center"
+        >
           <GoBackSvg fill="#fff" />
         </Pressable>
-        <Text color="white" fontSize="2xl" fontFamily="heading" style={{
-          elevation: 10
-        }}>Painel</Text>
+        <Text color="white" fontSize="2xl" fontFamily="heading">
+          Painel
+        </Text>
+        <Image
+          w={12}
+          h={12}
+          rounded="full"
+          source={{
+            uri: "https://e0.pxfuel.com/wallpapers/675/779/desktop-wallpaper-funny-monkeys-pistols-necktie-suit-thumbnail.jpg",
+          }}
+          alt="Foto de perfil do criador do vídeo"
+        />
       </HStack>
-
-      <ScrollView width="100%" horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{
-        alignItems: 'center',
-        paddingBottom: 40,
-        paddingTop: 30,
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{
+        paddingBottom: 30
       }}>
+        <Text color="white" fontSize="3xl" fontFamily="body" textAlign="center" mt={12}>29h 47min</Text>
+        <Text color="gray.200" fontSize="md" fontFamily="body" textAlign="center" >seg, 17 de Jul</Text>
+        <Box alignItems="center" justifyContent="center">
+          <VictoryChart
+            animate={{ duration: 700, easing: "bounce" }}
+            width={430}
+            domainPadding={{ x: 30, y: 30 }}
+          >
 
-        <VictoryChart
-          width={450}
-          domainPadding={{ x: 30, y: 40 }}
-        >
-          <VictoryLabel
-            text={`26 hr 47 min`}
-            x={225}
-            y={30}
-            textAnchor="middle"
-            style={{ fill: "#fff", fontSize: 20 }}
-          />
 
-          <VictoryAxis
-            style={{
-              ...sharedAxisStyle,
-            }}
-          />
-          <VictoryAxis dependentAxis
-            style={{
-              ...sharedAxisStyle,
-              grid: {
-                fill: "#fff",
-                stroke: "#fff",
-                pointerEvents: "painted",
-                strokeWidth: 0.5
-              }
-            }}
-          />
-          <VictoryBar
-            cornerRadius={6}
-            barWidth={30}
-            data={[
-              { day: "Dom", hours: 9 },
-              { day: "Seg", hours: 8 },
-              { day: "Ter", hours: 2 },
-              { day: "Qua", hours: 6 },
-              { day: "Qui", hours: 4 },
-              { day: "Sex", hours: 2 },
-              { day: "Sáb", hours: 10 },
-            ]}
-            x="day"
-            y="hours"
-            style={{
-              data: {
-                fill: colors.purple[500]
-              }
-            }}
+            <VictoryAxis dependentAxis
+              style={{
+                ...sharedAxisStyle,
+                grid: {
+                  fill: "#fff",
+                  stroke: "#fff",
+                  pointerEvents: "painted",
+                  strokeWidth: 0.5
+                }
+              }}
+            />
+            <VictoryBar
+              events={[
+                {
+                  target: 'data',
+                  eventHandlers: {
+                    onPress: (data) => {
+                      console.log('s');
+                      return [{
+                        target: "data",
+                        mutation: (props) => {
+                          const fill = props.style.fill;
+                          return fill === colors.purple[500] ? null : { style: { fill: colors.purple[500] } }
 
-          />
-        </VictoryChart>
+                        }
+                      }];
+
+                    }
+                  }
+                }
+              ]}
+              cornerRadius={6}
+              barWidth={30}
+              data={[
+                { day: "Dom", hours: 3 },
+                { day: "Seg", hours: 8 },
+                { day: "Ter", hours: 2 },
+                { day: "Qua", hours: 6 },
+                { day: "Qui", hours: 4 },
+                { day: "Sex", hours: 2 },
+                { day: "Sáb", hours: 10 },
+              ]}
+              x="day"
+              y="hours"
+              style={{
+                data: {
+                  fill: colors.purple[200]
+                }
+              }}
+
+            />
+            <VictoryAxis
+              style={{
+                ...sharedAxisStyle,
+              }}
+            />
+          </VictoryChart>
+        </Box>
+        <Text color="white" fontSize="2xl" fontFamily="semiBold" mt={12}>8h 47min</Text>
+        <Text color="gray.200" fontSize="sm" fontFamily="body" >6 horas a mais que ontem</Text>
+
+        <VStack space={4} mt={6}>
+          <WellbeingApp appName="TikTok" SvgIcon={TikTokIcon} seconds={16200}/>
+          <WellbeingApp appName="Spotify" SvgIcon={SpotifyIcon} seconds={4860}/>
+          <WellbeingApp appName="Youtube" SvgIcon={YoutubeIcon} seconds={4572}/>
+          <WellbeingApp appName="Google" SvgIcon={GoogleIcon} seconds={1800}/>
+          <WellbeingApp appName="Twitter" SvgIcon={TwitterIcon} seconds={1140}/>
+        </VStack>
       </ScrollView>
+
     </ScreenContainer>
   )
 }
