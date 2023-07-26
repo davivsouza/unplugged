@@ -13,6 +13,8 @@ import { Loading } from "@components/Loading";
 import { THEME } from "./src/theme";
 import { Splash } from "@components/Splash";
 import { preventAutoHideAsync } from 'expo-splash-screen'
+import { GoalsContextProvider } from "@contexts/GoalsContext";
+import { TimerControlProvider } from "@contexts/TimerControlContext";
 preventAutoHideAsync();
 
 export default function App() {
@@ -31,11 +33,19 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={THEME} config={config}>
+
       {splashComplete
-        ? fontsLoaded ? <Routes /> : <Loading />
+        ? fontsLoaded
+          ? (
+            <GoalsContextProvider>
+              <TimerControlProvider>
+                <Routes />
+              </TimerControlProvider>
+            </GoalsContextProvider>
+          )
+          : <Loading />
         : <Splash onComplete={setSplashComplete} />
       }
-
     </NativeBaseProvider>
   );
 }

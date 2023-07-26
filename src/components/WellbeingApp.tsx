@@ -14,14 +14,14 @@ type Props = {
 
 export function WellbeingApp({ appName, seconds, SvgIcon }: Props) {
   const [appTagColor, setAppTagColor] = useState<ColorType>()
-  
+
 
   useFocusEffect(useCallback(() => {
     const color = changeColorBySecondsTime(seconds)
     setAppTagColor(color)
   }, []))
   return (
-    <HStack alignItems="center" justifyContent="space-between" >
+    <HStack flex={1} alignItems="center" justifyContent="space-between" >
       <HStack
         alignItems="center"
         space={2}

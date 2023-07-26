@@ -1,21 +1,20 @@
-
 import { Box, HStack, Modal, Pressable, Select, Text, TextArea, VStack } from "native-base";
 import { useState } from "react";
-
 import { Input } from "./Input";
 import { Button } from "./Button";
 import GoBackSvg from "@assets/goback.svg";
-import { useNavigation } from "@react-navigation/native";
+
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { MaterialIcons } from '@expo/vector-icons';
+import { useGoals } from "@hooks/useGoals";
+
 type Props = {
   isModalOpen: boolean
   onOpenModal: (status: boolean) => void
 }
+
 export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
-
-
+  const { createGoal } = useGoals()
 
   return (
     <Modal
@@ -113,11 +112,19 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
                   style={{ marginRight: 12 }}
                 />
               }
+              dropdownOpenIcon={
+                <MaterialIcons
+                  name="arrow-drop-up"
+                  size={24} color="white"
+                  style={{ marginRight: 12 }}
+                />
+              }
 
             >
               <Select.Item label="Diariamente" value="daily" />
               <Select.Item label="Semanalmente" value="weekly" />
-              <Select.Item label="Hoje" value="today" />
+              <Select.Item label="Mensal" value="monthly" />
+              <Select.Item label="Não se repete" value="notRepeat" />
             </Select>
             <Input
               w="full"
@@ -129,14 +136,41 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
               keyboardType="numeric"
             />
 
-            <Input
-              w="full"
-              rounded="2xl"
-              bg="transparent"
-              borderColor="white"
-              placeholder="Horário"
-              placeholderTextColor="white"
-            />
+            <HStack >
+              <HStack w="full" alignItems="center" space={4}>
+                <Box flex={1}>
+
+                  <Input
+                    width={40}
+                    underline
+                    bg="transparent"
+                    borderColor="white"
+                    placeholder="Início"
+                    placeholderTextColor="white"
+                    _focus={{
+                      bg: 'transparent',
+                      borderColor: 'purple.500',
+                    }}
+                  />
+                </Box>
+                <Box flex={1}>
+
+                  <Input
+                    width={40}
+                    underline
+                    bg="transparent"
+                    borderColor="white"
+                    placeholder="Término"
+                    placeholderTextColor="white"
+                    _focus={{
+                      bg: 'transparent',
+                      borderColor: 'purple.500',
+                    }}
+                  />
+                </Box>
+              </HStack>
+
+            </HStack>
 
             <TextArea
               w="full"
@@ -154,18 +188,26 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
               p={4}
               autoCompleteType="off"
               _focus={{
-                bg:"transparent",
+                bg: "transparent",
                 borderColor: 'purple.500',
                 _android: {
                   selectionColor: 'purple.500'
                 }
               }}
             />
+
           </Box>
 
 
 
-          <Button title="Adicionar" mt={8} />
+          <Button title="Adicionar" mt={8} onPress={() => {
+            createGoal({
+              id: String(Math.random() * 3791),
+              tagColor: 'purple.500',
+              title: 'Teste'
+            })
+            onOpenModal(false)
+          }} />
         </VStack>
       </VStack>
     </Modal>
