@@ -9,7 +9,6 @@ import GoBackSvg from "@assets/goback.svg";
 
 export function Cart() {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
-
   const [selectedItem, setSelectedItem] = useState("carrinho");
 
   function handleSelectedItem(item: string) {

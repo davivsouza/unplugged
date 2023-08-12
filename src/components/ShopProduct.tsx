@@ -3,12 +3,14 @@ import { Feather } from '@expo/vector-icons';
 import { useState } from "react";
 import ShopProductMock from '@assets/shop/shopmock.png'
 import { CartAddModal } from "./CartAddModal";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@routes/app.routes";
 
 
 export function ShopProduct() {
   const { colors } = useTheme()
   const [showModal, setShowModal] = useState(false)
-
+  const navigation = useNavigation<AppNavigatorRoutesProps>()
   function handleOpenModal() {
 
     setShowModal(true)
@@ -31,22 +33,24 @@ export function ShopProduct() {
           <Feather name="heart" size={24} color={colors.gray[300]} />
         </Pressable>
       </HStack>
-      <Image
-        source={ShopProductMock}
-        alt="Produto da loja do aplicativo"
-        alignSelf="center"
-      />
-      <Text color="white" textAlign="center" fontSize="md" fontFamily="body" >
-        Hello Brain 30 dias
-      </Text>
-      <HStack alignItems="center" justifyContent="center" space={2}>
-        <Text color="white" fontSize="md" fontFamily="body" >
-          R$ 25,90
+      <Pressable onPress={() => navigation.navigate('product')}>
+        <Image
+          source={ShopProductMock}
+          alt="Produto da loja do aplicativo"
+          alignSelf="center"
+        />
+        <Text color="white" textAlign="center" fontSize="md" fontFamily="body" >
+          Hello Brain 30 dias
         </Text>
-        <Text color="gray.100" fontSize="xs" fontFamily="body" >
-          R$ 35,90
-        </Text>
-      </HStack>
+        <HStack alignItems="center" justifyContent="center" space={2}>
+          <Text color="white" fontSize="md" fontFamily="body" >
+            R$ 25,90
+          </Text>
+          <Text color="gray.100" fontSize="xs" fontFamily="body" >
+            R$ 35,90
+          </Text>
+        </HStack>
+      </Pressable>
     </VStack>
   )
 }
