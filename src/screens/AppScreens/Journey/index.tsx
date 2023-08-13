@@ -22,7 +22,7 @@ export function Journey() {
           comments: [
             {
               userId: "22asfi3@Ufhn",
-              username:'Musashi',
+              username: 'Musashi',
               comment: 'Que professor sigma!',
               likes: 90,
               stars: 5,
@@ -79,7 +79,7 @@ export function Journey() {
         color="white"
         lineBreakMode="clip"
       >
-        Bem-vindo á,
+        Bem-vindo á
       </Heading>
       <Heading fontWeight="normal" fontFamily="body" color="white">
         Jornada <Text fontWeight="bold">Musashi</Text>

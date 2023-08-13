@@ -8,12 +8,14 @@ import {
   Pressable,
 } from "native-base";
 
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Module as ModuleDTO } from "../../../@types/module";
 
-import VideosSvg from "@assets/journey/videos-icon.svg";
 import { ModuleDetails } from "@components/ModuleDetails";
 import { ScreenContainer } from "@components/ScreenContainer";
+import { AppNavigatorRoutesProps } from "@routes/app.routes";
+import VideosSvg from "@assets/journey/videos-icon.svg";
+import GoBackSvg from "@assets/goback.svg";
 
 type RouteParams = {
   module: ModuleDTO;
@@ -21,13 +23,27 @@ type RouteParams = {
 
 export function Module() {
   const route = useRoute();
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
 
+  function handleNavigate() {
+    navigate('journey')
+  }
   const { module } = route.params as RouteParams;
   return (
     <ScreenContainer>
-      <Text fontFamily="body" color="white" fontSize="3xl">
-        Módulo {module.number}: {module.name}
-      </Text>
+      <HStack space={2}>
+        <Pressable
+          pr={3}
+          py={3}
+          onPress={handleNavigate}
+          mb={8}
+        >
+          <GoBackSvg fill="#fff" />
+        </Pressable>
+        <Text fontFamily="body" color="white" fontSize="3xl">
+          Módulo {module.number}: {module.name}
+        </Text>
+      </HStack>
 
       <HStack mt={3} alignItems="center">
         <VideosSvg />

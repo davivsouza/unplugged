@@ -4,14 +4,14 @@ import { Box, HStack, Pressable, ScrollView, SimpleGrid, Text } from "native-bas
 import { Entypo, Feather } from '@expo/vector-icons';
 import { ShopProduct } from "@components/ShopProduct";
 import { CartNotification } from "@components/CartNotification";
-import CartIcon from  '@assets/shop/cart-icon.svg'
+import CartIcon from '@assets/shop/cart-icon.svg'
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 export function Shop() {
 
-  const {navigate} = useNavigation<AppNavigatorRoutesProps>()
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
 
-  function handleNavigate(){
+  function handleNavigate() {
     navigate('cart')
   }
   return (
@@ -22,8 +22,8 @@ export function Shop() {
           Descubra seus produtos aqui
         </Text>
         <Pressable position="relative" right="-37%" onPress={handleNavigate}>
-          <CartIcon width={40} height={40}/>
-          <CartNotification/>
+          <CartIcon width={40} height={40} />
+          <CartNotification />
         </Pressable>
       </HStack>
       <HStack alignItems="center" space={4}>
@@ -50,13 +50,14 @@ export function Shop() {
           }} />
         </Box>
       </HStack>
-      <ScrollView h={210} showsVerticalScrollIndicator={false} contentContainerStyle={{
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{
         paddingBottom: 50
       }}>
         <SimpleGrid
+
           columns={2}
-          spacingX={6}
-          spacingY={5}
+          spacingX={8}
+          spacingY={3}
         >
           <ShopProduct />
           <ShopProduct />

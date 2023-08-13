@@ -11,7 +11,7 @@ export function Playlist() {
     <ScreenContainer>
       <PlaylistHeader />
       <ScrollView>
-        <BinauralSoundCard title="Relaxamento Profundo" artist="Rebeca Cagno" />
+        <BinauralSoundCard title="Relaxamento Profundo" artist="Rebeca Cagni" />
         <BinauralSoundCard title="Calmaria" artist="Victor Rocha" />
         <BinauralSoundCard title="Ansiedade" artist="Mariana Torres" />
       </ScrollView>

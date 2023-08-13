@@ -62,7 +62,7 @@ type AppRoutes = {
     title: string
     artist: string
   }
- 
+
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -72,7 +72,7 @@ export function AppRoutes() {
 
   return (
     <Navigator
-      initialRouteName="habits"
+      initialRouteName="journey"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -242,7 +242,7 @@ export function AppRoutes() {
           tabBarButton: () => null,
         }}
       />
-        <Screen
+      <Screen
         name="product"
         component={Product}
 

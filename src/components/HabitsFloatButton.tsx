@@ -1,11 +1,9 @@
 import { IPressableProps, Pressable } from 'native-base'
 import { Feather } from '@expo/vector-icons'
 type Props = IPressableProps
-export function HabitsFloatButton({...rest} : Props) {
+export function HabitsFloatButton({ ...rest }: Props) {
 
-  function handleOpenModal(){
-    console.log('criar hábito')
-  }
+
 
   return (
     <Pressable
@@ -15,10 +13,9 @@ export function HabitsFloatButton({...rest} : Props) {
       bg="purple.500"
       position="absolute"
       right={4}
-      top={380}
+      top="90%"
       alignItems="center"
       justifyContent="center"
-      onPress={handleOpenModal}
       zIndex={10}
       style={{
         elevation: 2,

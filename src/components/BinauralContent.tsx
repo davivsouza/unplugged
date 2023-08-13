@@ -20,15 +20,15 @@ export function BinauralContent() {
 
   return (
     <VStack>
-      <HStack justifyContent="space-between" alignItems="center">
-        <Pressable>
+      <HStack justifyContent="center" alignItems="center">
+        {/* <Pressable>
           <Box width={8} height={1} bg="white" mb={2} rounded="md" />
           <Box width={8} height={1} bg="white" rounded="md" />
-        </Pressable>
+        </Pressable> */}
         <Text color="white" fontFamily="semiBold" fontSize="3xl">
           Binaural Beats
         </Text>
-        <Image
+        {/* <Image
           w={10}
           h={10}
           rounded="full"
@@ -36,7 +36,7 @@ export function BinauralContent() {
             uri: "https://e0.pxfuel.com/wallpapers/675/779/desktop-wallpaper-funny-monkeys-pistols-necktie-suit-thumbnail.jpg",
           }}
           alt="Foto de perfil do usuário"
-        />
+        /> */}
       </HStack>
       <Text color="white" fontFamily="semiBold" fontSize="xl" mt={8} mb={4}>
         Seus beats favoritos
@@ -101,12 +101,12 @@ export function BinauralContent() {
         </HStack>
       </Box>
 
-      <Text color="white" fontFamily="semiBold" fontSize="lg" mt={12}>Lançamentos</Text>
+      <Text color="white" fontFamily="semiBold" fontSize="lg" mt={12}>Playlists</Text>
       <ScrollView h={210} showsVerticalScrollIndicator={false}>
-        <PlaylistCard title="Relaxamento" beatsQuantity={10}/>
-        <PlaylistCard title="Foco" beatsQuantity={7}/>
-        <PlaylistCard title="Criatividade" beatsQuantity={3}/>
-        
+        <PlaylistCard title="Relaxamento" beatsQuantity={10} />
+        <PlaylistCard title="Foco" beatsQuantity={7} />
+        <PlaylistCard title="Criatividade" beatsQuantity={3} />
+
       </ScrollView>
     </VStack>
   )

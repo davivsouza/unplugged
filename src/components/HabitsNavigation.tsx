@@ -6,10 +6,10 @@ type Props = {
   selectedItem: HabitsItems
   onSelectItem: (item: HabitsItems) => void
 }
-export function HabitsNavigation({ selectedItem, onSelectItem}: Props) {
+export function HabitsNavigation({ selectedItem, onSelectItem }: Props) {
 
   return (
-    <HStack alignItems="center" justifyContent="space-evenly" mb={16}>
+    <HStack alignItems="center" justifyContent="space-evenly" mb={6}>
       <DetailsButton
         title="Insights"
         isSelected={selectedItem === "insights" && true}

@@ -1,9 +1,10 @@
 import { Comments } from "@components/Comments";
 import { ModuleVideoButton } from "@components/ModuleVideoButton";
 import { ScreenContainer } from "@components/ScreenContainer";
-import { useRoute } from "@react-navigation/native";
-import { Divider, HStack, Heading, Image, Text, VStack } from "native-base";
-
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Divider, HStack, Heading, Image, Pressable, Text, VStack } from "native-base";
+import { AppNavigatorRoutesProps } from "@routes/app.routes";
+import GoBackSvg from "@assets/goback.svg";
 type RouteParams = {
   moduleNumber: number;
   videoNumber: number;
@@ -22,37 +23,60 @@ type RouteParams = {
 };
 export function ModuleVideo() {
   const route = useRoute();
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
 
   const { moduleNumber, duration, videoNumber, videoTitle, comments } =
     route.params as RouteParams;
 
+  function handleNavigate() {
+    navigate('module', {
+      module: {
+        number: 1,
+        completedVideos: 3,
+        name: "Introdução",
+        videosLength: 4,
+        description: 'bbla bla bla bla num sei oq n sei o que lá',
+        content: [
+          {
+            videoNumber: 1,
+            videoTitle: "Introdução",
+            duration: 5,
+            comments: [
+              {
+                userId: "22asfi3@Ufhn",
+                username: 'Musashi',
+                comment: 'Que professor sigma!',
+                likes: 90,
+                stars: 5,
+              }
+            ]
+          }
+        ]
+      }
+    })
+  }
   return (
     <ScreenContainer>
-      <Heading fontFamily="heading" fontSize="3xl" color="white">
+      <Pressable
+        pr={3}
+        py={3}
+        onPress={handleNavigate}
+        mb={8}
+      >
+        <GoBackSvg fill="#fff" />
+      </Pressable>
+      <Text fontFamily="heading" fontSize="2xl" color="white" lineBreakMode="middle">
         Módulo {moduleNumber}: {videoTitle}
-      </Heading>
-      <HStack alignItems="center" mt={3}>
-        <Image
-          w={10}
-          h={10}
-          rounded="full"
-          source={{
-            uri: "https://e0.pxfuel.com/wallpapers/675/779/desktop-wallpaper-funny-monkeys-pistols-necktie-suit-thumbnail.jpg",
-          }}
-          alt="Foto de perfil do criador do vídeo"
-        />
-        <Text ml={3} fontFamily="body" fontSize="sm" color="gray.200">
-          Agiota
-        </Text>
-      </HStack>
+      </Text>
+
       <HStack mt={10} alignItems="center" justifyContent="center">
         <ModuleVideoButton icon="heart" />
         <ModuleVideoButton icon="download" />
         <ModuleVideoButton icon="share-2" />
         <ModuleVideoButton icon="message-circle" />
       </HStack>
-        <Divider my={7}/>
-        <Comments comments={comments}/>
+      <Divider my={7} />
+      <Comments comments={comments} />
     </ScreenContainer>
   );
 }

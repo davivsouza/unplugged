@@ -19,7 +19,7 @@ export function ShopProduct() {
     }, 1500)
   }
   return (
-    <VStack w={180} bg='gray.500' rounded="2xl" mt={6} overflow="hidden" p={4}>
+    <VStack w={170} bg='gray.500' rounded="2xl" mt={6} overflow="hidden" p={4}>
       <CartAddModal isModalOpen={showModal} />
       <HStack justifyContent="space-between">
 
@@ -29,24 +29,25 @@ export function ShopProduct() {
           </Text>
         </Box>
         <Pressable onPress={handleOpenModal}>
-
           <Feather name="heart" size={24} color={colors.gray[300]} />
         </Pressable>
       </HStack>
       <Pressable onPress={() => navigation.navigate('product')}>
         <Image
+          w={120}
+          h={120}
           source={ShopProductMock}
           alt="Produto da loja do aplicativo"
           alignSelf="center"
         />
-        <Text color="white" textAlign="center" fontSize="md" fontFamily="body" >
+        <Text color="white" textAlign="center" fontSize="sm" fontFamily="body" >
           Hello Brain 30 dias
         </Text>
         <HStack alignItems="center" justifyContent="center" space={2}>
-          <Text color="white" fontSize="md" fontFamily="body" >
+          <Text color="white" fontSize="sm" fontFamily="body" >
             R$ 25,90
           </Text>
-          <Text color="gray.100" fontSize="xs" fontFamily="body" >
+          <Text color="gray.100" fontSize="xs" fontFamily="body" textDecorationLine="line-through">
             R$ 35,90
           </Text>
         </HStack>

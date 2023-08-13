@@ -39,8 +39,8 @@ export function HabitsInsights() {
   }
 
   return (
-    <ScrollView height="70%" contentContainerStyle={{
-      paddingBottom: 100,
+    <ScrollView height="78%" contentContainerStyle={{
+      paddingBottom: 10,
     }} showsVerticalScrollIndicator={false}>
 
 
@@ -51,7 +51,7 @@ export function HabitsInsights() {
           height="full"
           onPress={handleNavigate}
           zIndex={22}
-          
+
         />
         <VictoryPie
           data={DATA}
