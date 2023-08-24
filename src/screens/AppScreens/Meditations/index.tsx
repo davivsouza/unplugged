@@ -10,12 +10,14 @@ export function Meditations() {
   const [selectedCategory, setSelectedCategory] = useState('Sono')
   const [selectedTimeDuration, setSelectedTimeDuration] = useState('Tudo')
 
+
   function handleSelectedCategory(category: string) {
     setSelectedCategory(category)
   }
   function handleSelectedTimeDuration(timeDuration: string) {
     setSelectedTimeDuration(timeDuration)
   }
+
 
   return (
     <ScreenContainer>

@@ -24,6 +24,8 @@ import { Cart } from "@screens/AppScreens/Shop/Cart";
 import { CreditCards } from "@screens/AppScreens/Shop/CreditCards";
 import { Painel } from "@screens/AppScreens/Habits/Painel";
 import { Product } from "@screens/AppScreens/Shop/Product";
+import { MeditationIntroSlider } from "@screens/AppScreens/Meditations/MeditationIntroSlider";
+import { BinauralSoundsIntroSlider } from "@screens/AppScreens/BinauralSounds/BinauralSoundsIntroSlider";
 
 type AppRoutes = {
   journey: undefined;
@@ -49,6 +51,8 @@ type AppRoutes = {
     title: string
     artist: string
   }
+  meditationIntroSlider: undefined,
+  binauralSoundsIntroSlider: undefined,
   habits: undefined;
   bemestarPainel: undefined
   shop: undefined;
@@ -72,7 +76,7 @@ export function AppRoutes() {
 
   return (
     <Navigator
-      initialRouteName="journey"
+      initialRouteName="meditationIntroSlider"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -245,6 +249,28 @@ export function AppRoutes() {
       <Screen
         name="product"
         component={Product}
+
+        options={{
+          tabBarStyle: {
+            display: "none",
+          },
+          tabBarButton: () => null,
+        }}
+      />
+      <Screen
+        name="meditationIntroSlider"
+        component={MeditationIntroSlider}
+
+        options={{
+          tabBarStyle: {
+            display: "none",
+          },
+          tabBarButton: () => null,
+        }}
+      />
+      <Screen
+        name="binauralSoundsIntroSlider"
+        component={BinauralSoundsIntroSlider}
 
         options={{
           tabBarStyle: {
