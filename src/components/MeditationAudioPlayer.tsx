@@ -90,7 +90,7 @@ export function MeditationAudioPlayer({ artist, title }: Props) {
   async function loadAudio() {
     try {
       await Audio.setAudioModeAsync({ staysActiveInBackground: true });
-      const { sound } = await Audio.Sound.createAsync(require('../assets/audios/meditation.mp3'));
+      const { sound } = await Audio.Sound.createAsync(require('@assets/audios/meditation.mp3'));
       sound.setOnPlaybackStatusUpdate((status) => {
         if (status.isLoaded) {
           setDuration(status.durationMillis);
