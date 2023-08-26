@@ -1,15 +1,18 @@
 import { MeditationCategory } from '@components/MeditationCategory'
-import { VStack, Text, HStack, Image, FlatList, ScrollView} from 'native-base'
-import { useState } from 'react'
+import { VStack, Text, HStack, Image, FlatList, ScrollView } from 'native-base'
+import { useCallback, useState } from 'react'
 import { meditationsCategories, meditationTimeDurations } from '../../../utils/meditationsCategories'
 import { MeditationTimeDurationCategory } from '@components/MeditationTimeDurationCategory'
 import { MeditationCard } from '@components/MeditationCard'
 import { ScreenContainer } from '@components/ScreenContainer'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { AppNavigatorRoutesProps } from '@routes/app.routes'
 
 export function Meditations() {
   const [selectedCategory, setSelectedCategory] = useState('Sono')
   const [selectedTimeDuration, setSelectedTimeDuration] = useState('Tudo')
-
+  const [showRealApp, setShowRealApp] = useState(false)
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
 
   function handleSelectedCategory(category: string) {
     setSelectedCategory(category)
@@ -17,6 +20,14 @@ export function Meditations() {
   function handleSelectedTimeDuration(timeDuration: string) {
     setSelectedTimeDuration(timeDuration)
   }
+
+  useFocusEffect(useCallback(() => {
+    navigate('meditationIntroSlider')
+    setShowRealApp(true)
+    if (showRealApp) {
+      navigate('meditations')
+    }
+  }, [showRealApp]))
 
 
   return (

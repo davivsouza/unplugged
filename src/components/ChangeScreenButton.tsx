@@ -8,7 +8,6 @@ type Props = IPressableProps & {
 };
 
 export function ChangeScreenButton({ isForNextPage, background, ...rest }: Props) {
-  const { colorMode } = useColorMode();
   return (
     <Pressable {...rest}>
       <Box
@@ -23,9 +22,9 @@ export function ChangeScreenButton({ isForNextPage, background, ...rest }: Props
         pl={isForNextPage ? 1 : 0}
       >
         {isForNextPage ? (
-          <NextScreenSvg fill={ background ? "#fff" : '#000' }/>
+          <NextScreenSvg fill={background ? "#fff" : '#000'} />
         ) : (
-          <GoBackSvg fill={background ? "#fff" : '#000' } />
+          <GoBackSvg fill={background ? "#fff" : '#000'} />
         )}
       </Box>
     </Pressable>

@@ -76,7 +76,7 @@ export function AppRoutes() {
 
   return (
     <Navigator
-      initialRouteName="meditationIntroSlider"
+      initialRouteName="journey"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
