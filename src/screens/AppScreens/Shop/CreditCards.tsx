@@ -14,6 +14,9 @@ export function CreditCards() {
   const [loadPayment, setLoadpayment] = useState(false)
 
   function handleNavigate() {
+    navigate('cart')
+  }
+  function handlePayment() {
     setLoadpayment(true)
   }
 
@@ -57,7 +60,7 @@ export function CreditCards() {
               )}
             />
             <CreditCardAdd />
-            <Button title="Comprar" onPress={handleNavigate} />
+            <Button title="Comprar" onPress={handlePayment} />
           </ScreenContainer>
         )
       }
