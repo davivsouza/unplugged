@@ -29,7 +29,7 @@ export function MeditationIntroSlider() {
                 resizeMode="cover"
                 mb={6}
               />
-              <Text fontSize="3xl" fontFamily="heading" mb={2} color="white">
+              <Text fontSize="2xl" fontFamily="heading" mb={2} color="white">
                 {item.title}
               </Text>
               <Text fontFamily="body" fontSize="sm" textAlign="center" color="white">

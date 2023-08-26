@@ -13,30 +13,32 @@ import { View } from "react-native";
 import BeatsBgTemplate from "@assets/binauralsounds/beat-bg-template.png";
 import BtnPlay from "@assets/binauralsounds/btnPlay.svg";
 import { PlaylistCard } from "@components/PlaylistCard";
+import { AppNavigatorRoutesProps } from '@routes/app.routes'
+import { useCallback, useState } from 'react'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 
 
 export function BinauralContent() {
   const { colors } = useTheme();
+  const [showRealApp, setShowRealApp] = useState(false)
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+
+  useFocusEffect(useCallback(() => {
+    navigate('binauralSoundsIntroSlider')
+    setShowRealApp(true)
+    if (showRealApp) {
+      navigate('binaural')
+    }
+  }, [showRealApp]))
+
 
   return (
     <VStack>
       <HStack justifyContent="center" alignItems="center">
-        {/* <Pressable>
-          <Box width={8} height={1} bg="white" mb={2} rounded="md" />
-          <Box width={8} height={1} bg="white" rounded="md" />
-        </Pressable> */}
+
         <Text color="white" fontFamily="semiBold" fontSize="3xl">
           Binaural Beats
         </Text>
-        {/* <Image
-          w={10}
-          h={10}
-          rounded="full"
-          source={{
-            uri: "https://e0.pxfuel.com/wallpapers/675/779/desktop-wallpaper-funny-monkeys-pistols-necktie-suit-thumbnail.jpg",
-          }}
-          alt="Foto de perfil do usuário"
-        /> */}
       </HStack>
       <Text color="white" fontFamily="semiBold" fontSize="xl" mt={8} mb={4}>
         Seus beats favoritos

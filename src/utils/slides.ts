@@ -39,4 +39,23 @@ const meditationScreenSlides = [
 ]
 
 
-export {slides,meditationScreenSlides}
+const binauralSoundsScreenSlides = [
+  {
+    key: "1",
+    image: require("@assets/binauralsounds/binauralsound_slider1.png"),
+  },
+  {
+    key: "2",
+    title: "Comprovação Cientifica",
+    text: "As ondas binaurais são cientificamente comprovadas como um jeito ótimo de te ajudar a atingir o que você quer, seja relaxar, estudar, dormir e muito mais. Experimente e veja os resultados por si mesmo!",
+    image: require("@assets/binauralsounds/binauralsound_slider2.png"),
+  },
+  {
+    key: "3",
+    title: "Nossas Recomendações",
+    text: "Nos da Unplugged, sugerimos usar fones de ouvido com as ondas binaurais para tirar o máximo proveito dessa ferramenta. Experimente combinar com sons relaxantes, como lofi ou música clássica, para uma experiência ainda mais incrível!",
+    image: require("@assets/binauralsounds/binauralsound_slider3.png"),
+  },
+]
+
+export { slides, meditationScreenSlides, binauralSoundsScreenSlides }
