@@ -8,6 +8,41 @@ import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { MaterialIcons } from '@expo/vector-icons';
 import { useGoals } from "@hooks/useGoals";
 
+const daysOfWeek = [
+  {
+    dayNumber: 0,
+    day: 'Dom'
+  },
+  {
+    dayNumber: 1,
+    day: 'Seg'
+  },
+  {
+    dayNumber: 2,
+    day: 'Ter'
+  },
+  {
+    dayNumber: 3,
+    day: 'Qua'
+  },
+  {
+    dayNumber: 4,
+    day: 'Qui'
+  },
+  {
+    dayNumber: 5,
+    day: 'Sex'
+  },
+  {
+    dayNumber: 6,
+    day: 'Sáb'
+  },
+
+]
+
+
+
+
 type Props = {
   isModalOpen: boolean
   onOpenModal: (status: boolean) => void
@@ -62,7 +97,7 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
         </HStack>
 
         <VStack mt={6} w="full" flex={1} justifyContent="space-between">
-          <Box>
+          <VStack space={4}>
             <Input
               w="full"
               rounded="2xl"
@@ -71,7 +106,25 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
               placeholder="Nome do hábito"
               placeholderTextColor="white"
             />
-            <Select
+
+            <HStack alignItems={'center'} space={2} justifyContent={'center'}>
+              {daysOfWeek.map(item => (
+                <Pressable
+                  key={item.day}
+                  flex={1}
+                  h={12}
+                  rounded="full"
+                  borderColor='white'
+                  borderWidth={1}
+                  alignItems={'center'}
+                  justifyContent={'center'}>
+                  <Text color={'white'} fontSize='sm' textAlign={'center'}>
+                    {item.day}
+                  </Text>
+                </Pressable>
+              ))}
+            </HStack>
+            {/* <Select
               w="full"
               h={12}
               rounded="2xl"
@@ -125,52 +178,10 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
               <Select.Item label="Semanalmente" value="weekly" />
               <Select.Item label="Mensal" value="monthly" />
               <Select.Item label="Não se repete" value="notRepeat" />
-            </Select>
-            <Input
-              w="full"
-              rounded="2xl"
-              bg="transparent"
-              borderColor="white"
-              placeholder="Quantidade"
-              placeholderTextColor="white"
-              keyboardType="numeric"
-            />
+            </Select> */}
+          
 
-            <HStack >
-              <HStack w="full" alignItems="center" space={4}>
-                <Box flex={1}>
-
-                  <Input
-                    width={40}
-                    underline
-                    bg="transparent"
-                    borderColor="white"
-                    placeholder="Início"
-                    placeholderTextColor="white"
-                    _focus={{
-                      bg: 'transparent',
-                      borderColor: 'purple.500',
-                    }}
-                  />
-                </Box>
-                <Box flex={1}>
-
-                  <Input
-                    width={40}
-                    underline
-                    bg="transparent"
-                    borderColor="white"
-                    placeholder="Término"
-                    placeholderTextColor="white"
-                    _focus={{
-                      bg: 'transparent',
-                      borderColor: 'purple.500',
-                    }}
-                  />
-                </Box>
-              </HStack>
-
-            </HStack>
+          
 
             <TextArea
               w="full"
@@ -196,7 +207,14 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
               }}
             />
 
-          </Box>
+            {/* <Text color={'white'} fontSize={'sm'}>Selecione uma cor:</Text> */}
+            <HStack alignItems={'center'} justifyContent={'center'} space={16} mt={8}>
+              <Pressable w={20} h={20} bg="purple.500" rounded='full'/>
+              <Pressable w={20} h={20} bg="red.500" rounded='full'/>
+              <Pressable w={20} h={20} bg="green.500" rounded='full'/>
+            </HStack>
+
+          </VStack>
 
 
 
