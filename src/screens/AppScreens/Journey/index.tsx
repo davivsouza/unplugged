@@ -25,7 +25,7 @@ export function Journey() {
               username: 'Musashi',
               comment: 'Que professor sigma!',
               likes: 90,
-              stars: 5,
+              stars: [0, 1, 2, 3, 4],
             }
           ]
         },

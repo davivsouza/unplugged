@@ -16,7 +16,12 @@ export function Product() {
   }
   return (
     <ScreenContainer>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingBottom: 40,
+        }}
+      >
         <HStack alignItems="flex-start" mb={12}>
           <Pressable
             py={3}

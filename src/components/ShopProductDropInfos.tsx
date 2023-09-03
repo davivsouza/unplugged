@@ -1,6 +1,7 @@
 import { HStack, Pressable, Text, VStack } from "native-base";
-import { Ionicons, AntDesign } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import { useState } from 'react'
+import { ProductAvaliations } from "./ProductAvaliations";
 export function ShopProductDropInfos() {
     const [detailsDropBox, setDetailsDropBox] = useState('')
 
@@ -21,7 +22,7 @@ export function ShopProductDropInfos() {
                             a fabricação e distribuição atendendo segundo a resoluçãoRDC 240/2018 – CÓD. 4300041.
                         </Text>
                         <Text color="white" fontSize="md">
-                            O Hello Brain não possui nenhuma contra indicação. vale lembrar queele também NÃO É UM MEDICAMENTO, não vicia e NÃO CAUSA nenhum efeito colateral. porém é importante salientar que crianças, grávidas, lactantes e idosos consulte a opnião do seu médico.
+                            O Hello Brain não possui nenhuma contra indicação. vale lembrar que ele também NÃO É UM MEDICAMENTO, não vicia e NÃO CAUSA nenhum efeito colateral. porém é importante salientar que crianças, grávidas, lactantes e idosos consulte a opnião do seu médico.
                         </Text>
                         <Text color="white" fontSize="md">
                             Trabalhamos com os melhores cientistas do cérebro e nutrólogospara desenvolver o que consideramos uma dose saúdável de produtividade e bem estar. sugerimos duas cápsulas, 30 min antes da atividade que deseja ter alta performace.
@@ -34,25 +35,9 @@ export function ShopProductDropInfos() {
                     </HStack>
                 )}
             </Pressable>
-            <Pressable borderColor="white" py={3} onPress={() => toggleDetailsDropBox('avaliations')}>
-                {detailsDropBox === 'avaliations' ? (
-                    <VStack>
-                        <Pressable>
-                            <HStack alignItems="center" space={1}>
-                                <AntDesign name="like2" size={24} color="white" />
+            <ProductAvaliations />
 
-                                <Text color="white" fontSize="md">Adicionar avaliação</Text>
-                            </HStack>
-                        </Pressable>
-                    </VStack>
-                ) : (
-                    <HStack alignItems="center" space={1}>
-                        <AntDesign name="like2" size={24} color="white" />
-                        <Text color="white" fontSize="md">Avaliações</Text>
-                    </HStack>
-                )}
 
-            </Pressable>
         </VStack>
     )
 }

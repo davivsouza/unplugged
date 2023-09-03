@@ -1,5 +1,5 @@
 import {
-    Box,
+  Box,
   FlatList,
   HStack,
   Pressable,
@@ -7,7 +7,7 @@ import {
   VStack,
   useTheme,
 } from "native-base";
-import { Fontisto } from "@expo/vector-icons";
+import { AntDesign, Fontisto } from "@expo/vector-icons";
 
 type Props = {
   comments?: [
@@ -16,7 +16,7 @@ type Props = {
       username: string;
       comment: string;
       likes: number;
-      stars: number;
+      stars: number[];
     }
   ];
 };
@@ -24,13 +24,9 @@ export function Comments({ comments }: Props) {
   const { colors } = useTheme();
 
   return (
-    <FlatList
-      flex={1}
-      data={comments}
-      keyExtractor={(item) => item.userId}
-      showsVerticalScrollIndicator={false}
-      renderItem={({ item: comment }) => (
-        <Box m={3} bgColor="gray.500" px={4} py={5} rounded="xl"  shadow={9} >
+    <>
+      {comments?.map(comment => (
+        <Box key={comment.userId} m={3} bgColor="gray.500" px={4} py={5} rounded="xl" shadow={9} >
           <VStack>
             <HStack alignItems="center" justifyContent="space-between">
               <HStack alignItems="center">
@@ -42,7 +38,9 @@ export function Comments({ comments }: Props) {
                 </Text>
               </HStack>
               <Text color="white" fontFamily="body" fontSize="xs">
-                {comment.stars}
+                {comment.stars.map((stars, idx) => (
+                  <AntDesign key={idx} name="star" size={12} color={colors.yellow[300]} />
+                ))}
               </Text>
             </HStack>
             <Text my={2} color="white" fontFamily="body" fontSize="sm">
@@ -58,7 +56,7 @@ export function Comments({ comments }: Props) {
             </Pressable>
           </VStack>
         </Box>
-      )}
-    />
+      ))}
+    </>
   );
 }

@@ -50,6 +50,7 @@ type Props = {
 
 export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
   const { createGoal } = useGoals()
+  const [selectedDay, setSelectedDay] = useState<Number>()
 
   return (
     <Modal
@@ -114,11 +115,18 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
                   flex={1}
                   h={12}
                   rounded="full"
-                  borderColor='white'
-                  borderWidth={1}
+                  borderColor={selectedDay === item.dayNumber ? 'purple.500' : 'white'}
+                  borderWidth={2}
                   alignItems={'center'}
-                  justifyContent={'center'}>
-                  <Text color={'white'} fontSize='sm' textAlign={'center'}>
+                  justifyContent={'center'}
+                  onPress={() => setSelectedDay(item.dayNumber)
+                  }
+                >
+                  <Text
+                    color={selectedDay === item.dayNumber ? 'purple.500' : 'white'}
+                    fontSize='sm'
+                    textAlign={'center'}
+                  >
                     {item.day}
                   </Text>
                 </Pressable>
@@ -179,9 +187,9 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
               <Select.Item label="Mensal" value="monthly" />
               <Select.Item label="Não se repete" value="notRepeat" />
             </Select> */}
-          
 
-          
+
+
 
             <TextArea
               w="full"
@@ -207,11 +215,11 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
               }}
             />
 
-            {/* <Text color={'white'} fontSize={'sm'}>Selecione uma cor:</Text> */}
-            <HStack alignItems={'center'} justifyContent={'center'} space={16} mt={8}>
-              <Pressable w={20} h={20} bg="purple.500" rounded='full'/>
-              <Pressable w={20} h={20} bg="red.500" rounded='full'/>
-              <Pressable w={20} h={20} bg="green.500" rounded='full'/>
+            <Text color={'white'} fontSize={'lg'}>Escolha a cor do hábito:</Text>
+            <HStack alignItems={'center'} justifyContent={'space-around'} mt={4}>
+              <Pressable w={12} h={12} bg="purple.500" rounded='full' />
+              <Pressable w={12} h={12} bg="red.500" rounded='full' />
+              <Pressable w={12} h={12} bg="green.500" rounded='full' />
             </HStack>
 
           </VStack>

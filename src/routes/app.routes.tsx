@@ -42,7 +42,7 @@ type AppRoutes = {
         userId: string;
         comment: string;
         likes: number;
-        stars: number;
+        stars: number[];
       }
     ];
   };
