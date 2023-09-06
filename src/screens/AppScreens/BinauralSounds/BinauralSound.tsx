@@ -64,6 +64,7 @@ export function BinauralSound() {
         return true
       };
       BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      loadAudio();
       return () => {
         BackHandler.removeEventListener('hardwareBackPress', onBackPress);
       };
@@ -94,8 +95,8 @@ export function BinauralSound() {
   }
   async function loadAudio() {
     try {
-      await Audio.setAudioModeAsync({ staysActiveInBackground: true });
       const { sound } = await Audio.Sound.createAsync(require('@assets/audios/meditation.mp3'));
+      setSound(sound);
       sound.setOnPlaybackStatusUpdate((status) => {
         if (status.isLoaded) {
           setDuration(status.durationMillis);
@@ -107,19 +108,13 @@ export function BinauralSound() {
           }
         }
       });
-      setSound(sound);
     } catch (error) {
       console.error(error);
     }
   };
   useEffect(() => {
-    loadAudio();
-
     return sound
       ? () => {
-        console.log('Unloading');
-
-        sound.stopAsync();
         sound.unloadAsync();
       }
       : undefined;

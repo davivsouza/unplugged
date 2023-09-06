@@ -18,7 +18,7 @@ type Props = {
 }
 export function MeditationAudioPlayer({ artist, title }: Props) {
 
-  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const [sound, setSound] = useState<Audio.Sound>();
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState<number | undefined>();
   const [position, setPosition] = useState<number | null>(null);
@@ -33,17 +33,13 @@ export function MeditationAudioPlayer({ artist, title }: Props) {
   }
 
   const playTrack = async () => {
-    if (sound) {
-      setIsPlaying(true);
-      await sound.playAsync();
-    }
+    await sound?.playAsync();
+    setIsPlaying(true);
   };
 
   const pauseTrack = async () => {
-    if (sound) {
-      await sound.pauseAsync();
+      await sound?.pauseAsync();
       setIsPlaying(false);
-    }
   };
 
   const onSliderValueChange = async (value: number) => {
@@ -59,6 +55,7 @@ export function MeditationAudioPlayer({ artist, title }: Props) {
         return true
       };
       BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      loadAudio();
       return () => {
         BackHandler.removeEventListener('hardwareBackPress', onBackPress);
       };
@@ -89,8 +86,9 @@ export function MeditationAudioPlayer({ artist, title }: Props) {
   }
   async function loadAudio() {
     try {
-      await Audio.setAudioModeAsync({ staysActiveInBackground: true });
+     
       const { sound } = await Audio.Sound.createAsync(require('@assets/audios/meditation.mp3'));
+      setSound(sound);
       sound.setOnPlaybackStatusUpdate((status) => {
         if (status.isLoaded) {
           setDuration(status.durationMillis);
@@ -102,19 +100,14 @@ export function MeditationAudioPlayer({ artist, title }: Props) {
           }
         }
       });
-      setSound(sound);
+      
     } catch (error) {
       console.error(error);
     }
   };
   useEffect(() => {
-    loadAudio();
-
     return sound
       ? () => {
-        console.log('Unloading');
-
-        sound.stopAsync();
         sound.unloadAsync();
       }
       : undefined;
