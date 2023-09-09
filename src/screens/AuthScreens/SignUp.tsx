@@ -12,7 +12,7 @@ import * as yup from "yup";
 import { UsernameForm } from "@components/UsernameForm";
 
 export type SignUpFormDataProps = {
-  username: string;
+  nickname?: string;
   name: string;
   email: string;
   password: string;
@@ -57,7 +57,7 @@ export function SignUp() {
   return (
     <VStack flex={1} bg="white">
       {usernameForm ? (
-        <UsernameForm tempData={tempUserData} />
+        <UsernameForm tempData={tempUserData} onOpenUsernameForm={setUsernameForm} />
       ) : (
         <>
           <VStack>

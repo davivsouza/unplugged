@@ -6,27 +6,29 @@ import { useNavigation } from "@react-navigation/native";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ChangeScreenButton } from "./ChangeScreenButton";
 import * as yup from "yup";
-import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { Input } from "./Input";
 import { SignUpFormDataProps } from "@screens/AuthScreens/SignUp";
+import { api } from "../services/api";
+import { AuthNavigatorRouteProps } from "@routes/auth.routes";
+import { useAuth } from "@hooks/useAuth";
 
 type UsernameFormDataProps = {
-  username: string;
+  nickname: string;
 };
 
 type Props = {
   tempData?: SignUpFormDataProps;
+  onOpenUsernameForm: (bool: boolean) => void
 };
 
 const usernameFormSchema = yup.object({
-  username: yup
+  nickname: yup
     .string()
     .matches(/^[a-z0-9._]+$/, "Utilize apenas letras minúsculas e números ou '.' e '_'.")
     .required("Informe seu nome de usuário"),
 });
-export function UsernameForm({ tempData }: Props) {
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>();
-
+export function UsernameForm({ tempData, onOpenUsernameForm }: Props) {
+  const { signIn } = useAuth()
   const {
     control,
     handleSubmit,
@@ -35,27 +37,30 @@ export function UsernameForm({ tempData }: Props) {
     resolver: yupResolver(usernameFormSchema),
   });
 
-  async function handleCreateUsername({ username }: UsernameFormDataProps) {
+  async function handleCreateUsername({ nickname }: UsernameFormDataProps) {
     try {
-      const newTempData = { ...tempData, username: username.toLowerCase() };
-      // fazer requisição enviando o newTempData para o servidor.
-      navigate('journey')
+      const newTempData = { ...tempData, nickname: nickname.toLowerCase() };
+      // // fazer requisição enviando o newTempData para o servidor.
+      await api.post('/users/create', newTempData)
+      await signIn(newTempData?.email, newTempData?.password)
+
+
     } catch (error) {
       console.log(error);
     }
   }
   return (
     <VStack flex={1}>
-      <ChangeScreenButton />
+      <ChangeScreenButton onPress={() => onOpenUsernameForm(false)} />
       <VStack position="relative">
         <QuestionnaireHeader title="Como devemos chamá-lo?" />
         <Controller
           control={control}
-          name="username"
+          name="nickname"
           render={({ field: { onChange, value } }) => (
             <Input
               underline
-            
+
               autoCapitalize="none"
               placeholder="Nome de usuário"
               mt={20}
@@ -63,7 +68,7 @@ export function UsernameForm({ tempData }: Props) {
               value={value}
               returnKeyType="send"
               onSubmitEditing={handleSubmit(handleCreateUsername)}
-              errorMessage={errors.username?.message}
+              errorMessage={errors.nickname?.message}
             />
           )}
         />

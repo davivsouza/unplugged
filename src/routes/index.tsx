@@ -5,11 +5,13 @@ import { useColorMode } from 'native-base'
 import { useState } from "react";
 import { AppRoutes } from "./app.routes";
 import { StatusBar } from "react-native";
+import { useAuth } from "@hooks/useAuth";
 export function Routes() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
+
 
   const { colors } = useTheme();
   const { colorMode } = useColorMode()
+  const { user } = useAuth()
   const theme = DefaultTheme;
   theme.colors.background = colorMode === 'light' ? colors.white : colors.black;
 
@@ -17,13 +19,13 @@ export function Routes() {
   return (
     <Box flex={1}>
       <StatusBar
-        barStyle={isLoggedIn ? "light-content" : 'dark-content'}
+        barStyle={user.id ? "light-content" : 'dark-content'}
         backgroundColor="transparent"
         translucent
       />
       <NavigationContainer theme={theme}>
         {
-          isLoggedIn ? <AppRoutes /> : <AuthRoutes />
+          user.id ? <AppRoutes /> : <AuthRoutes />
         }
       </NavigationContainer>
     </Box>

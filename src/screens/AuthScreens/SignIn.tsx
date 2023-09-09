@@ -11,6 +11,7 @@ import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState } from "react";
+import { useAuth } from "@hooks/useAuth";
 
 type FormDataProps = {
   email: string;
@@ -29,7 +30,7 @@ export function SignIn() {
   const [isLoading, setIsLoading] = useState(false)
   const error = 1;
   const toast = useToast();
-
+  const { signIn } = useAuth();
   const {
     control,
     handleSubmit,
@@ -43,13 +44,11 @@ export function SignIn() {
   }
 
   async function handleSignIn(data: FormDataProps, e: any) {
-    setIsLoading(true)
+    // setIsLoading(true)
     try {
-      
-      if (error === 1) {
-        throw new Error("Wrong password");
-      }
-      
+
+      await signIn(data.email, data.password);
+
     } catch (error) {
       setIsLoading(false)
       setLoginTrys((prevState) => prevState - 1);
@@ -143,7 +142,7 @@ export function SignIn() {
             isLoading={isLoading}
             mt={12}
             mb={3}
-           
+
             onPress={handleSubmit(handleSignIn)}
           />
         )}

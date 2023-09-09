@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Divider, FlatList, Heading, Text, VStack } from "native-base";
 import { Modules } from "@components/Modules";
 import { Module } from "../../../@types/module";
 import { ScreenContainer } from "@components/ScreenContainer";
+import { useAuth } from "@hooks/useAuth";
 
 type modulesDataProps = Module;
 
@@ -71,6 +72,17 @@ export function Journey() {
     },
   ]);
 
+  const { user, signOut } = useAuth();
+
+  // useEffect(() => {
+  //   async function sign() {
+
+  //     await signOut();
+  //   }
+  //   sign()
+  // }, [])
+
+
   return (
     <ScreenContainer>
       <Heading
@@ -82,7 +94,7 @@ export function Journey() {
         Bem-vindo á
       </Heading>
       <Heading fontWeight="normal" fontFamily="body" color="white">
-        Jornada <Text fontWeight="bold">Musashi</Text>
+        Jornada <Text fontWeight="bold">{user.nickname}</Text>
       </Heading>
       <Divider my={7} />
       <FlatList
