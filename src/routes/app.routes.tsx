@@ -4,7 +4,7 @@ import {
 } from "@react-navigation/bottom-tabs";
 import { Journey } from "@screens/AppScreens/Journey";
 import { Module } from "@screens/AppScreens/Journey/Module";
-import { Module as ModuleDTO } from "../@types/module";
+
 import { ModuleVideo } from "@screens/AppScreens/Journey/ModuleVideo";
 import { BinauralSounds } from "@screens/AppScreens/BinauralSounds";
 
@@ -26,6 +26,8 @@ import { Painel } from "@screens/AppScreens/Habits/Painel";
 import { Product } from "@screens/AppScreens/Shop/Product";
 import { MeditationIntroSlider } from "@screens/AppScreens/Meditations/MeditationIntroSlider";
 import { BinauralSoundsIntroSlider } from "@screens/AppScreens/BinauralSounds/BinauralSoundsIntroSlider";
+import { ModuleDTO } from "../dtos/ModuleDTO";
+import { ModuleContentDTO } from "../dtos/ModuleContentDTO";
 
 type AppRoutes = {
   journey: undefined;
@@ -33,19 +35,8 @@ type AppRoutes = {
     module: ModuleDTO;
   };
   moduleVideo: {
-    moduleNumber: number;
-    videoNumber: number;
-    videoTitle: string;
-    duration: number;
-    comments?: [
-      {
-        userId: string;
-        comment: string;
-        likes: number;
-        stars: number[];
-      }
-    ];
-  };
+    content: ModuleContentDTO
+  }
   meditations: undefined;
   meditationPlayer: {
     title: string

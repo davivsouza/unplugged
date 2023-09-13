@@ -7,13 +7,14 @@ import { Module } from "../@types/module";
 
 import VideosSvg from "@assets/journey/videos-icon.svg";
 import ShowModulesDataSvg from "@assets/journey/more-icon.svg";
+import { ModuleDTO } from "../dtos/ModuleDTO";
 
 type Props = {
-  module: Module;
+  module: ModuleDTO;
 };
 
 export function Modules({
-  module: { name, completedVideos, videosLength, number, content, description },
+  module: { content_count, id, module_description, module_name },
 }: Props) {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
@@ -22,12 +23,7 @@ export function Modules({
       onPress={() =>
         navigate("module", {
           module: {
-            name,
-            number,
-            completedVideos,
-            videosLength,
-            content,
-            description,
+            content_count, id, module_description, module_name,
           },
         })
       }
@@ -37,13 +33,13 @@ export function Modules({
           <VStack>
             <HStack alignItems="center">
               <Heading fontFamily="heading" color="white" fontSize="md">
-                Módulo {number}: {name}
+                Módulo {id}: {module_name}
               </Heading>
             </HStack>
             <HStack mt={3} alignItems="center">
               <VideosSvg />
               <Text color="gray.50" fontFamily="body" fontSize="xs">
-                {completedVideos}/{videosLength}
+                0/{content_count}
               </Text>
             </HStack>
           </VStack>

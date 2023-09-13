@@ -9,26 +9,34 @@ import {
 } from "native-base";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Module as ModuleDTO } from "../../../@types/module";
 
 import { ModuleDetails } from "@components/ModuleDetails";
 import { ScreenContainer } from "@components/ScreenContainer";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import VideosSvg from "@assets/journey/videos-icon.svg";
 import GoBackSvg from "@assets/goback.svg";
+import { ModuleDTO } from "../../../dtos/ModuleDTO";
+import { useState } from "react";
 
 type RouteParams = {
   module: ModuleDTO;
 };
 
 export function Module() {
+  const [selectedInfo, setSelectedInfo] = useState<
+    "about" | "downloaded" | "content"
+  >("about");
   const route = useRoute();
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
-
+  const tempProgress = 0
   function handleNavigate() {
     navigate('journey')
+    setSelectedInfo('about')
   }
-  const { module } = route.params as RouteParams;
+  const { module: { content_count, id, module_description, module_name } } = route.params as RouteParams;
+
+
+
   return (
     <ScreenContainer>
       <HStack space={2}>
@@ -41,14 +49,14 @@ export function Module() {
           <GoBackSvg fill="#fff" />
         </Pressable>
         <Text fontFamily="body" color="white" fontSize="3xl">
-          Módulo {module.number}: {module.name}
+          Módulo {id}: {module_name}
         </Text>
       </HStack>
 
       <HStack mt={3} alignItems="center">
         <VideosSvg />
         <Text color="gray.50" fontFamily="body" fontSize="xs">
-          {module.completedVideos}/{module.videosLength}
+          0/{content_count}
         </Text>
       </HStack>
       <HStack alignItems="center">
@@ -64,16 +72,19 @@ export function Module() {
                 },
               },
             }}
-            value={75}
+            value={tempProgress}
           />
         </Box>
         <Text color="white" fontFamily="body" fontSize="xs" ml={5}>
-          75%
+          {tempProgress}%
         </Text>
       </HStack>
       <Divider my={7} />
       <ModuleDetails
-        module={module}
+        module_description={module_description}
+        module_id={id}
+        selectedInfo={selectedInfo}
+        setSelectedInfo={setSelectedInfo}
       />
     </ScreenContainer>
   );

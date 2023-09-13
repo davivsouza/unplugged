@@ -4,69 +4,33 @@ import { ScreenContainer } from "@components/ScreenContainer";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Divider, HStack, Heading, Image, Pressable, Text, VStack } from "native-base";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
-import { Module as ModuleDTO } from "../../../@types/module";
 import GoBackSvg from "@assets/goback.svg";
-type RouteParams = {
-  moduleNumber: number;
-  videoNumber: number;
-  videoTitle: string;
-  duration: number;
-  comments?: [
-    {
-      userId: string;
-      username: string
-      comment: string;
-      likes: number;
-      stars: number[];
-    }
-  ];
-};
+import { ModuleContentDTO } from "../../../dtos/ModuleContentDTO";
+type RouteParams = ModuleContentDTO;
 
-const moduleMock: ModuleDTO = {
-  number: 1,
-  completedVideos: 3,
-  name: "Introdução",
-  videosLength: 4,
-  description: 'bbla bla bla bla num sei oq n sei o que lá',
-  content: [
-    {
-      videoNumber: 1,
-      videoTitle: "Introdução",
-      duration: 5,
-      comments: [
-        {
-          userId: "22asfi3@Ufhn",
-          username: 'Musashi',
-          comment: 'Que professor sigma!',
-          likes: 90,
-          stars: [0, 1, 2, 3, 4],
-        }
-      ]
-    }
-  ]
-}
+
 export function ModuleVideo() {
   const route = useRoute();
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
 
-  const { moduleNumber, duration, videoNumber, videoTitle, comments } =
+  const { content_Module_id, content_name } =
     route.params as RouteParams;
 
-  function handleNavigate() {
-    navigate('module', { module: moduleMock })
-  }
+  // function handleNavigate() {
+  //   navigate('module', { module: moduleMock })
+  // }
   return (
     <ScreenContainer>
       <Pressable
         pr={3}
         py={3}
-        onPress={handleNavigate}
+        // onPress={handleNavigate}
         mb={8}
       >
         <GoBackSvg fill="#fff" />
       </Pressable>
       <Text fontFamily="heading" fontSize="2xl" color="white" lineBreakMode="middle">
-        Módulo {moduleNumber}: {videoTitle}
+        Módulo {content_Module_id}: {content_name}
       </Text>
 
       <HStack mt={10} alignItems="center" justifyContent="center">
@@ -76,7 +40,7 @@ export function ModuleVideo() {
         <ModuleVideoButton icon="message-circle" />
       </HStack>
       <Divider my={7} />
-      <Comments comments={comments} />
+      {/* <Comments comments={comments} /> */}
     </ScreenContainer>
   );
 }

@@ -7,21 +7,38 @@ import {
   Box,
   Heading,
 } from "native-base";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DetailsButton } from "./DetailsButton";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
-import { Module } from "../@types/module";
+import { ModuleDTO } from "../dtos/ModuleDTO";
+import { api } from "../services/api";
+import { ModuleContentDTO } from "../dtos/ModuleContentDTO";
 type Props = {
-  module: Module
+  module_description: string
+  module_id: number
+  selectedInfo: string
+  setSelectedInfo: (info: "about" | "downloaded" | "content") => void
 }
 
-export function ModuleDetails({module}: Props) {
-  const [selectedInfo, setSelectedInfo] = useState<
-    "about" | "downloaded" | "content"
-  >("about");
+export function ModuleDetails({ module_description, module_id, setSelectedInfo, selectedInfo }: Props) {
 
-  const {navigate} = useNavigation<AppNavigatorRoutesProps>();
+  const [moduleContents, setModuleContents] = useState<ModuleContentDTO[]>([])
+
+
+  async function fetchModuleContents() {
+    const { data } = await api.get<{ contents: ModuleContentDTO[] }>('contents/')
+    const contentData = data.contents.filter((content) => content.content_Module_id === module_id)
+    setModuleContents(contentData)
+  }
+  useEffect(() => {
+    fetchModuleContents()
+    console.log('teste');
+
+
+  }, [selectedInfo])
+
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>();
   return (
     <VStack>
       <HStack alignItems="center" justifyContent="space-evenly" mb={20}>
@@ -43,14 +60,14 @@ export function ModuleDetails({module}: Props) {
       </HStack>
       {selectedInfo === "about" && (
         <Text color="white" fontFamily="body" fontSize="md">
-          {module.description}
+          {module_description}
         </Text>
       )}
       {selectedInfo === "content" && (
         <FlatList
-          data={module.content}
+          data={moduleContents}
           showsVerticalScrollIndicator={false}
-          keyExtractor={(item) => item.videoTitle}
+          keyExtractor={(item) => String(item.id)}
           renderItem={({ item: content }) => (
             <HStack justifyContent="space-between" alignItems="center" mb={6}>
               <HStack flex={1} alignItems="center">
@@ -65,16 +82,16 @@ export function ModuleDetails({module}: Props) {
                   justifyContent="center"
                   mr={4}
                 >
-                  <Text  color="white" fontFamily="body" fontSize="lg">
-                    {content.videoNumber}
+                  <Text color="white" fontFamily="body" fontSize="lg">
+                    {content.id}
                   </Text>
                 </Box>
                 <VStack>
-                  <Text   maxW="230" w="100%" color="white" fontFamily="body" fontSize="sm" numberOfLines={2}>
-                    {content.videoTitle}
+                  <Text maxW="230" w="100%" color="white" fontFamily="body" fontSize="sm" numberOfLines={2}>
+                    {content.content_name}
                   </Text>
                   <Text color="white" fontFamily="body" fontSize="xs">
-                    {content.duration} min
+                    10 min
                   </Text>
                 </VStack>
               </HStack>
@@ -88,12 +105,17 @@ export function ModuleDetails({module}: Props) {
                 borderColor="purple.500"
                 rounded="xl"
                 justifyContent="center"
-                onPress={()=> navigate('moduleVideo', {
-                  moduleNumber: module.number,
-                  duration: content.duration,
-                  videoNumber: content.videoNumber,
-                  videoTitle: content.videoTitle,
-                  comments: content.comments
+                onPress={() => navigate('moduleVideo', {
+                  content: {
+                    id: content.id,
+                    content_article: content.content_article,
+                    content_comments: content.content_comments,
+                    content_Module_id: content.content_Module_id,
+                    content_Module_name: content.content_Module_name,
+                    content_name: content.content_name,
+                    content_type: content.content_type,
+                    content_video_url: content.content_video_url,
+                  }
                 })}
               >
                 <Text color="purple.500">Assistir</Text>
