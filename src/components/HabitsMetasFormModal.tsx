@@ -50,7 +50,21 @@ type Props = {
 
 export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
   const { createGoal } = useGoals()
-  const [selectedDay, setSelectedDay] = useState<Number>()
+  const [selectedDay, setSelectedDay] = useState<Number[]>()
+
+  function selectDay(day: number) {
+    const selectedDays = selectedDay ? [...selectedDay] : [];
+    let selectedDayWithRemovedDay = []
+    if (selectedDays.includes(day)) {
+      selectedDayWithRemovedDay = selectedDays.filter(dayNumber => dayNumber != day)
+      setSelectedDay(selectedDayWithRemovedDay)
+
+    } else {
+      selectedDays.push(day)
+      const sortSelectedDays = selectedDays.sort((a, b) => a - b)
+      setSelectedDay(sortSelectedDays)
+    }
+  }
 
   return (
     <Modal
@@ -115,15 +129,15 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
                   flex={1}
                   h={12}
                   rounded="full"
-                  borderColor={selectedDay === item.dayNumber ? 'purple.500' : 'white'}
+                  borderColor={selectedDay?.includes(item.dayNumber) ? 'purple.500' : 'white'}
                   borderWidth={2}
                   alignItems={'center'}
                   justifyContent={'center'}
-                  onPress={() => setSelectedDay(item.dayNumber)
+                  onPress={() => selectDay(item.dayNumber)
                   }
                 >
                   <Text
-                    color={selectedDay === item.dayNumber ? 'purple.500' : 'white'}
+                    color={selectedDay?.includes(item.dayNumber) ? 'purple.500' : 'white'}
                     fontSize='sm'
                     textAlign={'center'}
                   >
