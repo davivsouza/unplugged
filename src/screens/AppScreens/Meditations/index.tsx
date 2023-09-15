@@ -1,18 +1,23 @@
 import { MeditationCategory } from '@components/MeditationCategory'
-import { VStack, Text, HStack, Image, FlatList, ScrollView } from 'native-base'
-import { useCallback, useState } from 'react'
+import { VStack, Text, HStack, Image, FlatList, ScrollView, Center } from 'native-base'
+import { useCallback, useEffect, useState } from 'react'
 import { meditationsCategories, meditationTimeDurations } from '../../../utils/meditationsCategories'
 import { MeditationTimeDurationCategory } from '@components/MeditationTimeDurationCategory'
 import { MeditationCard } from '@components/MeditationCard'
 import { ScreenContainer } from '@components/ScreenContainer'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { AppNavigatorRoutesProps } from '@routes/app.routes'
-
+import { useAuth } from '@hooks/useAuth'
+import { AntDesign } from '@expo/vector-icons';
+import { api } from '../../../services/api'
 export function Meditations() {
   const [selectedCategory, setSelectedCategory] = useState('Sono')
   const [selectedTimeDuration, setSelectedTimeDuration] = useState('Tudo')
+  const [meditations, setMeditations] = useState<any[]>([])
   const [showRealApp, setShowRealApp] = useState(false)
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const { user } = useAuth()
+
 
   function handleSelectedCategory(category: string) {
     setSelectedCategory(category)
@@ -28,6 +33,14 @@ export function Meditations() {
       navigate('meditations')
     }
   }, [showRealApp]))
+
+  async function fetchMeditations() {
+    const { data } = await api.get('/meditations/meditations')
+    setMeditations(data)
+  }
+  useEffect(() => {
+    fetchMeditations()
+  }, [])
 
 
   return (
@@ -45,18 +58,10 @@ export function Meditations() {
             Olá,
           </Text>
           <Text fontFamily="semiBold" color="white" fontSize="2xl">
-            Musashi
+            {user.name}
           </Text>
         </VStack>
-        <Image
-          w={16}
-          h={16}
-          rounded="full"
-          source={{
-            uri: "https://e0.pxfuel.com/wallpapers/675/779/desktop-wallpaper-funny-monkeys-pistols-necktie-suit-thumbnail.jpg",
-          }}
-          alt="Foto de perfil do criador do vídeo"
-        />
+        <AntDesign name="user" size={35} color="white" />
       </HStack>
 
       <VStack>
@@ -88,10 +93,22 @@ export function Meditations() {
           )}
         />
       </VStack>
-      <ScrollView mt={12} showsVerticalScrollIndicator={false}>
-        <MeditationCard title="Relaxamento profundo" artist="Rebeca Cagni" durationMinutes={20} />
-        <MeditationCard title="Mindfulness" artist="Halisson Aparecido" durationMinutes={10} />
-      </ScrollView>
+      <FlatList
+        data={meditations}
+        mt={12}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={item => item}
+        renderItem={({ item }) => (
+          <MeditationCard title="Relaxamento profundo" artist="Rebeca Cagni" durationMinutes={20} />
+        )
+        }
+        ListEmptyComponent={() => (
+          <Center>
+            <Text color="white" fontSize="lg">Nenhuma meditação postada {':('}</Text>
+          </Center>
+        )}
+      />
+
     </ScreenContainer>
   )
 }

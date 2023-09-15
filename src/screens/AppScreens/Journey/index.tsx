@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Divider, FlatList, Heading, Text, VStack, Pressable } from "native-base";
+import { Divider, FlatList, Heading, Text, VStack, Pressable, HStack, Box } from "native-base";
 import { Modules } from "@components/Modules";
-import { Module } from "../../../@types/module";
+import { AntDesign } from '@expo/vector-icons';
 import { ScreenContainer } from "@components/ScreenContainer";
 import { useAuth } from "@hooks/useAuth";
 import { api } from "../../../services/api";
@@ -31,6 +31,13 @@ export function Journey() {
 
   return (
     <ScreenContainer>
+      <HStack justifyContent="space-between" mb={12}>
+        <HStack alignItems={'center'} space={3}>
+          <AntDesign name="user" size={35} color="white" />
+          <Text color="white" fontSize={'md'}>{user.nickname}</Text>
+        </HStack>
+        <AntDesign name="search1" size={30} color="white" />
+      </HStack>
       <Heading
         fontFamily="body"
         fontWeight="normal"
