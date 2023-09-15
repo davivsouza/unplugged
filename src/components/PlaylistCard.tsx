@@ -1,18 +1,19 @@
 import { HStack, Image, Pressable, Text, VStack } from "native-base";
 import BinauralThumb from '@assets/binauralsounds/beat-bg-template.png'
-import DotMenuSvg from '@assets/binauralsounds/dotmenu-icon.svg'
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
+import { BinauralDTO } from "../dtos/BinauralCategoryDTO";
 type Props = {
   title: string
   beatsQuantity: number
+  sounds: BinauralDTO[]
 }
 
-export function PlaylistCard({ beatsQuantity, title }: Props) {
-  const {navigate} = useNavigation<AppNavigatorRoutesProps>()
-  
-  function handleNavigate(){
-    navigate('playlist')
+export function PlaylistCard({ beatsQuantity, title, sounds }: Props) {
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+
+  function handleNavigate() {
+    navigate('playlist', sounds)
   }
   return (
     <Pressable onPress={handleNavigate}>
@@ -25,7 +26,6 @@ export function PlaylistCard({ beatsQuantity, title }: Props) {
             <Text color="white" fontFamily="body" fontSize="xs">{beatsQuantity} beats</Text>
           </VStack>
         </HStack>
-        <DotMenuSvg width={25} height={25} fill="#fff"/>
       </HStack>
     </Pressable>
 

@@ -15,7 +15,6 @@ import GoBackSvg from "@assets/goback.svg";
 
 type RouteParams = {
   title: string
-  artist: string
 }
 
 export function BinauralSound() {
@@ -27,13 +26,13 @@ export function BinauralSound() {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const route = useRoute()
 
-  const { artist, title } = route.params as RouteParams;
+  const { title } = route.params as RouteParams;
 
   async function handleNavigate() {
     if (sound) {
       await sound.stopAsync()
       await sound.unloadAsync()
-      navigate('playlist');
+      navigate('binauralSounds');
     }
   }
 
@@ -130,7 +129,7 @@ export function BinauralSound() {
           justifyContent="center"
           onPress={handleNavigate}>
           <GoBackSvg fill="#fff"
-        />
+          />
         </Pressable>
         <Text color="white" fontSize="2xl" fontFamily="heading" style={{
           elevation: 10
@@ -143,9 +142,7 @@ export function BinauralSound() {
           <Text color="white" fontSize="lg" fontFamily="semiBold">
             {title}
           </Text>
-          <Text color="gray.300" fontSize="xs" fontFamily="body">
-            Feito por {artist}
-          </Text>
+
         </VStack>
         <Slider
           rounded="xl"

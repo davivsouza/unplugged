@@ -33,9 +33,6 @@ export function ModuleDetails({ module_description, module_id, setSelectedInfo, 
   }
   useEffect(() => {
     fetchModuleContents()
-    console.log('teste');
-
-
   }, [selectedInfo])
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();

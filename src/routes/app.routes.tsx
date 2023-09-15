@@ -28,6 +28,7 @@ import { MeditationIntroSlider } from "@screens/AppScreens/Meditations/Meditatio
 import { BinauralSoundsIntroSlider } from "@screens/AppScreens/BinauralSounds/BinauralSoundsIntroSlider";
 import { ModuleDTO } from "../dtos/ModuleDTO";
 import { ModuleContentDTO } from "../dtos/ModuleContentDTO";
+import { BinauralDTO } from "../dtos/BinauralCategoryDTO";
 
 type AppRoutes = {
   journey: undefined;
@@ -51,11 +52,10 @@ type AppRoutes = {
   cart: undefined
   creditCards: undefined
   binaural: undefined;
-  playlist: undefined
+  playlist: BinauralDTO[]
   binauralSounds: undefined;
   binauralSound: {
     title: string
-    artist: string
   }
 
 };

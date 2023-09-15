@@ -7,6 +7,8 @@ import {
   Image,
   useTheme,
   ScrollView,
+  FlatList,
+  Center,
 } from "native-base";
 import { View } from "react-native";
 
@@ -14,14 +16,24 @@ import BeatsBgTemplate from "@assets/binauralsounds/beat-bg-template.png";
 import BtnPlay from "@assets/binauralsounds/btnPlay.svg";
 import { PlaylistCard } from "@components/PlaylistCard";
 import { AppNavigatorRoutesProps } from '@routes/app.routes'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { BinauralCategoryDTO } from "../dtos/BinauralCategoryDTO";
+import { api } from "../services/api";
 
 
 export function BinauralContent() {
   const { colors } = useTheme();
   const [showRealApp, setShowRealApp] = useState(false)
+  const [binaurals, setBinaurals] = useState<BinauralCategoryDTO[]>()
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+
+
+  async function fetchBinauralSounds() {
+    const { data } = await api.get('/binaurals/listCategory')
+    setBinaurals(data)
+
+  }
 
   useFocusEffect(useCallback(() => {
     navigate('binauralSoundsIntroSlider')
@@ -30,6 +42,11 @@ export function BinauralContent() {
       navigate('binaural')
     }
   }, [showRealApp]))
+
+  useEffect(() => {
+    fetchBinauralSounds();
+  }, [])
+
 
 
   return (
@@ -104,12 +121,27 @@ export function BinauralContent() {
       </Box>
 
       <Text color="white" fontFamily="semiBold" fontSize="lg" mt={12}>Playlists</Text>
-      <ScrollView h={210} showsVerticalScrollIndicator={false}>
+      <FlatList
+        data={binaurals}
+        mt={12}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={item => String(item.id)}
+        renderItem={({ item }) => (
+          <PlaylistCard sounds={item.binaural} title={item.name} beatsQuantity={item.binaural.length} />
+        )
+        }
+        ListEmptyComponent={() => (
+          <Center>
+            <Text color="white" fontSize="lg">Nenhum som binaural postado {':('}</Text>
+          </Center>
+        )}
+      />
+      {/* <ScrollView h={210} showsVerticalScrollIndicator={false}>
         <PlaylistCard title="Relaxamento" beatsQuantity={10} />
         <PlaylistCard title="Foco" beatsQuantity={7} />
         <PlaylistCard title="Criatividade" beatsQuantity={3} />
 
-      </ScrollView>
+      </ScrollView> */}
     </VStack>
   )
 }
