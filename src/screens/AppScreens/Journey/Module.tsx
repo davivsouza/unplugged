@@ -19,9 +19,7 @@ import { ModuleDTO } from "../../../dtos/ModuleDTO";
 import { useState } from "react";
 import { JourneyHeader } from "@components/JourneyHeader";
 
-type RouteParams = {
-  module: ModuleDTO;
-};
+type RouteParams = ModuleDTO;
 
 export function Module() {
   const [selectedInfo, setSelectedInfo] = useState<"about" | "downloaded" | "content">("about");
@@ -34,31 +32,36 @@ export function Module() {
     navigate('journey')
     setSelectedInfo('about')
   }
-  const { module: { content_count, id, module_description, module_name } } = route.params as RouteParams;
+  const module = route.params as RouteParams;
 
 
 
   return (
     <ScreenContainer>
 
-      <JourneyHeader />
-      <HStack space={2} alignItems='center'>
-        <Pressable
-          pr={3}
-          py={3}
-          onPress={handleNavigate}
-        >
-          <GoBackSvg fill="#fff" />
-        </Pressable>
-        <Text fontFamily="body" color="white" fontSize="3xl">
-          Módulo {id}: {module_name}
+      <Box ml={128}>
+        <JourneyHeader />
+      </Box>
+      <Pressable
+        pr={3}
+        py={4}
+        onPress={handleNavigate}
+        position={'absolute'}
+        top={20}
+        left={15}
+      >
+        <GoBackSvg fill="#fff" />
+      </Pressable>
+      <HStack space={2} alignItems='center' position={'relative'}>
+        <Text fontFamily="body" color="white" fontSize="2xl">
+          Módulo {module.id}: {module.module_name}
         </Text>
       </HStack>
 
       <HStack mt={3} alignItems="center">
         <VideosSvg />
         <Text color="gray.50" fontFamily="body" fontSize="xs">
-          0/{content_count}
+          0/{module.content_count}
         </Text>
       </HStack>
       <HStack alignItems="center">
@@ -83,8 +86,8 @@ export function Module() {
       </HStack>
       <Divider my={7} />
       <ModuleDetails
-        module_description={module_description}
-        module_id={id}
+        module_description={module.module_description}
+        contents={module.contents}
         selectedInfo={selectedInfo}
         setSelectedInfo={setSelectedInfo}
       />

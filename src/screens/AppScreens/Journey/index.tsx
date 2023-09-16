@@ -24,6 +24,9 @@ export function Journey() {
     setModulesData(data.modules)
 
 
+
+
+
   }
   useEffect(() => {
     fetchModules()
@@ -54,7 +57,7 @@ export function Journey() {
         data={modulesData}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item: module }) => <Modules module={module} />}
+        renderItem={({ item }) => <Modules module={item} />}
       />
     </ScreenContainer>
   );

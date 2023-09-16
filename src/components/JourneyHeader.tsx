@@ -9,7 +9,7 @@ export function JourneyHeader() {
   const { user } = useAuth()
 
   return (
-    <HStack w="full" justifyContent="space-between" mb={12}>
+    <HStack justifyContent="space-between" mb={12}>
       <HStack alignItems={'center'} space={3}>
         <AntDesign name="user" size={35} color="white" />
         <Text color="white" fontSize={'md'}>{user.nickname}</Text>

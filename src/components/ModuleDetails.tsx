@@ -11,34 +11,20 @@ import { useEffect, useState } from "react";
 import { DetailsButton } from "./DetailsButton";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
-import { ModuleDTO } from "../dtos/ModuleDTO";
-import { api } from "../services/api";
-import { ModuleContentDTO } from "../dtos/ModuleContentDTO";
+import { ContentDTO } from "../dtos/ModuleDTO";
 type Props = {
   module_description: string
-  module_id: number
+  contents: ContentDTO[]
   selectedInfo: string
   setSelectedInfo: (info: "about" | "downloaded" | "content") => void
 }
 
-export function ModuleDetails({ module_description, module_id, setSelectedInfo, selectedInfo }: Props) {
-
-  const [moduleContents, setModuleContents] = useState<ModuleContentDTO[]>([])
-
-
-  async function fetchModuleContents() {
-    const { data } = await api.get<{ contents: ModuleContentDTO[] }>('contents/')
-    const contentData = data.contents.filter((content) => content.content_Module_id === module_id)
-    setModuleContents(contentData)
-  }
-  useEffect(() => {
-    fetchModuleContents()
-  }, [selectedInfo])
+export function ModuleDetails({ module_description, setSelectedInfo, selectedInfo, contents }: Props) {
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
   return (
     <VStack>
-      <HStack alignItems="center" justifyContent="space-evenly" mb={20}>
+      <HStack alignItems="center" justifyContent="space-evenly" mb={10}>
         <DetailsButton
           title="Sobre"
           isSelected={selectedInfo === "about" && true}
@@ -56,13 +42,13 @@ export function ModuleDetails({ module_description, module_id, setSelectedInfo, 
         />
       </HStack>
       {selectedInfo === "about" && (
-        <Text color="white" fontFamily="body" fontSize="md">
+        <Text color="white" fontFamily="body" fontSize="sm">
           {module_description}
         </Text>
       )}
       {selectedInfo === "content" && (
         <FlatList
-          data={moduleContents}
+          data={contents}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item: content }) => (
@@ -85,7 +71,7 @@ export function ModuleDetails({ module_description, module_id, setSelectedInfo, 
                 </Box>
                 <VStack>
                   <Text maxW="230" w="100%" color="white" fontFamily="body" fontSize="sm" numberOfLines={2}>
-                    {content.content_name}
+                    {content.contents_name}
                   </Text>
                   <Text color="white" fontFamily="body" fontSize="xs">
                     10 min
@@ -103,16 +89,7 @@ export function ModuleDetails({ module_description, module_id, setSelectedInfo, 
                 rounded="xl"
                 justifyContent="center"
                 onPress={() => navigate('moduleVideo', {
-                  content: {
-                    id: content.id,
-                    content_article: content.content_article,
-                    content_comments: content.content_comments,
-                    content_Module_id: content.content_Module_id,
-                    content_Module_name: content.content_Module_name,
-                    content_name: content.content_name,
-                    content_type: content.content_type,
-                    content_video_url: content.content_video_url,
-                  }
+                  content_video_url: content.contents_video_url,
                 })}
               >
                 <Text color="purple.500">Assistir</Text>

@@ -11,19 +11,13 @@ type Props = {
   module: ModuleDTO;
 };
 
-export function Modules({
-  module: { content_count, id, module_description, module_name },
-}: Props) {
+export function Modules({ module }: Props) {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
 
   return (
     <TouchableOpacity
       onPress={() =>
-        navigate("module", {
-          module: {
-            content_count, id, module_description, module_name,
-          },
-        })
+        navigate("module", module)
       }
     >
       <VStack bg="gray.700" py={3} px={4} rounded="xl" mb={5} shadow={3} flex={1}>
@@ -31,13 +25,13 @@ export function Modules({
           <VStack>
             <HStack alignItems="center">
               <Heading fontFamily="heading" color="white" fontSize="md">
-                Módulo {id}: {module_name}
+                Módulo {module.id}: {module.module_name}
               </Heading>
             </HStack>
             <HStack alignItems="center">
               <VideosSvg />
               <Text color="gray.50" fontFamily="body" fontSize="xs">
-                0/{content_count}
+                0/{module.content_count}
               </Text>
             </HStack>
           </VStack>

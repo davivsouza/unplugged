@@ -26,17 +26,15 @@ import { Painel } from "@screens/AppScreens/Habits/Painel";
 import { Product } from "@screens/AppScreens/Shop/Product";
 import { MeditationIntroSlider } from "@screens/AppScreens/Meditations/MeditationIntroSlider";
 import { BinauralSoundsIntroSlider } from "@screens/AppScreens/BinauralSounds/BinauralSoundsIntroSlider";
-import { ModuleDTO } from "../dtos/ModuleDTO";
+import { ContentDTO, ModuleDTO } from "../dtos/ModuleDTO";
 import { ModuleContentDTO } from "../dtos/ModuleContentDTO";
 import { BinauralDTO } from "../dtos/BinauralCategoryDTO";
 
 type AppRoutes = {
   journey: undefined;
-  module: {
-    module: ModuleDTO;
-  };
+  module: ModuleDTO
   moduleVideo: {
-    content: ModuleContentDTO
+    content_video_url: string
   }
   meditations: undefined;
   meditationPlayer: {

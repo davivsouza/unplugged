@@ -63,7 +63,7 @@ export function BinauralContent() {
       <Text color="white" fontFamily="semiBold" fontSize="lg" mt={12}>Playlists</Text>
       <FlatList
         data={binaurals}
-        mt={12}
+        mt={2}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
