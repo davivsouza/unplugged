@@ -17,18 +17,19 @@ import VideosSvg from "@assets/journey/videos-icon.svg";
 import GoBackSvg from "@assets/goback.svg";
 import { ModuleDTO } from "../../../dtos/ModuleDTO";
 import { useState } from "react";
+import { JourneyHeader } from "@components/JourneyHeader";
 
 type RouteParams = {
   module: ModuleDTO;
 };
 
 export function Module() {
-  const [selectedInfo, setSelectedInfo] = useState<
-    "about" | "downloaded" | "content"
-  >("about");
+  const [selectedInfo, setSelectedInfo] = useState<"about" | "downloaded" | "content">("about");
+
   const route = useRoute();
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const tempProgress = 0
+
   function handleNavigate() {
     navigate('journey')
     setSelectedInfo('about')
@@ -39,12 +40,13 @@ export function Module() {
 
   return (
     <ScreenContainer>
-      <HStack space={2}>
+
+      <JourneyHeader />
+      <HStack space={2} alignItems='center'>
         <Pressable
           pr={3}
           py={3}
           onPress={handleNavigate}
-          mb={8}
         >
           <GoBackSvg fill="#fff" />
         </Pressable>

@@ -147,7 +147,7 @@ export function SignIn() {
           />
         )}
       </VStack>
-      <ThirdPartyAuth />
+
     </VStack>
   );
 }
