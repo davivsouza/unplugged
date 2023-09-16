@@ -8,10 +8,11 @@ type Props = {
   title: string
   durationMinutes: number
   artist: string
+  imgUrl: string
 }
 
-export function MeditationCard({ durationMinutes, artist, title }: Props) {
-  const {navigate}  = useNavigation<AppNavigatorRoutesProps>()
+export function MeditationCard({ durationMinutes, artist, title, imgUrl }: Props) {
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
 
   function handleNavigate() {
     navigate('meditationPlayer', {
@@ -20,9 +21,9 @@ export function MeditationCard({ durationMinutes, artist, title }: Props) {
     })
   }
   return (
-    <Pressable mb={6} overflow="hidden" rounded="3xl" shadow={9} style={{elevation: 10}} onPress={handleNavigate}>
+    <Pressable mb={6} overflow="hidden" rounded="3xl" shadow={9} style={{ elevation: 10 }} onPress={handleNavigate}>
 
-      <ImageBackground source={MedidationCardBg} resizeMode='cover' style={{
+      <ImageBackground source={{ uri: imgUrl }} resizeMode='cover' style={{
         flex: 1,
       }}>
         <View bg="rgba(0,0,0,0.5)" rounded="3xl" mb={6} justifyContent="center" w="full" h="full" py={4} px={8}>

@@ -29,6 +29,7 @@ import { BinauralSoundsIntroSlider } from "@screens/AppScreens/BinauralSounds/Bi
 import { ContentDTO, ModuleDTO } from "../dtos/ModuleDTO";
 import { ModuleContentDTO } from "../dtos/ModuleContentDTO";
 import { BinauralDTO } from "../dtos/BinauralCategoryDTO";
+import { FavoritesPlaylist } from "@components/FavoritesPlaylist";
 
 type AppRoutes = {
   journey: undefined;
@@ -50,11 +51,10 @@ type AppRoutes = {
   cart: undefined
   creditCards: undefined
   binaural: undefined;
-  playlist: BinauralDTO[]
+  playlist: { playlistId: number }
   binauralSounds: undefined;
-  binauralSound: {
-    title: string
-  }
+  binauralSound: { binaural: BinauralDTO, playlistId?: number }
+  favoriteBinauralSounds: undefined
 
 };
 
@@ -260,6 +260,17 @@ export function AppRoutes() {
       <Screen
         name="binauralSoundsIntroSlider"
         component={BinauralSoundsIntroSlider}
+
+        options={{
+          tabBarStyle: {
+            display: "none",
+          },
+          tabBarButton: () => null,
+        }}
+      />
+      <Screen
+        name="favoriteBinauralSounds"
+        component={FavoritesPlaylist}
 
         options={{
           tabBarStyle: {

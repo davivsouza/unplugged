@@ -1,32 +1,74 @@
-import { HStack, Image, Pressable, Text, VStack, useTheme } from "native-base";
+import { HStack, Image, PresenceTransition, Pressable, Text, VStack, useTheme } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
-import { Feather } from "@expo/vector-icons";
-import BinauralThumb from '@assets/binauralsounds/beat-bg-template.png'
+import { AntDesign } from '@expo/vector-icons';
+import { api } from "../services/api";
+import { BinauralDTO } from "../dtos/BinauralCategoryDTO";
+import { useAuth } from "@hooks/useAuth";
 type Props = {
-  title: string
+  playlistId?: number
+  binaural: BinauralDTO
 }
 
-export function BinauralSoundCard({ title }: Props) {
+export function BinauralSoundCard({ binaural, playlistId }: Props) {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+
+  const { user, favoritesBinauralSounds, getFavoriteBinauralSounds } = useAuth()
   const { colors } = useTheme()
   function handleNavigate() {
-    navigate('binauralSound', { title, })
+    navigate('binauralSound', { binaural, playlistId })
+  }
+
+  async function favoritedSound(id: number) {
+    if (isFavorited(id)) {
+      await api.delete(`binaurals/unfavorite/${user.id}/${binaural.id}`)
+      getFavoriteBinauralSounds()
+    } else {
+      await api.post('binaurals/favorite', {
+        userId: user.id,
+        binauralId: binaural.id
+      })
+      getFavoriteBinauralSounds()
+    }
+  }
+  function isFavorited(id: number) {
+    return favoritesBinauralSounds.some(sound => sound.binauralId === id)
   }
   return (
     <Pressable onPress={handleNavigate} mb={3}>
-      <HStack flex={1} mt={6} alignItems="flex-start" justifyContent="space-between">
+      <HStack flex={1} mt={3} alignItems="flex-start" justifyContent="space-between">
         <HStack>
 
-          <Image source={BinauralThumb} alt="Thumbnail do som binaural" w={60} h={60} rounded="xl" mr={4} />
+          <Image source={{ uri: binaural.binaural_img }} alt="Thumbnail do som binaural" w={60} h={60} rounded="xl" mr={4} />
           <VStack alignItems="flex-start">
-            <Text color="white" fontFamily="body" fontSize="md">{title}</Text>
-            {/* <Text color="gray.300" fontFamily="body" fontSize="xs">{artist}</Text> */}
+            <Text color="white" fontFamily="body" fontSize="md">{binaural.binaural_name}</Text>
+            <Text color="gray.300" fontFamily="body" fontSize="xs">{binaural.binaral_autor}</Text>
           </VStack>
         </HStack>
-        <HStack alignItems="center">
-          <Feather name={'heart'} size={20} color={colors.gray[300]} />
-        </HStack>
+        <Pressable alignItems="center" onPress={() => favoritedSound(binaural.id)} p={2}>
+          {
+            isFavorited(binaural.id)
+              ? (
+                <PresenceTransition
+                  visible={isFavorited(binaural.id)}
+                  initial={{
+                    opacity: 0.5,
+                    scale: 0
+                  }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                    transition: {
+                      duration: 220
+                    }
+                  }}
+                >
+                  <AntDesign name={'heart'} size={25} color={colors.red[500]} />
+                </PresenceTransition>)
+              : <AntDesign name={'hearto'} size={25} color={colors.gray[300]} />
+          }
+
+        </Pressable>
 
       </HStack>
     </Pressable>

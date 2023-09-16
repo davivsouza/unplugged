@@ -4,6 +4,7 @@ export type BinauralDTO = {
   binaural_sound: string;
   binaural_img: string;
   binaural_duration: number;
+  binaral_autor: string
 };
 
 type Objeto = {
@@ -13,5 +14,6 @@ type Objeto = {
 export type BinauralCategoryDTO = {
   id: number;
   name: string;
+  images: string
   binaural: BinauralDTO[];
 }

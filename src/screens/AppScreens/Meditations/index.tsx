@@ -10,10 +10,12 @@ import { AppNavigatorRoutesProps } from '@routes/app.routes'
 import { useAuth } from '@hooks/useAuth'
 import { AntDesign } from '@expo/vector-icons';
 import { api } from '../../../services/api'
+import { MeditationDTO } from '../../../dtos/MeditationDTO'
+import { formatTime } from '@utils/formatTime'
 export function Meditations() {
   const [selectedCategory, setSelectedCategory] = useState('Sono')
   const [selectedTimeDuration, setSelectedTimeDuration] = useState('Tudo')
-  const [meditations, setMeditations] = useState<any[]>([])
+  const [meditations, setMeditations] = useState<MeditationDTO[]>([])
   const [showRealApp, setShowRealApp] = useState(false)
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const { user } = useAuth()
@@ -35,7 +37,7 @@ export function Meditations() {
   }, [showRealApp]))
 
   async function fetchMeditations() {
-    const { data } = await api.get('/meditations/meditations')
+    const { data } = await api.get('/meditations/')
     setMeditations(data)
   }
   useEffect(() => {
@@ -97,10 +99,16 @@ export function Meditations() {
         data={meditations}
         mt={12}
         showsVerticalScrollIndicator={false}
-        keyExtractor={item => item}
+        keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
-          <MeditationCard title="Relaxamento profundo" artist="Rebeca Cagni" durationMinutes={20} />
+          <MeditationCard
+            title={item.meditation_name}
+            artist={item.Meditation_autor}
+            imgUrl={item.meditation_img}
+            durationMinutes={Math.floor(item.meditation_duration / 60)}
+          />
         )
+
         }
         ListEmptyComponent={() => (
           <Center>

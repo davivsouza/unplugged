@@ -2,27 +2,45 @@ import { BinauralSoundCard } from "@components/BinauralSoundCard";
 import { PlaylistHeader } from "@components/PlaylistHeader";
 import { ScreenContainer } from "@components/ScreenContainer";
 import { Center, FlatList, ScrollView, Text } from "native-base";
-import { BinauralDTO } from "../../../dtos/BinauralCategoryDTO";
+import { BinauralCategoryDTO, BinauralDTO } from "../../../dtos/BinauralCategoryDTO";
 import { useRoute } from "@react-navigation/native";
-type RouteParams = BinauralDTO[];
+import { useEffect, useState } from "react";
+import { api } from "../../../services/api";
+type RouteParams = {
+  playlistId: number
+};
 
 
 export function Playlist() {
   const route = useRoute();
-  const binaural = route.params as RouteParams;
+  const [playlist, setPlaylist] = useState<BinauralCategoryDTO>({} as BinauralCategoryDTO)
+  const { playlistId } = route.params as RouteParams;
+
+  async function getPlaylistById() {
+    const { data } = await api.get<BinauralCategoryDTO>(`/binaurals/listCategory/${playlistId}`)
+    setPlaylist(data)
+
+  }
+  useEffect(() => {
+
+    getPlaylistById()
+  }, [playlistId])
 
 
 
   return (
     <ScreenContainer>
-      <PlaylistHeader />
+      <PlaylistHeader banner={playlist.images} />
       <FlatList
-        data={binaural}
+        data={playlist.binaural}
         mt={12}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
-          <BinauralSoundCard title={item.binaural_name} />
+          <BinauralSoundCard
+            binaural={item}
+            playlistId={playlist.id}
+          />
         )
         }
         ListEmptyComponent={() => (

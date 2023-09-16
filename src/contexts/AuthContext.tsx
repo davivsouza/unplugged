@@ -3,12 +3,16 @@ import { UserDTO } from '../dtos/UserDTO';
 import { userStorageGet, userStorageRemove, userStorageSave } from '../storage/userStorage';
 import { storageAuthTokenGet, storageAuthTokenRemove, storageAuthTokenSave } from '../storage/storageAuthToken';
 import { api } from '../services/api';
+import { BinauralSoundsFavoriteDTO } from '../dtos/BinauralSoundsFavoriteDTO';
 
 export type AuthContextDataProps = {
   user: UserDTO;
+  favoritesBinauralSounds: BinauralSoundsFavoriteDTO[]
   isLoadingUserStorageData: boolean
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  getFavoriteBinauralSounds: () => Promise<void>;
+
 };
 
 type AuthContextProviderProps = {
@@ -20,13 +24,18 @@ export const AuthContext = createContext({} as AuthContextDataProps)
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const [user, setUser] = useState({} as UserDTO);
+  const [favoritesBinauralSounds, setFavoritesBinauralSounds] = useState<BinauralSoundsFavoriteDTO[]>([]);
   const [isLoadingUserStorageData, setIsLoadingUserStorageData] = useState(true);
 
   function userAndTokenUpdate(userData: UserDTO, token: string) {
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`
     setUser(userData)
   }
+  async function getFavoriteBinauralSounds() {
+    const { data } = await api.get(`/binaurals/getFavorite/${user.id}`)
+    setFavoritesBinauralSounds(data);
 
+  }
   async function storageUserAndTokenSave(userData: UserDTO, token: string) {
     try {
       setIsLoadingUserStorageData(true)
@@ -99,7 +108,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
 
   return (
-    <AuthContext.Provider value={{ user, isLoadingUserStorageData, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, isLoadingUserStorageData, signIn, signOut, favoritesBinauralSounds, getFavoriteBinauralSounds }}>
       {children}
     </AuthContext.Provider>
   );

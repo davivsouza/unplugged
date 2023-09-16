@@ -11,11 +11,10 @@ import { Audio } from 'expo-av'
 import DotMenuSvg from '@assets/binauralsounds/dotmenu-icon.svg'
 import AudioBanner from '@assets/binauralsounds/beat-bg-template.png'
 import GoBackSvg from "@assets/goback.svg";
+import { BinauralDTO } from "../../../dtos/BinauralCategoryDTO";
 
 
-type RouteParams = {
-  title: string
-}
+type RouteParams = { binaural: BinauralDTO, playlistId: number }
 
 export function BinauralSound() {
 
@@ -26,13 +25,13 @@ export function BinauralSound() {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const route = useRoute()
 
-  const { title } = route.params as RouteParams;
+  const { playlistId, binaural } = route.params as RouteParams;
 
   async function handleNavigate() {
     if (sound) {
       await sound.stopAsync()
       await sound.unloadAsync()
-      navigate('binauralSounds');
+      navigate('playlist', { playlistId });
     }
   }
 
@@ -121,11 +120,13 @@ export function BinauralSound() {
 
   return (
     <ScreenContainer space={40}>
-      <HStack alignItems="center" justifyContent="space-between" >
+      <HStack alignItems="center" justifyContent="center" >
         <Pressable
           py={3}
           pr={8}
           alignItems="center"
+          position={'absolute'}
+          left={0}
           justifyContent="center"
           onPress={handleNavigate}>
           <GoBackSvg fill="#fff"
@@ -134,14 +135,15 @@ export function BinauralSound() {
         <Text color="white" fontSize="2xl" fontFamily="heading" style={{
           elevation: 10
         }}>Sons Binaurais</Text>
-        <DotMenuSvg width={25} height={25} fill="#fff" />
       </HStack>
       <Box justifyContent="center" flex={1} alignItems="center" mt={3}>
         <VStack mb={5}>
-          <Image source={AudioBanner} alt="Banner do áudio" w="300" height="300" rounded="xl" mb={4} />
+          <Image source={{ uri: binaural.binaural_img }} alt="Banner do áudio" w="300" height="300" rounded="xl" mb={4} />
           <Text color="white" fontSize="lg" fontFamily="semiBold">
-            {title}
+            {binaural.binaural_name}
           </Text>
+          <Text color="gray.300" fontFamily="body" fontSize="xs">{binaural.binaral_autor}</Text>
+
 
         </VStack>
         <Slider

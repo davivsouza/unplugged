@@ -1,23 +1,31 @@
 import { Box, HStack, Image, Pressable, Text, VStack, useTheme } from "native-base";
-import BeatsBgTemplate from "@assets/binauralsounds/beat-bg-template.png";
 import BtnPlay from "@assets/binauralsounds/btnPlay.svg";
 import { Foundation } from '@expo/vector-icons';
 import { View } from "react-native";
+import { useAuth } from "@hooks/useAuth";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@routes/app.routes";
 export function BinauralFavoriteSounds() {
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const { colors } = useTheme();
 
-  const favorites = []
+  const { favoritesBinauralSounds } = useAuth()
+
+  function handleNavigate() {
+    navigate('favoriteBinauralSounds')
+  }
+
   return (
 
     <>
-      {favorites.length > 0 ? (
+      {favoritesBinauralSounds.length > 0 ? (
         <Box position="relative" h={250}>
           <VStack alignItems="center">
             <Image
               w="full"
               h={250}
               rounded="3xl"
-              source={BeatsBgTemplate}
+              source={{ uri: favoritesBinauralSounds[favoritesBinauralSounds.length - 1].binaural.binaural_img }}
               alt="Foto de perfil do usuário"
               position="absolute"
             />
@@ -46,26 +54,27 @@ export function BinauralFavoriteSounds() {
           </VStack>
           <HStack
             justifyContent="space-between"
-            alignItems="center"
-            bottom={-0.5}
-            height={75}
+            alignItems="flex-end"
+            height="full"
             width="full"
             borderBottomLeftRadius="3xl"
             borderBottomRightRadius="3xl"
             position="absolute"
-            bg="rgba(0, 0, 0, 0.6)"
+            bg="rgba(0, 0, 0, 0.7)"
             py={1}
             px={5}
+            pb={12}
           >
             <VStack flex={1}>
               <Text color="white" fontFamily="semiBold" fontSize="2xl">
-                Leitura Imersiva
+                Sons favoritados
               </Text>
               <Text color="white" fontFamily="body" fontSize="sm">
-                Jorge Martin
+                veja todos os seus sons favoritos
+
               </Text>
             </VStack>
-            <Pressable>
+            <Pressable onPress={handleNavigate}>
               <BtnPlay width={45} height={45} />
             </Pressable>
           </HStack>
@@ -73,7 +82,6 @@ export function BinauralFavoriteSounds() {
       ) : (
         <Box position="relative" h={250}>
           <VStack alignItems="center">
-
             <Box
               w="full"
               bg="gray.500"

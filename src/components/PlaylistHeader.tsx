@@ -2,9 +2,12 @@ import { HStack, Image, Pressable, Text, VStack } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import GoBackSvg from "@assets/goback.svg";
-import PlaylistBanner from "@assets/binauralsounds/beat-bg-template.png"
 
-export function PlaylistHeader() {
+type Props = {
+  banner: string
+}
+
+export function PlaylistHeader({ banner }: Props) {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
 
   function handleNavigate() {
@@ -22,7 +25,14 @@ export function PlaylistHeader() {
           elevation: 10
         }}>Relaxamento</Text>
       </HStack>
-      <Image source={PlaylistBanner} alt="Playlist Banner" mt={10} rounded="2xl" />
+      <Image
+        w="full"
+        h={250}
+        alignSelf="center" source={{ uri: banner }}
+        alt="Playlist Banner"
+        mt={10}
+        rounded="2xl"
+      />
 
     </VStack>
 

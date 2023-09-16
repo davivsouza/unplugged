@@ -19,6 +19,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { BinauralCategoryDTO } from "../dtos/BinauralCategoryDTO";
 import { api } from "../services/api";
 import { BinauralFavoriteSounds } from "./BinauralFavoriteSounds";
+import { useAuth } from "@hooks/useAuth";
 
 
 export function BinauralContent() {
@@ -26,9 +27,10 @@ export function BinauralContent() {
   const [showRealApp, setShowRealApp] = useState(false)
   const [binaurals, setBinaurals] = useState<BinauralCategoryDTO[]>()
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
-
+  const { getFavoriteBinauralSounds } = useAuth()
 
   async function fetchBinauralSounds() {
+    getFavoriteBinauralSounds()
     const { data } = await api.get('/binaurals/listCategory')
     setBinaurals(data)
 
@@ -64,10 +66,11 @@ export function BinauralContent() {
       <FlatList
         data={binaurals}
         mt={2}
+        height={250}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
-          <PlaylistCard sounds={item.binaural} title={item.name} beatsQuantity={item.binaural.length} />
+          <PlaylistCard playlistId={item.id} title={item.name} beatsQuantity={item.binaural.length} imgUrl={item.images} />
         )
         }
         ListEmptyComponent={() => (
@@ -76,12 +79,7 @@ export function BinauralContent() {
           </Center>
         )}
       />
-      {/* <ScrollView h={210} showsVerticalScrollIndicator={false}>
-        <PlaylistCard title="Relaxamento" beatsQuantity={10} />
-        <PlaylistCard title="Foco" beatsQuantity={7} />
-        <PlaylistCard title="Criatividade" beatsQuantity={3} />
 
-      </ScrollView> */}
     </VStack>
   )
 }
