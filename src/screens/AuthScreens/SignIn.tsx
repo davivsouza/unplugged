@@ -44,9 +44,9 @@ export function SignIn() {
   }
 
   async function handleSignIn(data: FormDataProps, e: any) {
-    // setIsLoading(true)
     try {
 
+      setIsLoading(true)
       await signIn(data.email, data.password);
 
     } catch (error) {

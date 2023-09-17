@@ -63,8 +63,8 @@ export function MeditationPlayer() {
     useCallback(() => {
       if (audioUrl) {
         loadAudio();
-        console.log(audioUrl);
-        
+
+
       }
       function onBackPress() {
         return true
@@ -143,12 +143,15 @@ export function MeditationPlayer() {
             px={5}
             space={40}
           >
-            <HStack alignItems="center" justifyContent="space-between" >
+            <HStack alignItems="center" justifyContent="center" >
               <Pressable
                 py={3}
                 pr={8}
+                pl={2}
                 alignItems="center"
                 justifyContent="center"
+                position={'absolute'}
+                left={0}
                 onPress={handleNavigate}
               >
                 <GoBackSvg fill="#fff" />
@@ -156,7 +159,6 @@ export function MeditationPlayer() {
               <Text color="white" fontSize="2xl" fontFamily="heading" style={{
                 elevation: 10
               }}>Meditação</Text>
-              <DotMenuSvg width={25} height={25} fill="#fff" />
             </HStack>
             <Box justifyContent="center" flex={1} alignItems="center" mt={3}>
               <VStack mb={5}>
