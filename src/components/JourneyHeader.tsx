@@ -1,6 +1,5 @@
 import { AntDesign } from '@expo/vector-icons';
 import { HStack, Text } from 'native-base';
-import { UserDTO } from '../dtos/UserDTO';
 import { useAuth } from '@hooks/useAuth';
 
 

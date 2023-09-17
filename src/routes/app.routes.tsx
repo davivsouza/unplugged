@@ -29,7 +29,7 @@ import { BinauralSoundsIntroSlider } from "@screens/AppScreens/BinauralSounds/Bi
 import { ContentDTO, ModuleDTO } from "../dtos/ModuleDTO";
 import { ModuleContentDTO } from "../dtos/ModuleContentDTO";
 import { BinauralDTO } from "../dtos/BinauralCategoryDTO";
-import { FavoritesPlaylist } from "@components/FavoritesPlaylist";
+import { FavoritesPlaylist } from "@screens/AppScreens/BinauralSounds/FavoritesPlaylist";
 import { MeditationDTO } from "../dtos/MeditationDTO";
 
 type AppRoutes = {

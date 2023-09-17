@@ -1,7 +1,7 @@
 import { useAuth } from "@hooks/useAuth";
 import { FlatList, HStack, Pressable, Text, VStack } from "native-base";
-import { BinauralSoundCard } from "./BinauralSoundCard";
-import { ScreenContainer } from "./ScreenContainer";
+import { BinauralSoundCard } from "../../../components/BinauralSoundCard";
+import { ScreenContainer } from "../../../components/ScreenContainer";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import GoBackSvg from "@assets/goback.svg";
 import { useNavigation } from "@react-navigation/native";

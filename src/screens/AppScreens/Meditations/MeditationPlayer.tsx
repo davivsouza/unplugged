@@ -59,22 +59,6 @@ export function MeditationPlayer() {
     setPosition(value);
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      if (audioUrl) {
-        loadAudio();
-
-
-      }
-      function onBackPress() {
-        return true
-      };
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
-      return () => {
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-      };
-    }, [audioUrl])
-  );
 
   async function handleSkipForward() {
     if (sound && position) {
@@ -121,6 +105,22 @@ export function MeditationPlayer() {
       setIsLoading(false)
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      if (audioUrl) {
+        loadAudio();
+      }
+      function onBackPress() {
+        return true
+      };
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      };
+    }, [audioUrl])
+  );
+
   useEffect(() => {
     const idUrl = `http://192.168.1.8:3333/api/meditations/${meditation.id}`
     setAudioUrl(idUrl)
