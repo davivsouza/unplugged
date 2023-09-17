@@ -4,26 +4,22 @@ import PlayButtonSvg from '@assets/meditations/btnPlay.svg'
 import MedidationCardBg from '@assets/meditations/meditation-card-bg.jpg'
 import { useNavigation } from '@react-navigation/native'
 import { AppNavigatorRoutesProps } from '@routes/app.routes'
+import { MeditationDTO } from '../dtos/MeditationDTO'
 type Props = {
-  title: string
-  durationMinutes: number
-  artist: string
-  imgUrl: string
+  meditation: MeditationDTO
+
 }
 
-export function MeditationCard({ durationMinutes, artist, title, imgUrl }: Props) {
+export function MeditationCard({ meditation }: Props) {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
 
   function handleNavigate() {
-    navigate('meditationPlayer', {
-      title,
-      artist
-    })
+    navigate('meditationPlayer', meditation)
   }
   return (
     <Pressable mb={6} overflow="hidden" rounded="3xl" shadow={9} style={{ elevation: 10 }} onPress={handleNavigate}>
 
-      <ImageBackground source={{ uri: imgUrl }} resizeMode='cover' style={{
+      <ImageBackground source={{ uri: meditation.meditation_img }} resizeMode='cover' style={{
         flex: 1,
       }}>
         <View bg="rgba(0,0,0,0.5)" rounded="3xl" mb={6} justifyContent="center" w="full" h="full" py={4} px={8}>
@@ -31,11 +27,11 @@ export function MeditationCard({ durationMinutes, artist, title, imgUrl }: Props
 
             <VStack>
               <Text fontFamily="semiBold" color="white" fontSize="lg">
-                {title}
+                {meditation.meditation_name}
               </Text>
               <HStack>
                 <Text fontFamily="body" color="white" fontSize="xs">
-                  {artist} - {durationMinutes} min
+                  {meditation.Meditation_autor} - {Math.floor(meditation.meditation_duration / 60)} min
                 </Text>
               </HStack>
             </VStack>

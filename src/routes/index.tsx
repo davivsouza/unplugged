@@ -6,12 +6,13 @@ import { useState } from "react";
 import { AppRoutes } from "./app.routes";
 import { StatusBar } from "react-native";
 import { useAuth } from "@hooks/useAuth";
+import { Loading } from "@components/Loading";
 export function Routes() {
 
 
   const { colors } = useTheme();
   const { colorMode } = useColorMode()
-  const { user } = useAuth()
+  const { user, isLoadingUserStorageData } = useAuth()
   const theme = DefaultTheme;
   theme.colors.background = colorMode === 'light' ? colors.white : colors.black;
 
@@ -23,11 +24,13 @@ export function Routes() {
         backgroundColor="transparent"
         translucent
       />
-      <NavigationContainer theme={theme}>
-        {
-          user.id ? <AppRoutes /> : <AuthRoutes />
-        }
-      </NavigationContainer>
+      {isLoadingUserStorageData ? <Loading /> : (
+        <NavigationContainer theme={theme}>
+          {
+            user.id ? <AppRoutes /> : <AuthRoutes />
+          }
+        </NavigationContainer>
+      )}
     </Box>
   );
 }

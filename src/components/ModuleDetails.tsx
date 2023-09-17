@@ -74,7 +74,7 @@ export function ModuleDetails({ module_description, setSelectedInfo, selectedInf
                     {content.contents_name}
                   </Text>
                   <Text color="white" fontFamily="body" fontSize="xs">
-                    10 min
+                    {content.contents_type === 'video' ? Math.floor(content.contets_duration / 60) + 'min' : 'Artigo'}
                   </Text>
                 </VStack>
               </HStack>
@@ -88,9 +88,7 @@ export function ModuleDetails({ module_description, setSelectedInfo, selectedInf
                 borderColor="purple.500"
                 rounded="xl"
                 justifyContent="center"
-                onPress={() => navigate('moduleVideo', {
-                  content_video_url: content.contents_video_url,
-                })}
+                onPress={() => navigate('moduleVideo', content)}
               >
                 <Text color="purple.500">Assistir</Text>
               </Pressable>

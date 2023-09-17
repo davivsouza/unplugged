@@ -102,10 +102,7 @@ export function Meditations() {
         keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
           <MeditationCard
-            title={item.meditation_name}
-            artist={item.Meditation_autor}
-            imgUrl={item.meditation_img}
-            durationMinutes={Math.floor(item.meditation_duration / 60)}
+            meditation={item}
           />
         )
 

@@ -30,18 +30,14 @@ import { ContentDTO, ModuleDTO } from "../dtos/ModuleDTO";
 import { ModuleContentDTO } from "../dtos/ModuleContentDTO";
 import { BinauralDTO } from "../dtos/BinauralCategoryDTO";
 import { FavoritesPlaylist } from "@components/FavoritesPlaylist";
+import { MeditationDTO } from "../dtos/MeditationDTO";
 
 type AppRoutes = {
   journey: undefined;
   module: ModuleDTO
-  moduleVideo: {
-    content_video_url: string
-  }
-  meditations: undefined;
-  meditationPlayer: {
-    title: string
-    artist: string
-  }
+  moduleVideo: ContentDTO,
+  meditations: undefined,
+  meditationPlayer: MeditationDTO,
   meditationIntroSlider: undefined,
   binauralSoundsIntroSlider: undefined,
   habits: undefined;

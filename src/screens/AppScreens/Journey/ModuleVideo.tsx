@@ -6,33 +6,37 @@ import { Divider, HStack, Heading, Image, Pressable, Text, VStack } from "native
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import GoBackSvg from "@assets/goback.svg";
 import { ModuleContentDTO } from "../../../dtos/ModuleContentDTO";
-type RouteParams = ModuleContentDTO;
+import { ModuleVideoPlayer } from "@components/ModuleVideoPlayer";
+import { ContentDTO } from "../../../dtos/ModuleDTO";
+type RouteParams = ContentDTO
 
 
 export function ModuleVideo() {
   const route = useRoute();
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
 
-  const { content_Module_id, content_name } =
-    route.params as RouteParams;
+  const content = route.params as RouteParams;
 
-  // function handleNavigate() {
-  //   navigate('module', { module: moduleMock })
-  // }
+  function handleNavigate() {
+    navigate('journey')
+  }
   return (
     <ScreenContainer>
       <Pressable
-        pr={3}
-        py={3}
-        // onPress={handleNavigate}
-        mb={8}
+        p={6}
+        onPress={handleNavigate}
+        top={20}
+        left={2}
+        zIndex={20}
+        style={{ elevation: 10 }}
+        position="absolute"
       >
         <GoBackSvg fill="#fff" />
       </Pressable>
-      <Text fontFamily="heading" fontSize="2xl" color="white" lineBreakMode="middle">
-        Módulo {content_Module_id}: {content_name}
+      <ModuleVideoPlayer videoId={content.id} />
+      <Text mt={8} fontFamily="heading" fontSize="2xl" color="white" lineBreakMode="middle">
+        {content.contents_name}
       </Text>
-
       <HStack mt={10} alignItems="center" justifyContent="center">
         <ModuleVideoButton icon="heart" />
         <ModuleVideoButton icon="download" />

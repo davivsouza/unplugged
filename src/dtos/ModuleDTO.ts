@@ -11,4 +11,6 @@ export type ContentDTO = {
   contents_name: string
   contents_type: string
   contents_video_url: string
+  contets_duration: number,
+  contents_article?: string | null
 }
