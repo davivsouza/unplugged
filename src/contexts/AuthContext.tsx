@@ -4,6 +4,8 @@ import { userStorageGet, userStorageRemove, userStorageSave } from '../storage/u
 import { storageAuthTokenGet, storageAuthTokenRemove, storageAuthTokenSave } from '../storage/storageAuthToken';
 import { api } from '../services/api';
 import { BinauralSoundsFavoriteDTO } from '../dtos/BinauralSoundsFavoriteDTO';
+import { useNavigation } from '@react-navigation/native';
+import { AppNavigatorRoutesProps } from '@routes/app.routes';
 
 export type AuthContextDataProps = {
   user: UserDTO;
@@ -12,7 +14,7 @@ export type AuthContextDataProps = {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   getFavoriteBinauralSounds: () => Promise<void>;
-
+  updateUserProfile: (updatedUser: UserDTO) => Promise<void>;
 };
 
 type AuthContextProviderProps = {
@@ -85,7 +87,20 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
       setIsLoadingUserStorageData(false)
     }
+
   }
+
+  async function updateUserProfile(updatedUser: UserDTO) {
+    try {
+      setUser(updatedUser)
+      await userStorageSave(updatedUser)
+      loadUserData()
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async function loadUserData() {
     try {
       const userLogged = await userStorageGet();
@@ -105,11 +120,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   useEffect(() => {
     loadUserData();
+
   }, []);
 
 
   return (
-    <AuthContext.Provider value={{ user, isLoadingUserStorageData, signIn, signOut, favoritesBinauralSounds, getFavoriteBinauralSounds }}>
+    <AuthContext.Provider value={{ user, isLoadingUserStorageData, signIn, signOut, favoritesBinauralSounds, getFavoriteBinauralSounds, updateUserProfile }}>
       {children}
     </AuthContext.Provider>
   );
