@@ -6,6 +6,7 @@ import { Box, Divider, HStack, Heading, Image, Pressable, ScrollView, Text, VSta
 import { ModuleVideoPlayer } from "@components/ModuleVideoPlayer";
 import { ContentDTO } from "../../../dtos/ModuleDTO";
 import GoBackSvg from "@assets/goback.svg";
+import { Share } from "react-native";
 
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { Input } from "@components/Input";
@@ -18,6 +19,33 @@ export function ModuleVideo() {
   const content = route.params as RouteParams;
   const articleWithBreakLine = content.contents_article?.split('/n')
 
+  const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+  async function onShare() {
+    try {
+      const result = await Share.share({
+        message: `
+        Venha ver esse aplicativo incrível que estou usando para acabar com minha viadagem!
+        \n${url}
+        `,
+        title: 'Unplugged: venha se desconectar!',
+      })
+
+      if (result.action == Share.sharedAction) {
+        if (result.activityType) {
+          console.log('typeof: ', result.activityType)
+        }
+        else {
+          console.log('shared');
+
+        }
+      } else if (result.action === Share.dismissedAction) {
+        console.log('dismissed');
+
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <ScreenContainer>
 
@@ -61,7 +89,7 @@ export function ModuleVideo() {
         <HStack mt={10} alignItems="center" justifyContent="center">
           <ModuleVideoButton icon="heart" />
           <ModuleVideoButton icon="download" />
-          <ModuleVideoButton icon="share-2" />
+          <ModuleVideoButton icon="share-2" onPress={onShare} />
         </HStack>
         <Divider my={7} />
         <Input

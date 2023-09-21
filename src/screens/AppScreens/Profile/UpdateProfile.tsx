@@ -1,16 +1,36 @@
+import GoBackSvg from "@assets/goback.svg";
 import { ScreenContainer } from "@components/ScreenContainer";
 import { Box, HStack, Pressable, Text, VStack } from "native-base";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
-import GoBackSvg from "@assets/goback.svg";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons'
 import { Input } from "@components/Input";
 import { useAuth } from "@hooks/useAuth";
 import { Button } from "@components/Button";
+import { Controller, useForm } from "react-hook-form";
+
+
+type UpdateFormDataProps = {
+  name: string
+  nickname: string
+  tel: string
+}
 
 export function UpdateProfile() {
   const { goBack } = useNavigation<AppNavigatorRoutesProps>()
   const { user } = useAuth()
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UpdateFormDataProps>();
+
+
+
+  async function handleUpdateUser() {
+    return;
+  }
   return (
     <ScreenContainer>
       <HStack alignItems="center" justifyContent="center" >
@@ -29,34 +49,47 @@ export function UpdateProfile() {
       <Text color="white" fontSize="xl" fontFamily="semiBold" mt={6} mb={4}>Suas informações</Text>
       <VStack position="relative">
         <Text color="gray.100" fontSize="xs" fontFamily="body" position={'absolute'} top={5} left={3}>Nome completo</Text>
-        <Input
-          h='auto'
-          pt={4}
-          placeholder="Nome completo"
-          autoCapitalize="words"
-          placeholderTextColor="gray.300"
-          value={user.name}
-          color='white'
 
-        // onChangeText={onChange}
-        // value={value}
-        // errorMessage={errors.name?.message}
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { onChange, value } }) => (
+            <Input
+              h='auto'
+              pt={4}
+              placeholder={user.name}
+              autoCapitalize="words"
+              placeholderTextColor="gray.300"
+              defaultValue={user.name}
+              color='white'
+              onChangeText={onChange}
+              errorMessage={errors.name?.message}
+            />
+          )}
         />
+
       </VStack>
 
       <VStack position="relative">
         <Text color="gray.100" fontSize="xs" fontFamily="body" position={'absolute'} top={5} left={3}>Nome de usuário</Text>
-        <Input
-          pt={4}
-          h="auto"
-          placeholder="Nome de usuário"
-          autoCapitalize="words"
-          placeholderTextColor="gray.300"
-          value={user.nickname}
-          color='white'
-        // onChangeText={onChange}
-        // value={value}
-        // errorMessage={errors.name?.message}
+
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { onChange, value } }) => (
+            <Input
+              pt={4}
+              h="auto"
+              placeholder="Nome de usuário"
+              autoCapitalize="words"
+              placeholderTextColor="gray.300"
+              defaultValue={user.nickname}
+              color='white'
+              onChangeText={onChange}
+              value={value}
+              errorMessage={errors.nickname?.message}
+            />
+          )}
         />
       </VStack>
       <VStack position={'relative'}>
@@ -73,7 +106,7 @@ export function UpdateProfile() {
           autoCapitalize="none"
           autoCorrect={false}
           placeholderTextColor="gray.200"
-          value={user.email}
+          defaultValue={user.email}
           keyboardType="email-address"
           autoComplete='email'
           color="gray.200"
@@ -84,20 +117,28 @@ export function UpdateProfile() {
       </VStack>
       <VStack position={'relative'}>
         <Text color="gray.100" fontSize="10" fontFamily="body" position={'absolute'} top={5} left={3} >Telefone</Text>
-        <Input
-          value="Nenhum número definido ainda."
-          pt={4}
-          h="auto"
-          placeholderTextColor="gray.200"
-          keyboardType="phone-pad"
-          autoComplete='tel'
-          color="gray.200"
-        // onChangeText={onChange}
-        // value={value}
-        // errorMessage={errors.email?.message}
+
+
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { onChange, value } }) => (
+            <Input
+              defaultValue="Nenhum número definido ainda."
+              pt={4}
+              h="auto"
+              placeholderTextColor="gray.200"
+              keyboardType="phone-pad"
+              autoComplete='tel'
+              color="gray.200"
+              onChangeText={onChange}
+              value={value}
+              errorMessage={errors.tel?.message}
+            />
+          )}
         />
       </VStack>
-      <Button title="Salvar" w="70%" mt={8} alignSelf="center" />
+      <Button title="Salvar" w="70%" mt={8} alignSelf="center" onPress={handleSubmit(handleUpdateUser)} />
 
     </ScreenContainer>
   )
