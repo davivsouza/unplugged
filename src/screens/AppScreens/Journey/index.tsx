@@ -46,11 +46,6 @@ export function Journey() {
       <Heading fontWeight="normal" fontFamily="body" color="white">
         Jornada <Text fontWeight="bold">{user.name}</Text>
       </Heading>
-      <Pressable bg="purple.500" w={20} p={4} onPress={signOutAccount}>
-        <Text color="white" >
-          Sair da conta teste
-        </Text>
-      </Pressable>
       <Divider my={7} />
       <FlatList
         flex={1}

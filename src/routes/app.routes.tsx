@@ -2,6 +2,7 @@ import {
   createBottomTabNavigator,
   BottomTabNavigationProp,
 } from "@react-navigation/bottom-tabs";
+import { AntDesign } from '@expo/vector-icons'
 import { Journey } from "@screens/AppScreens/Journey";
 import { Module } from "@screens/AppScreens/Journey/Module";
 
@@ -31,6 +32,8 @@ import { ModuleContentDTO } from "../dtos/ModuleContentDTO";
 import { BinauralDTO } from "../dtos/BinauralCategoryDTO";
 import { FavoritesPlaylist } from "@screens/AppScreens/BinauralSounds/FavoritesPlaylist";
 import { MeditationDTO } from "../dtos/MeditationDTO";
+import { Profile } from "@screens/AppScreens/Profile";
+import { UpdateProfile } from "@screens/AppScreens/Profile/UpdateProfile";
 
 type AppRoutes = {
   journey: undefined;
@@ -51,6 +54,8 @@ type AppRoutes = {
   binauralSounds: undefined;
   binauralSound: { binaural: BinauralDTO, playlistId?: number }
   favoriteBinauralSounds: undefined
+  profile: undefined
+  updateProfile: undefined
 
 };
 
@@ -140,17 +145,13 @@ export function AppRoutes() {
           </VStack>
         )
       }} />
-      <Screen name="shop" component={Shop} options={{
+      <Screen name="profile" component={Profile} options={{
         tabBarIcon: ({ focused }) => (
           <VStack>
 
-            <ShopSvg
-              fill="#fff"
-              width={30}
-              height={30}
-            />
+            <AntDesign name="user" size={33} color="white" />
             {focused && (
-              <Box position="absolute" top={"170%"} w={8} h={4} bg="purple.500" borderTopLeftRadius="full" borderTopRightRadius="full" />
+              <Box position="absolute" top={"155%"} w={8} h={4} bg="purple.500" borderTopLeftRadius="full" borderTopRightRadius="full" />
             )}
           </VStack>
         )
@@ -267,7 +268,14 @@ export function AppRoutes() {
       <Screen
         name="favoriteBinauralSounds"
         component={FavoritesPlaylist}
+        options={{
 
+          tabBarButton: () => null,
+        }}
+      />
+      <Screen
+        name="updateProfile"
+        component={UpdateProfile}
         options={{
           tabBarStyle: {
             display: "none",
@@ -275,6 +283,7 @@ export function AppRoutes() {
           tabBarButton: () => null,
         }}
       />
+
     </Navigator>
   );
 }
