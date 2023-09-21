@@ -25,11 +25,11 @@ export function Module() {
   const [selectedInfo, setSelectedInfo] = useState<"about" | "downloaded" | "content">("about");
 
   const route = useRoute();
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const { goBack } = useNavigation<AppNavigatorRoutesProps>()
   const tempProgress = 0
 
   function handleNavigate() {
-    navigate('journey')
+    goBack()
     setSelectedInfo('about')
   }
   const module = route.params as RouteParams;

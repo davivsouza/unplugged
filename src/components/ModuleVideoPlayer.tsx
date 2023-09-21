@@ -13,7 +13,7 @@ type Props = {
 export function ModuleVideoPlayer({ videoId }: Props) {
   const [position, setPosition] = useState(0);
   const videoRef = useRef<any>(null);
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const { goBack } = useNavigation<AppNavigatorRoutesProps>()
 
 
 
@@ -23,7 +23,7 @@ export function ModuleVideoPlayer({ videoId }: Props) {
       await videoRef.current.stopAsync();
       await videoRef.current.setPositionAsync(0);
       setPosition(0);
-      navigate('journey')
+      goBack();
     }
   }
 

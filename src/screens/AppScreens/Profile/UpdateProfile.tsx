@@ -9,12 +9,12 @@ import { useAuth } from "@hooks/useAuth";
 import { Button } from "@components/Button";
 
 export function UpdateProfile() {
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const { goBack } = useNavigation<AppNavigatorRoutesProps>()
   const { user } = useAuth()
   return (
     <ScreenContainer>
       <HStack alignItems="center" justifyContent="center" >
-        <Pressable onPress={() => navigate('profile')} position={'absolute'} left={-10} p={4}>
+        <Pressable onPress={() => goBack()} position={'absolute'} left={-10} p={4}>
           <GoBackSvg fill="#fff" />
         </Pressable>
         <Text color="white" fontSize="2xl" fontFamily="heading" style={{

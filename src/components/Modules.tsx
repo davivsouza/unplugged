@@ -12,12 +12,12 @@ type Props = {
 };
 
 export function Modules({ module }: Props) {
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>();
+  const { jumpTo } = useNavigation<AppNavigatorRoutesProps>();
 
   return (
     <TouchableOpacity
       onPress={() =>
-        navigate("module", module)
+        jumpTo("module", module)
       }
     >
       <VStack bg="gray.700" py={3} px={4} rounded="xl" mb={5} shadow={3} flex={1}>

@@ -12,12 +12,12 @@ export function FavoritesPlaylist() {
   useEffect(() => {
     getFavoriteBinauralSounds()
   }, [])
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const { goBack } = useNavigation<AppNavigatorRoutesProps>()
   return (
     <ScreenContainer>
       <VStack mb={12}>
         <HStack alignItems="center" justifyContent="center" >
-          <Pressable onPress={() => navigate('binaural')} position={'absolute'} left={-10} p={4}>
+          <Pressable onPress={() => goBack()} position={'absolute'} left={-10} p={4}>
             <GoBackSvg fill="#fff" />
           </Pressable>
           <Text color="white" fontSize="2xl" fontFamily="heading" style={{

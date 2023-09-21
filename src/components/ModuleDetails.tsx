@@ -90,7 +90,9 @@ export function ModuleDetails({ module_description, setSelectedInfo, selectedInf
                 justifyContent="center"
                 onPress={() => navigate('moduleVideo', content)}
               >
-                <Text color="purple.500">Assistir</Text>
+                <Text color="purple.500">
+                  {content.contents_type === 'video' ? 'Assistir' : 'Ler'}
+                </Text>
               </Pressable>
             </HStack>
           )}

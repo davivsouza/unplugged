@@ -25,7 +25,7 @@ export function Comments({ comments }: Props) {
   return (
     <>
       {comments?.map(comment => (
-        <Box key={comment.userId} m={3} bgColor="gray.500" px={3} py={5} rounded="xl" shadow={9} >
+        <Box key={comment.userId} my={3} bgColor="gray.500" px={3} py={5} rounded="xl" shadow={9} >
           <VStack>
             <HStack alignItems="center" justifyContent="space-between">
               <HStack alignItems="center" space={2}>

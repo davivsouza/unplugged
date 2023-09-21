@@ -25,7 +25,7 @@ export function BinauralSound() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState<number | undefined>();
   const [position, setPosition] = useState<number | null>(null);
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const { goBack } = useNavigation<AppNavigatorRoutesProps>()
   const [isLoading, setIsLoading] = useState(false)
   const [audioUrl, setAudioUrl] = useState<string>('')
   const route = useRoute()
@@ -54,7 +54,7 @@ export function BinauralSound() {
       await sound.stopAsync()
       await sound.unloadAsync()
       setAudioUrl('')
-      navigate('binaural');
+      goBack();
     }
   }
 

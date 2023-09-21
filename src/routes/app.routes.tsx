@@ -67,9 +67,11 @@ export function AppRoutes() {
   return (
     <Navigator
       initialRouteName="journey"
+      backBehavior="history"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
+
         tabBarStyle: {
 
           position: "absolute",

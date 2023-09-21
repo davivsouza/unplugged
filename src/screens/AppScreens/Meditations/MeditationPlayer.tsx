@@ -26,7 +26,7 @@ export function MeditationPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState<number | undefined>();
   const [position, setPosition] = useState<number | null>(null);
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const { goBack } = useNavigation<AppNavigatorRoutesProps>()
   const [isLoading, setIsLoading] = useState(false)
   const [audioUrl, setAudioUrl] = useState<string>('')
 
@@ -36,7 +36,7 @@ export function MeditationPlayer() {
       await sound.stopAsync()
       await sound.unloadAsync()
       setAudioUrl('')
-      navigate('meditations');
+      goBack();
     }
   }
 
