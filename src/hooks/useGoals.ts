@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { GoalsContext } from '@contexts/GoalsContext'
+import { GoalsContext } from '@contexts/HabitsContext'
 
 export function useGoals() {
   const context = useContext(GoalsContext)

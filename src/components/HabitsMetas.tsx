@@ -1,11 +1,17 @@
 import { Center, FlatList, Text, VStack } from "native-base";
 import { useState } from "react";
-import { GoalsCard } from "./GoalsCard";
+import { HabitsCard } from "./HabitsCard";
 import { HabitsFloatButton } from "./HabitsFloatButton";
 import { HabitsMetasFormModal } from "./HabitsMetasFormModal";
 import { useGoals } from "@hooks/useGoals";
+import dayjs from 'dayjs'
+import "dayjs/locale/pt-br"
 
-
+const day = dayjs().locale('pt-br').format('DD').toString()
+const month = dayjs().locale('pt-br').format('MM').toString()
+const year = dayjs().locale('pt-br').format('YYYY').toString()
+const formatedMonth = month.charAt(0).toUpperCase() + month.slice(1)
+const today = `${day}/${formatedMonth}/${year}`
 
 export function HabitsMetas() {
   const [showModal, setShowModal] = useState(false);
@@ -17,13 +23,14 @@ export function HabitsMetas() {
   return (
     <VStack position="relative">
       <HabitsMetasFormModal isModalOpen={showModal} onOpenModal={setShowModal} />
+      <Text color="white" fontFamily="semiBold" fontSize="xl" my={6}>Metas de hoje - {today}</Text>
       <FlatList
         px={2}
         data={goals}
         h="85%"
-        keyExtractor={item => item.id}
-        renderItem={({ item: goal }) => (
-          <GoalsCard title={goal.title} tagColor={goal.tagColor} />
+        keyExtractor={item => String(item.id)}
+        renderItem={({ item: habit }) => (
+          <HabitsCard habit={habit} />
         )}
         contentContainerStyle={{ paddingBottom: 20 }}
         showsVerticalScrollIndicator={false}

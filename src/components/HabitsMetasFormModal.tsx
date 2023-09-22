@@ -1,4 +1,4 @@
-import { Box, HStack, Modal, Pressable, Select, Text, TextArea, VStack } from "native-base";
+import { Box, HStack, Modal, Pressable, Select, Text, TextArea, VStack, useToast } from "native-base";
 import { useState } from "react";
 import { Input } from "./Input";
 import { Button } from "./Button";
@@ -7,6 +7,9 @@ import GoBackSvg from "@assets/goback.svg";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { MaterialIcons } from '@expo/vector-icons';
 import { useGoals } from "@hooks/useGoals";
+import { useAuth } from "@hooks/useAuth";
+import { Controller, useForm } from "react-hook-form";
+import { api } from "../services/api";
 
 const daysOfWeek = [
   {
@@ -48,24 +51,73 @@ type Props = {
   onOpenModal: (status: boolean) => void
 }
 
+type CreateHabitsFormDataProps = {
+  name: string
+  daysOfWeek: number[]
+  description: string
+  color: string
+}
+
 export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
-  const { createGoal } = useGoals()
-  const [selectedDay, setSelectedDay] = useState<Number[]>()
+  const { user } = useAuth()
+  const { loadTodayHabits } = useGoals()
+  const [selectedDays, setSelectedDays] = useState<number[]>()
+  const [isCreating, setIsCreating] = useState(false)
+  const [color, setColor] = useState('')
+  const toast = useToast()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm<CreateHabitsFormDataProps>()
+
 
   function selectDay(day: number) {
-    const selectedDays = selectedDay ? [...selectedDay] : [];
+    const selectedDaysFiltered = selectedDays ? [...selectedDays] : [];
     let selectedDayWithRemovedDay = []
-    if (selectedDays.includes(day)) {
-      selectedDayWithRemovedDay = selectedDays.filter(dayNumber => dayNumber != day)
-      setSelectedDay(selectedDayWithRemovedDay)
+
+    if (selectedDaysFiltered.includes(day)) {
+      selectedDayWithRemovedDay = selectedDaysFiltered.filter(dayNumber => dayNumber != day)
+      setSelectedDays(selectedDayWithRemovedDay)
 
     } else {
-      selectedDays.push(day)
-      const sortSelectedDays = selectedDays.sort((a, b) => a - b)
-      setSelectedDay(sortSelectedDays)
+      selectedDaysFiltered.push(day)
+      const sortSelectedDays = selectedDaysFiltered.sort((a, b) => Number(a) - Number(b))
+      setSelectedDays(sortSelectedDays)
     }
   }
 
+  function handleSelectedColor(color: string) {
+    setColor(color)
+  }
+
+  async function handleCreateHabit(habitData: CreateHabitsFormDataProps) {
+    try {
+      setIsCreating(true)
+
+      const habit = {
+        ...habitData,
+        userId: user.id,
+        color,
+        daysOfWeek: selectedDays
+      }
+      await api.post('/habits', habit);
+      toast.show({
+        title: 'Meta criada com sucesso!',
+        placement: 'top',
+        bgColor: 'green.700',
+
+      })
+      loadTodayHabits()
+      onOpenModal(false)
+      reset()
+    } catch (err) {
+      throw err
+    } finally {
+      setIsCreating(false)
+    }
+  }
   return (
     <Modal
       isOpen={isModalOpen}
@@ -113,14 +165,25 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
 
         <VStack mt={6} w="full" flex={1} justifyContent="space-between">
           <VStack space={4}>
-            <Input
-              w="full"
-              rounded="2xl"
-              bg="transparent"
-              borderColor="white"
-              placeholder="Nome do hábito"
-              placeholderTextColor="white"
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  w="full"
+                  rounded="2xl"
+                  bg="transparent"
+                  color="white"
+                  borderColor="white"
+                  placeholder="Nome do hábito"
+                  placeholderTextColor="white"
+                  onChangeText={onChange}
+                  errorMessage={errors.name?.message}
+                  value={value}
+                />
+              )}
             />
+
 
             <HStack alignItems={'center'} space={2} justifyContent={'center'}>
               {daysOfWeek.map(item => (
@@ -129,7 +192,7 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
                   flex={1}
                   h={12}
                   rounded="full"
-                  borderColor={selectedDay?.includes(item.dayNumber) ? 'purple.500' : 'white'}
+                  borderColor={selectedDays?.includes(item.dayNumber) ? 'purple.500' : 'white'}
                   borderWidth={2}
                   alignItems={'center'}
                   justifyContent={'center'}
@@ -137,7 +200,7 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
                   }
                 >
                   <Text
-                    color={selectedDay?.includes(item.dayNumber) ? 'purple.500' : 'white'}
+                    color={selectedDays?.includes(item.dayNumber) ? 'purple.500' : 'white'}
                     fontSize='sm'
                     textAlign={'center'}
                   >
@@ -204,50 +267,76 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
 
 
 
+            <Controller
+              control={control}
+              name="description"
+              render={({ field: { onChange, value } }) => (
+                <TextArea
+                  w="full"
+                  h={40}
+                  rounded="2xl"
+                  color="white"
+                  bg="transparent"
+                  borderWidth={2}
+                  borderColor="white"
+                  placeholder="Adicionar uma descrição"
+                  placeholderTextColor="white"
+                  fontSize="md"
+                  fontFamily="body"
+                  my={4}
+                  p={4}
+                  autoCompleteType="off"
+                  _focus={{
+                    bg: "transparent",
+                    borderColor: 'purple.500',
+                    _android: {
+                      selectionColor: 'purple.500'
+                    }
+                  }}
+                  onChangeText={onChange}
+                  value={value}
+                />
 
-            <TextArea
-              w="full"
-              h={40}
-              rounded="2xl"
-              color="white"
-              bg="transparent"
-              borderWidth={2}
-              borderColor="white"
-              placeholder="Adicionar uma descrição"
-              placeholderTextColor="white"
-              fontSize="md"
-              fontFamily="body"
-              my={4}
-              p={4}
-              autoCompleteType="off"
-              _focus={{
-                bg: "transparent",
-                borderColor: 'purple.500',
-                _android: {
-                  selectionColor: 'purple.500'
-                }
-              }}
+              )}
             />
+
 
             <Text color={'white'} fontSize={'lg'}>Escolha a cor do hábito:</Text>
             <HStack alignItems={'center'} justifyContent={'space-around'} mt={4}>
-              <Pressable w={12} h={12} bg="purple.500" rounded='full' />
-              <Pressable w={12} h={12} bg="red.500" rounded='full' />
-              <Pressable w={12} h={12} bg="green.500" rounded='full' />
+              <Pressable
+                w={12}
+                h={12}
+                bg="purple.500"
+                rounded='full'
+                borderWidth={color === 'purple.500' ? 2 : 0}
+                borderColor={color === 'purple.500' ? 'white' : 'transparent'}
+                onPress={() => handleSelectedColor('purple.500')}
+              />
+              <Pressable
+                w={12}
+                h={12}
+                bg="red.500"
+                rounded='full'
+                borderWidth={color === 'red.500' ? 2 : 0}
+                borderColor={color === 'red.500' ? 'white' : 'transparent'}
+                onPress={() => handleSelectedColor('red.500')}
+              />
+              <Pressable
+                w={12}
+                h={12}
+                bg="green.500"
+                rounded='full'
+                borderWidth={color === 'green.500' ? 2 : 0}
+                borderColor={color === 'green.500' ? 'white' : 'transparent'}
+                onPress={() => handleSelectedColor('green.500')}
+              />
             </HStack>
 
           </VStack>
 
 
 
-          <Button title="Adicionar" mt={8} onPress={() => {
-            createGoal({
-              id: String(Math.random() * 3791),
-              tagColor: 'purple.500',
-              title: 'Teste'
-            })
-            onOpenModal(false)
-          }} />
+          <Button title="Adicionar" mt={8} onPress={handleSubmit(handleCreateHabit)} isLoading={isCreating} />
         </VStack>
       </VStack>
     </Modal>
