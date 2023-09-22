@@ -19,15 +19,14 @@ export function ModuleVideo() {
   const content = route.params as RouteParams;
   const articleWithBreakLine = content.contents_article?.split('/n')
 
-  const url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+  const url = 'https://unplugged.com'
   async function onShare() {
     try {
       const result = await Share.share({
         message: `
-        Venha ver esse aplicativo incrível que estou usando para acabar com minha viadagem!
+        Venha conhecer esse aplicativo incrível que estou usando para diminuir meu vício nas redes sociais e me tornar mais produtivo!
         \n${url}
         `,
-        title: 'Unplugged: venha se desconectar!',
       })
 
       if (result.action == Share.sharedAction) {
