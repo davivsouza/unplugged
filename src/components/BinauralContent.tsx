@@ -7,21 +7,34 @@ import {
   Image,
   useTheme,
   ScrollView,
+  FlatList,
+  Center,
 } from "native-base";
 import { View } from "react-native";
 
-import BeatsBgTemplate from "@assets/binauralsounds/beat-bg-template.png";
-import BtnPlay from "@assets/binauralsounds/btnPlay.svg";
 import { PlaylistCard } from "@components/PlaylistCard";
 import { AppNavigatorRoutesProps } from '@routes/app.routes'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { BinauralCategoryDTO } from "../dtos/BinauralCategoryDTO";
+import { api } from "../services/api";
+import { BinauralFavoriteSounds } from "./BinauralFavoriteSounds";
+import { useAuth } from "@hooks/useAuth";
 
 
 export function BinauralContent() {
-  const { colors } = useTheme();
+
   const [showRealApp, setShowRealApp] = useState(false)
+  const [binaurals, setBinaurals] = useState<BinauralCategoryDTO[]>()
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const { getFavoriteBinauralSounds } = useAuth()
+
+  async function fetchBinauralSounds() {
+    getFavoriteBinauralSounds()
+    const { data } = await api.get('/binaurals/listCategory')
+    setBinaurals(data)
+
+  }
 
   useFocusEffect(useCallback(() => {
     navigate('binauralSoundsIntroSlider')
@@ -30,6 +43,11 @@ export function BinauralContent() {
       navigate('binaural')
     }
   }, [showRealApp]))
+
+  useEffect(() => {
+    fetchBinauralSounds();
+  }, [])
+
 
 
   return (
@@ -43,73 +61,25 @@ export function BinauralContent() {
       <Text color="white" fontFamily="semiBold" fontSize="xl" mt={8} mb={4}>
         Seus beats favoritos
       </Text>
-      <Box position="relative" h={250}>
-        <VStack alignItems="center">
-          <Image
-            w="full"
-            h={250}
-            rounded="3xl"
-            source={BeatsBgTemplate}
-            alt="Foto de perfil do usuário"
-            position="absolute"
-          />
-          <View
-            style={{
-              width: "94%",
-              height: 250,
-              borderRadius: 20,
-              backgroundColor: colors.gray[400],
-              elevation: -1,
-              position: "absolute",
-              top: 12,
-            }}
-          />
-          <View
-            style={{
-              width: "89%",
-              height: 250,
-              borderRadius: 20,
-              backgroundColor: colors.gray[600],
-              elevation: -2,
-              position: "absolute",
-              top: 22,
-            }}
-          />
-        </VStack>
-        <HStack
-          justifyContent="space-between"
-          alignItems="center"
-          bottom={-0.5}
-          height={75}
-          width="full"
-          borderBottomLeftRadius="3xl"
-          borderBottomRightRadius="3xl"
-          position="absolute"
-          bg="rgba(0, 0, 0, 0.6)"
-          py={1}
-          px={5}
-        >
-          <VStack flex={1}>
-            <Text color="white" fontFamily="semiBold" fontSize="2xl">
-              Leitura Imersiva
-            </Text>
-            <Text color="white" fontFamily="body" fontSize="sm">
-              Jorge Martin
-            </Text>
-          </VStack>
-          <Pressable>
-            <BtnPlay width={45} height={45} />
-          </Pressable>
-        </HStack>
-      </Box>
-
+      <BinauralFavoriteSounds />
       <Text color="white" fontFamily="semiBold" fontSize="lg" mt={12}>Playlists</Text>
-      <ScrollView h={210} showsVerticalScrollIndicator={false}>
-        <PlaylistCard title="Relaxamento" beatsQuantity={10} />
-        <PlaylistCard title="Foco" beatsQuantity={7} />
-        <PlaylistCard title="Criatividade" beatsQuantity={3} />
+      <FlatList
+        data={binaurals}
+        mt={2}
+        height={250}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={item => String(item.id)}
+        renderItem={({ item }) => (
+          <PlaylistCard playlistId={item.id} title={item.name} beatsQuantity={item.binaural.length} imgUrl={item.images} />
+        )
+        }
+        ListEmptyComponent={() => (
+          <Center>
+            <Text color="white" fontSize="lg">Nenhum som binaural postado {':('}</Text>
+          </Center>
+        )}
+      />
 
-      </ScrollView>
     </VStack>
   )
 }

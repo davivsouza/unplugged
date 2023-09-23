@@ -2,7 +2,6 @@ import { Text, VStack } from "native-base";
 import { FormHeader } from "@components/FormHeader";
 import { Input } from "@components/Input";
 import { useNavigation } from "@react-navigation/native";
-import { ThirdPartyAuth } from "@components/ThirdPartyAuth";
 import { AuthNavigatorRouteProps } from "@routes/auth.routes";
 import { ChangeScreenButton } from "@components/ChangeScreenButton";
 import { useState } from "react";
@@ -113,7 +112,6 @@ export function SignUp() {
             />
           </VStack>
 
-          <ThirdPartyAuth />
           <Text textAlign="center" mt={6} color="gray.400">
             ao avançar você confirma os{" "}
             <Text fontWeight="bold" color="gray.500" underline>

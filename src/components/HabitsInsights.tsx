@@ -45,6 +45,7 @@ export function HabitsInsights() {
 
 
       <InsightsCard>
+        <Text width={120} color="white" textAlign="center" position='absolute' top="42%">Clique para ver mais detalhes</Text>
         <Pressable
           position="absolute"
           width="full"

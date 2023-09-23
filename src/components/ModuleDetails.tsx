@@ -7,24 +7,24 @@ import {
   Box,
   Heading,
 } from "native-base";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DetailsButton } from "./DetailsButton";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
-import { Module } from "../@types/module";
+import { ContentDTO } from "../dtos/ModuleDTO";
 type Props = {
-  module: Module
+  module_description: string
+  contents: ContentDTO[]
+  selectedInfo: string
+  setSelectedInfo: (info: "about" | "downloaded" | "content") => void
 }
 
-export function ModuleDetails({module}: Props) {
-  const [selectedInfo, setSelectedInfo] = useState<
-    "about" | "downloaded" | "content"
-  >("about");
+export function ModuleDetails({ module_description, setSelectedInfo, selectedInfo, contents }: Props) {
 
-  const {navigate} = useNavigation<AppNavigatorRoutesProps>();
+  const { navigate } = useNavigation<AppNavigatorRoutesProps>();
   return (
     <VStack>
-      <HStack alignItems="center" justifyContent="space-evenly" mb={20}>
+      <HStack alignItems="center" justifyContent="space-evenly" mb={10}>
         <DetailsButton
           title="Sobre"
           isSelected={selectedInfo === "about" && true}
@@ -42,15 +42,15 @@ export function ModuleDetails({module}: Props) {
         />
       </HStack>
       {selectedInfo === "about" && (
-        <Text color="white" fontFamily="body" fontSize="md">
-          {module.description}
+        <Text color="white" fontFamily="body" fontSize="sm">
+          {module_description}
         </Text>
       )}
       {selectedInfo === "content" && (
         <FlatList
-          data={module.content}
+          data={contents}
           showsVerticalScrollIndicator={false}
-          keyExtractor={(item) => item.videoTitle}
+          keyExtractor={(item) => String(item.id)}
           renderItem={({ item: content }) => (
             <HStack justifyContent="space-between" alignItems="center" mb={6}>
               <HStack flex={1} alignItems="center">
@@ -65,16 +65,16 @@ export function ModuleDetails({module}: Props) {
                   justifyContent="center"
                   mr={4}
                 >
-                  <Text  color="white" fontFamily="body" fontSize="lg">
-                    {content.videoNumber}
+                  <Text color="white" fontFamily="body" fontSize="lg">
+                    {content.id}
                   </Text>
                 </Box>
                 <VStack>
-                  <Text   maxW="230" w="100%" color="white" fontFamily="body" fontSize="sm" numberOfLines={2}>
-                    {content.videoTitle}
+                  <Text maxW="230" w="100%" color="white" fontFamily="body" fontSize="sm" numberOfLines={2}>
+                    {content.contents_name}
                   </Text>
                   <Text color="white" fontFamily="body" fontSize="xs">
-                    {content.duration} min
+                    {content.contents_type === 'video' ? Math.floor(content.contets_duration / 60) + 'min' : 'Artigo'}
                   </Text>
                 </VStack>
               </HStack>
@@ -88,15 +88,11 @@ export function ModuleDetails({module}: Props) {
                 borderColor="purple.500"
                 rounded="xl"
                 justifyContent="center"
-                onPress={()=> navigate('moduleVideo', {
-                  moduleNumber: module.number,
-                  duration: content.duration,
-                  videoNumber: content.videoNumber,
-                  videoTitle: content.videoTitle,
-                  comments: content.comments
-                })}
+                onPress={() => navigate('moduleVideo', content)}
               >
-                <Text color="purple.500">Assistir</Text>
+                <Text color="purple.500">
+                  {content.contents_type === 'video' ? 'Assistir' : 'Ler'}
+                </Text>
               </Pressable>
             </HStack>
           )}

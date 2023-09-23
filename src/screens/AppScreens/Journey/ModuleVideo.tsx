@@ -2,81 +2,113 @@ import { Comments } from "@components/Comments";
 import { ModuleVideoButton } from "@components/ModuleVideoButton";
 import { ScreenContainer } from "@components/ScreenContainer";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Divider, HStack, Heading, Image, Pressable, Text, VStack } from "native-base";
-import { AppNavigatorRoutesProps } from "@routes/app.routes";
-import { Module as ModuleDTO } from "../../../@types/module";
+import { Box, Divider, HStack, Heading, Image, Pressable, ScrollView, Text, VStack } from "native-base";
+import { ModuleVideoPlayer } from "@components/ModuleVideoPlayer";
+import { ContentDTO } from "../../../dtos/ModuleDTO";
 import GoBackSvg from "@assets/goback.svg";
-type RouteParams = {
-  moduleNumber: number;
-  videoNumber: number;
-  videoTitle: string;
-  duration: number;
-  comments?: [
-    {
-      userId: string;
-      username: string
-      comment: string;
-      likes: number;
-      stars: number[];
-    }
-  ];
-};
+import { Share } from "react-native";
 
-const moduleMock: ModuleDTO = {
-  number: 1,
-  completedVideos: 3,
-  name: "Introdução",
-  videosLength: 4,
-  description: 'bbla bla bla bla num sei oq n sei o que lá',
-  content: [
-    {
-      videoNumber: 1,
-      videoTitle: "Introdução",
-      duration: 5,
-      comments: [
-        {
-          userId: "22asfi3@Ufhn",
-          username: 'Musashi',
-          comment: 'Que professor sigma!',
-          likes: 90,
-          stars: [0, 1, 2, 3, 4],
-        }
-      ]
-    }
-  ]
-}
+import { AppNavigatorRoutesProps } from "@routes/app.routes";
+import { Input } from "@components/Input";
+type RouteParams = ContentDTO
+
+
 export function ModuleVideo() {
   const route = useRoute();
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const { goBack } = useNavigation<AppNavigatorRoutesProps>()
+  const content = route.params as RouteParams;
+  const articleWithBreakLine = content.contents_article?.split('/n')
 
-  const { moduleNumber, duration, videoNumber, videoTitle, comments } =
-    route.params as RouteParams;
+  const url = 'https://unplugged.com'
+  async function onShare() {
+    try {
+      const result = await Share.share({
+        message: `
+        Venha conhecer esse aplicativo incrível que estou usando para diminuir meu vício nas redes sociais e me tornar mais produtivo!
+        \n${url}
+        `,
+      })
 
-  function handleNavigate() {
-    navigate('module', { module: moduleMock })
+      if (result.action == Share.sharedAction) {
+        if (result.activityType) {
+          console.log('typeof: ', result.activityType)
+        }
+        else {
+          console.log('shared');
+
+        }
+      } else if (result.action === Share.dismissedAction) {
+        console.log('dismissed');
+
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
   return (
     <ScreenContainer>
-      <Pressable
-        pr={3}
-        py={3}
-        onPress={handleNavigate}
-        mb={8}
-      >
-        <GoBackSvg fill="#fff" />
-      </Pressable>
-      <Text fontFamily="heading" fontSize="2xl" color="white" lineBreakMode="middle">
-        Módulo {moduleNumber}: {videoTitle}
-      </Text>
 
-      <HStack mt={10} alignItems="center" justifyContent="center">
-        <ModuleVideoButton icon="heart" />
-        <ModuleVideoButton icon="download" />
-        <ModuleVideoButton icon="share-2" />
-        <ModuleVideoButton icon="message-circle" />
-      </HStack>
-      <Divider my={7} />
-      <Comments comments={comments} />
+      <ScrollView
+        contentContainerStyle={{
+          paddingVertical: 24,
+        }}
+        showsVerticalScrollIndicator={false}
+      >
+        {
+          content.contents_type === 'video' && <ModuleVideoPlayer videoId={content.id} />
+        }
+        {
+          content.contents_type === 'article' ? (
+            <HStack alignItems='center' >
+              <Pressable onPress={() => goBack()} pr={4}>
+                <GoBackSvg fill="#fff" />
+              </Pressable>
+              <Text fontFamily="heading" fontSize="2xl" color="white" lineBreakMode="middle">
+                Aula {content.id}: {content.contents_name}
+              </Text>
+            </HStack>
+
+          ) :
+            (
+              <Text mt={8} fontFamily="heading" fontSize="2xl" color="white" lineBreakMode="middle">
+                Aula {content.id}: {content.contents_name}
+              </Text>
+            )
+        }
+        {
+          content.contents_type === 'article' && (
+            <>
+              {articleWithBreakLine?.map((linha, index) => (
+                <Text key={index} color="white" my={2}>{linha}</Text>
+              ))}
+            </>
+          )
+
+        }
+        <HStack mt={10} alignItems="center" justifyContent="center">
+          <ModuleVideoButton icon="heart" />
+          <ModuleVideoButton icon="download" />
+          <ModuleVideoButton icon="share-2" onPress={onShare} />
+        </HStack>
+        <Divider my={7} />
+        <Input
+          bgColor="gray.500" px={3} rounded="xl" shadow={9}
+          borderColor='transparent'
+          placeholder="Adicione um comentário..."
+        />
+        <Comments comments={[
+          {
+            comment: 'Aula foi muito boa, a qualidade da edição é maravilhosas e o profesor tem um domínio sobre o assunto o que torna tudo melhor.',
+            likes: 2,
+            stars: [0, 1, 2],
+            userId: '21dasdacdascas',
+            username: 'Halisson Lima'
+
+          }
+        ]} />
+      </ScrollView>
+
+
     </ScreenContainer>
   );
 }

@@ -1,6 +1,5 @@
 import {
   Box,
-  FlatList,
   HStack,
   Pressable,
   Text,
@@ -26,15 +25,18 @@ export function Comments({ comments }: Props) {
   return (
     <>
       {comments?.map(comment => (
-        <Box key={comment.userId} m={3} bgColor="gray.500" px={4} py={5} rounded="xl" shadow={9} >
+        <Box key={comment.userId} my={3} bgColor="gray.500" px={3} py={5} rounded="xl" shadow={9} >
           <VStack>
             <HStack alignItems="center" justifyContent="space-between">
-              <HStack alignItems="center">
-                <Text color="white" fontFamily="semiBold" fontSize="lg" mr={2}>
+              <HStack alignItems="center" space={2}>
+                <Box p={2} rounded='full' bg="gray.400">
+                  <AntDesign name="user" size={20} color="white" />
+                </Box>
+                <Text color="white" fontFamily="semiBold" fontSize="sm">
                   {comment.username}
                 </Text>
                 <Text color="white" fontFamily="body" fontSize="xs">
-                  3 dias atrás
+                  1 mês atrás
                 </Text>
               </HStack>
               <Text color="white" fontFamily="body" fontSize="xs">
@@ -43,7 +45,7 @@ export function Comments({ comments }: Props) {
                 ))}
               </Text>
             </HStack>
-            <Text my={2} color="white" fontFamily="body" fontSize="sm">
+            <Text my={2} color="white" fontFamily="body" fontSize="xs">
               {comment.comment}
             </Text>
             <Pressable alignSelf="flex-end">

@@ -13,7 +13,7 @@ import { Loading } from "@components/Loading";
 import { THEME } from "./src/theme";
 import { Splash } from "@components/Splash";
 import { preventAutoHideAsync } from 'expo-splash-screen'
-import { GoalsContextProvider } from "@contexts/GoalsContext";
+import { GoalsContextProvider } from "@contexts/HabitsContext";
 import { TimerControlProvider } from "@contexts/TimerControlContext";
 import { AuthContextProvider } from "@contexts/AuthContext";
 preventAutoHideAsync();

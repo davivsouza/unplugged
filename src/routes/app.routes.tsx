@@ -2,9 +2,10 @@ import {
   createBottomTabNavigator,
   BottomTabNavigationProp,
 } from "@react-navigation/bottom-tabs";
+import { AntDesign } from '@expo/vector-icons'
 import { Journey } from "@screens/AppScreens/Journey";
 import { Module } from "@screens/AppScreens/Journey/Module";
-import { Module as ModuleDTO } from "../@types/module";
+
 import { ModuleVideo } from "@screens/AppScreens/Journey/ModuleVideo";
 import { BinauralSounds } from "@screens/AppScreens/BinauralSounds";
 
@@ -26,31 +27,20 @@ import { Painel } from "@screens/AppScreens/Habits/Painel";
 import { Product } from "@screens/AppScreens/Shop/Product";
 import { MeditationIntroSlider } from "@screens/AppScreens/Meditations/MeditationIntroSlider";
 import { BinauralSoundsIntroSlider } from "@screens/AppScreens/BinauralSounds/BinauralSoundsIntroSlider";
+import { ContentDTO, ModuleDTO } from "../dtos/ModuleDTO";
+import { ModuleContentDTO } from "../dtos/ModuleContentDTO";
+import { BinauralDTO } from "../dtos/BinauralCategoryDTO";
+import { FavoritesPlaylist } from "@screens/AppScreens/BinauralSounds/FavoritesPlaylist";
+import { MeditationDTO } from "../dtos/MeditationDTO";
+import { Profile } from "@screens/AppScreens/Profile";
+import { UpdateProfile } from "@screens/AppScreens/Profile/UpdateProfile";
 
 type AppRoutes = {
   journey: undefined;
-  module: {
-    module: ModuleDTO;
-  };
-  moduleVideo: {
-    moduleNumber: number;
-    videoNumber: number;
-    videoTitle: string;
-    duration: number;
-    comments?: [
-      {
-        userId: string;
-        comment: string;
-        likes: number;
-        stars: number[];
-      }
-    ];
-  };
-  meditations: undefined;
-  meditationPlayer: {
-    title: string
-    artist: string
-  }
+  module: ModuleDTO
+  moduleVideo: ContentDTO,
+  meditations: undefined,
+  meditationPlayer: MeditationDTO,
   meditationIntroSlider: undefined,
   binauralSoundsIntroSlider: undefined,
   habits: undefined;
@@ -60,12 +50,12 @@ type AppRoutes = {
   cart: undefined
   creditCards: undefined
   binaural: undefined;
-  playlist: undefined
+  playlist: { playlistId: number }
   binauralSounds: undefined;
-  binauralSound: {
-    title: string
-    artist: string
-  }
+  binauralSound: { binaural: BinauralDTO, playlistId?: number }
+  favoriteBinauralSounds: undefined
+  profile: undefined
+  updateProfile: undefined
 
 };
 
@@ -77,9 +67,11 @@ export function AppRoutes() {
   return (
     <Navigator
       initialRouteName="journey"
+      backBehavior="history"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
+
         tabBarStyle: {
 
           position: "absolute",
@@ -155,17 +147,13 @@ export function AppRoutes() {
           </VStack>
         )
       }} />
-      <Screen name="shop" component={Shop} options={{
+      <Screen name="profile" component={Profile} options={{
         tabBarIcon: ({ focused }) => (
           <VStack>
 
-            <ShopSvg
-              fill="#fff"
-              width={30}
-              height={30}
-            />
+            <AntDesign name="user" size={33} color="white" />
             {focused && (
-              <Box position="absolute" top={"170%"} w={8} h={4} bg="purple.500" borderTopLeftRadius="full" borderTopRightRadius="full" />
+              <Box position="absolute" top={"155%"} w={8} h={4} bg="purple.500" borderTopLeftRadius="full" borderTopRightRadius="full" />
             )}
           </VStack>
         )
@@ -279,6 +267,25 @@ export function AppRoutes() {
           tabBarButton: () => null,
         }}
       />
+      <Screen
+        name="favoriteBinauralSounds"
+        component={FavoritesPlaylist}
+        options={{
+
+          tabBarButton: () => null,
+        }}
+      />
+      <Screen
+        name="updateProfile"
+        component={UpdateProfile}
+        options={{
+          tabBarStyle: {
+            display: "none",
+          },
+          tabBarButton: () => null,
+        }}
+      />
+
     </Navigator>
   );
 }

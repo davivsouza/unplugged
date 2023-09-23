@@ -9,46 +9,59 @@ import {
 } from "native-base";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Module as ModuleDTO } from "../../../@types/module";
 
 import { ModuleDetails } from "@components/ModuleDetails";
 import { ScreenContainer } from "@components/ScreenContainer";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import VideosSvg from "@assets/journey/videos-icon.svg";
 import GoBackSvg from "@assets/goback.svg";
+import { ModuleDTO } from "../../../dtos/ModuleDTO";
+import { useState } from "react";
+import { JourneyHeader } from "@components/JourneyHeader";
 
-type RouteParams = {
-  module: ModuleDTO;
-};
+type RouteParams = ModuleDTO;
 
 export function Module() {
+  const [selectedInfo, setSelectedInfo] = useState<"about" | "downloaded" | "content">("about");
+
   const route = useRoute();
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const { goBack } = useNavigation<AppNavigatorRoutesProps>()
+  const tempProgress = 0
 
   function handleNavigate() {
-    navigate('journey')
+    goBack()
+    setSelectedInfo('about')
   }
-  const { module } = route.params as RouteParams;
+  const module = route.params as RouteParams;
+
+
+
   return (
     <ScreenContainer>
-      <HStack space={2}>
-        <Pressable
-          pr={3}
-          py={3}
-          onPress={handleNavigate}
-          mb={8}
-        >
-          <GoBackSvg fill="#fff" />
-        </Pressable>
-        <Text fontFamily="body" color="white" fontSize="3xl">
-          Módulo {module.number}: {module.name}
+
+      <Box ml={128}>
+        <JourneyHeader />
+      </Box>
+      <Pressable
+        pr={3}
+        py={4}
+        onPress={handleNavigate}
+        position={'absolute'}
+        top={20}
+        left={15}
+      >
+        <GoBackSvg fill="#fff" />
+      </Pressable>
+      <HStack space={2} alignItems='center' position={'relative'}>
+        <Text fontFamily="body" color="white" fontSize="2xl">
+          Módulo {module.id}: {module.module_name}
         </Text>
       </HStack>
 
       <HStack mt={3} alignItems="center">
         <VideosSvg />
         <Text color="gray.50" fontFamily="body" fontSize="xs">
-          {module.completedVideos}/{module.videosLength}
+          0/{module.content_count}
         </Text>
       </HStack>
       <HStack alignItems="center">
@@ -64,16 +77,19 @@ export function Module() {
                 },
               },
             }}
-            value={75}
+            value={tempProgress}
           />
         </Box>
         <Text color="white" fontFamily="body" fontSize="xs" ml={5}>
-          75%
+          {tempProgress}%
         </Text>
       </HStack>
       <Divider my={7} />
       <ModuleDetails
-        module={module}
+        module_description={module.module_description}
+        contents={module.contents}
+        selectedInfo={selectedInfo}
+        setSelectedInfo={setSelectedInfo}
       />
     </ScreenContainer>
   );
