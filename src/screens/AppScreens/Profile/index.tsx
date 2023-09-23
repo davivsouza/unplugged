@@ -1,5 +1,5 @@
 import { ScreenContainer } from "@components/ScreenContainer";
-import { Box, Divider, HStack, Text, VStack, useTheme } from "native-base";
+import { Box, Divider, HStack, Pressable, Text, VStack, useTheme } from "native-base";
 import { useAuth } from "@hooks/useAuth";
 import { AntDesign, Feather } from '@expo/vector-icons'
 import { ProfileOption } from "@components/ProfileOption";
@@ -7,7 +7,7 @@ import { Button } from "@components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 export function Profile() {
-  const { user } = useAuth()
+  const { user, signOut } = useAuth()
   const { colors } = useTheme()
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   return (
@@ -27,11 +27,12 @@ export function Profile() {
         <ProfileOption icon="hearto" label="Favoritos" screen="favoriteSounds" />
         <ProfileOption icon="download" label="Baixados" />
         <Divider my={8} />
-        <HStack alignItems={'center'} space={2}>
-          <Feather name="log-out" size={25} color={colors.red[500]} />
-          <Text fontFamily='body' fontSize={'lg'} color="red.500">Sair</Text>
+        <Pressable onPress={signOut}>
+          <HStack alignItems={'center'} space={2}>
+            <Feather name="log-out" size={25} color={colors.red[500]} />
 
-        </HStack>
+          </HStack>
+        </Pressable>
       </VStack>
     </ScreenContainer>
   )
