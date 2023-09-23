@@ -30,6 +30,7 @@ export function Profile() {
         <Pressable onPress={signOut}>
           <HStack alignItems={'center'} space={2}>
             <Feather name="log-out" size={25} color={colors.red[500]} />
+            <Text fontFamily='body' fontSize={'lg'} color="red.500">Sair</Text>
 
           </HStack>
         </Pressable>
