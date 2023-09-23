@@ -10,13 +10,7 @@ export function ScreenContainer({ children, ...rest }: Props) {
         flex={1}
         py={90}
         px={5}
-        bg={{
-          linearGradient: {
-            colors: ["gray.800", "purple.800"],
-            start: [0, 0.4],
-            end: [0, 1],
-          },
-        }}
+        bg={"#16141C"}
         {...rest}
       >
         {children}
