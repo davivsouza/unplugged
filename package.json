@@ -41,7 +41,8 @@
     "react-native-svg-transformer": "^1.0.0",
     "react-native-web": "~0.18.10",
     "victory-native": "^36.6.11",
-    "yup": "^1.1.1"
+    "yup": "^1.1.1",
+    "react-native-gesture-handler": "~2.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

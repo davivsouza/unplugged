@@ -19,12 +19,8 @@ import { Playlist } from "@screens/AppScreens/BinauralSounds/Playlist";
 import { Meditations } from "@screens/AppScreens/Meditations";
 import { MeditationPlayer } from "@screens/AppScreens/Meditations/MeditationPlayer";
 import { Habits } from "@screens/AppScreens/Habits";
-import { Shop } from "@screens/AppScreens/Shop";
 import { BinauralSound } from "@screens/AppScreens/BinauralSounds/BinauralSound";
-import { Cart } from "@screens/AppScreens/Shop/Cart";
-import { CreditCards } from "@screens/AppScreens/Shop/CreditCards";
 import { Painel } from "@screens/AppScreens/Habits/Painel";
-import { Product } from "@screens/AppScreens/Shop/Product";
 import { MeditationIntroSlider } from "@screens/AppScreens/Meditations/MeditationIntroSlider";
 import { BinauralSoundsIntroSlider } from "@screens/AppScreens/BinauralSounds/BinauralSoundsIntroSlider";
 import { ContentDTO, ModuleDTO } from "../dtos/ModuleDTO";
@@ -45,10 +41,6 @@ type AppRoutes = {
   binauralSoundsIntroSlider: undefined,
   habits: undefined;
   bemestarPainel: undefined
-  shop: undefined;
-  product: undefined;
-  cart: undefined
-  creditCards: undefined
   binaural: undefined;
   playlist: { playlistId: number }
   binauralSounds: undefined;
@@ -201,28 +193,7 @@ export function AppRoutes() {
 
         }}
       />
-      <Screen
-        name="cart"
-        component={Cart}
 
-        options={{
-          tabBarStyle: {
-            display: "none",
-          },
-          tabBarButton: () => null,
-        }}
-      />
-      <Screen
-        name="creditCards"
-        component={CreditCards}
-
-        options={{
-          tabBarStyle: {
-            display: "none",
-          },
-          tabBarButton: () => null,
-        }}
-      />
       <Screen
         name="bemestarPainel"
         component={Painel}
@@ -234,17 +205,7 @@ export function AppRoutes() {
           tabBarButton: () => null,
         }}
       />
-      <Screen
-        name="product"
-        component={Product}
 
-        options={{
-          tabBarStyle: {
-            display: "none",
-          },
-          tabBarButton: () => null,
-        }}
-      />
       <Screen
         name="meditationIntroSlider"
         component={MeditationIntroSlider}

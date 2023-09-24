@@ -14,7 +14,6 @@ import { ModuleDetails } from "@components/ModuleDetails";
 import { ScreenContainer } from "@components/ScreenContainer";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import VideosSvg from "@assets/journey/videos-icon.svg";
-import GoBackSvg from "@assets/goback.svg";
 import { ModuleDTO } from "../../../dtos/ModuleDTO";
 import { useState } from "react";
 import { JourneyHeader } from "@components/JourneyHeader";
@@ -25,13 +24,9 @@ export function Module() {
   const [selectedInfo, setSelectedInfo] = useState<"about" | "downloaded" | "content">("about");
 
   const route = useRoute();
-  const { goBack } = useNavigation<AppNavigatorRoutesProps>()
   const tempProgress = 0
 
-  function handleNavigate() {
-    goBack()
-    setSelectedInfo('about')
-  }
+
   const module = route.params as RouteParams;
 
 
@@ -39,19 +34,10 @@ export function Module() {
   return (
     <ScreenContainer>
 
-      <Box ml={128}>
-        <JourneyHeader />
+      <Box>
+        <JourneyHeader canGoBack />
       </Box>
-      <Pressable
-        pr={3}
-        py={4}
-        onPress={handleNavigate}
-        position={'absolute'}
-        top={20}
-        left={15}
-      >
-        <GoBackSvg fill="#fff" />
-      </Pressable>
+
       <HStack space={2} alignItems='center' position={'relative'}>
         <Text fontFamily="body" color="white" fontSize="2xl">
           Módulo {module.id}: {module.module_name}

@@ -1,11 +1,8 @@
-import { Box, HStack, Modal, Pressable, Select, Text, TextArea, VStack, useToast } from "native-base";
+import GoBackSvg from "@assets/goback.svg";
+import { HStack, Modal, Pressable, Select, Text, TextArea, VStack, useToast } from "native-base";
 import { useState } from "react";
 import { Input } from "./Input";
 import { Button } from "./Button";
-import GoBackSvg from "@assets/goback.svg";
-
-import { AppNavigatorRoutesProps } from "@routes/app.routes";
-import { MaterialIcons } from '@expo/vector-icons';
 import { useGoals } from "@hooks/useGoals";
 import { useAuth } from "@hooks/useAuth";
 import { Controller, useForm } from "react-hook-form";
@@ -63,7 +60,7 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
   const { loadTodayHabits } = useGoals()
   const [selectedDays, setSelectedDays] = useState<number[]>()
   const [isCreating, setIsCreating] = useState(false)
-  const [color, setColor] = useState('')
+  const [color, setColor] = useState('white')
   const toast = useToast()
   const {
     control,
@@ -111,7 +108,10 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
       })
       loadTodayHabits()
       onOpenModal(false)
+      setSelectedDays([])
+      setColor('white')
       reset()
+
     } catch (err) {
       throw err
     } finally {

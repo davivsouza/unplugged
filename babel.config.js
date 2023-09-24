@@ -14,7 +14,9 @@ module.exports = function (api) {
           "@contexts": './src/contexts',
           "@hooks": './src/hooks',
         }
-      }]
+      }],
+      'react-native-reanimated/plugin',
+
     ]
   };
 };

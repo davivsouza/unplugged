@@ -1,6 +1,7 @@
 import { NativeBaseProvider } from "native-base";
 import { useState } from 'react'
 import { Routes } from "./src/routes";
+import 'react-native-gesture-handler';
 import {
   useFonts,
   Epilogue_400Regular,

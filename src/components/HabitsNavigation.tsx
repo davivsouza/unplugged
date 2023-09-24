@@ -16,7 +16,7 @@ export function HabitsNavigation({ selectedItem, onSelectItem }: Props) {
         onPress={() => onSelectItem("insights")}
       />
       <DetailsButton
-        title="Metas"
+        title="Seus hábitos"
         isSelected={selectedItem === "metas" && true}
         onPress={() => onSelectItem("metas")}
       />

@@ -23,16 +23,16 @@ export function HabitsMetas() {
   return (
     <VStack position="relative">
       <HabitsMetasFormModal isModalOpen={showModal} onOpenModal={setShowModal} />
-      <Text color="white" fontFamily="semiBold" fontSize="xl" my={6}>Metas de hoje - {today}</Text>
+      <Text color="white" fontFamily="semiBold" fontSize="xl" my={6}>Hábitos de hoje - {today}</Text>
       <FlatList
         px={2}
         data={goals}
-        h="85%"
+        h="80%"
         keyExtractor={item => String(item.id)}
         renderItem={({ item: habit }) => (
           <HabitsCard habit={habit} />
         )}
-        contentContainerStyle={{ paddingBottom: 20 }}
+        contentContainerStyle={{ paddingBottom: 120 }}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => (
           <Center>
