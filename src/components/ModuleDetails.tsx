@@ -51,7 +51,7 @@ export function ModuleDetails({ module_description, setSelectedInfo, selectedInf
           data={contents}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => String(item.id)}
-          renderItem={({ item: content }) => (
+          renderItem={({ item: content, index }) => (
             <HStack justifyContent="space-between" alignItems="center" mb={6}>
               <HStack flex={1} alignItems="center">
                 <Box
@@ -66,7 +66,7 @@ export function ModuleDetails({ module_description, setSelectedInfo, selectedInf
                   mr={4}
                 >
                   <Text color="white" fontFamily="body" fontSize="lg">
-                    {content.id}
+                    {index + 1}
                   </Text>
                 </Box>
                 <VStack>
