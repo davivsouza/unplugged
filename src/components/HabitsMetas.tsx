@@ -32,7 +32,6 @@ export function HabitsMetas() {
   const { goals, loadTodayHabits } = useGoals()
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
-  const [isHabitCompleted, setIsHabitCompleted] = useState(false)
 
   async function handleCompleteHabit(habitId: number, userId: string) {
     try {

@@ -8,8 +8,6 @@ type Props = {
   habit: HabitDTO
   onComplete: (habitId: number, userId: string) => Promise<void>
   onDelete: (id: number) => Promise<void>
-  // isHabitCompleted: boolean,
-  // handleIsHabitCompleted: (bool: boolean) => void
   checkIsHabitCompleted(habit: HabitDTO): [] | HabitLogs[]
 }
 
@@ -53,7 +51,9 @@ export function HabitsCard({ habit, onComplete, onDelete, checkIsHabitCompleted 
         {
           checkIsHabitCompleted(habit).length == 0 && (
             <HStack alignItems='center' space={8}>
-              <Pressable onPress={() => onDelete(Number(habit.id))}>
+              <Pressable rounded="full" onPress={() => onDelete(Number(habit.id))} _pressed={{
+                background: 'red.200'
+              }}>
                 <Feather name="trash-2" size={20} color={colors.gray[100]} />
               </Pressable>
               <Pressable
