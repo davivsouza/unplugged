@@ -1,36 +1,46 @@
-import { useEffect, useState } from "react";
-import { Divider, FlatList, Heading, Text, VStack, Pressable, HStack, Box } from "native-base";
+import { useCallback, useEffect, useState } from "react";
+import { Divider, FlatList, Heading, Text, VStack, Pressable, HStack, Box, useToast } from "native-base";
 import { Modules } from "@components/Modules";
 import { ScreenContainer } from "@components/ScreenContainer";
 import { useAuth } from "@hooks/useAuth";
 import { api } from "../../../services/api";
 import { ModuleDTO } from "../../../dtos/ModuleDTO";
 import { JourneyHeader } from "@components/JourneyHeader";
+import { useFocusEffect } from "@react-navigation/native";
+import { AppError } from "@utils/AppError";
+import { Loading } from "@components/Loading";
 
 
 
 export function Journey() {
   const [modulesData, setModulesData] = useState<ModuleDTO[]>([]);
-
-  const { user, signOut } = useAuth();
-
-
-  async function signOutAccount() {
-    await signOut();
-  }
+  const [isFetching, setIsFetching] = useState(false)
+  const { user } = useAuth();
+  const toast = useToast()
 
   async function fetchModules() {
-    const { data } = await api.get('modules/');
-    setModulesData(data.modules)
+    try {
+      setIsFetching(true)
+      const { data } = await api.get('modules/');
+      setModulesData(data.modules)
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const title = isAppError ? error.message : 'Não foi possível carregar o histórico!'
 
-
-
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500'
+      });
+    } finally {
+      setIsFetching(false)
+    }
 
 
   }
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     fetchModules()
-  }, [])
+  }, []))
 
   return (
     <ScreenContainer>
@@ -47,13 +57,16 @@ export function Journey() {
         Jornada <Text fontWeight="bold">{user.name}</Text>
       </Heading>
       <Divider my={7} />
-      <FlatList
-        flex={1}
-        data={modulesData}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <Modules module={item} />}
-      />
+      {isFetching ? <Loading /> : (
+        <FlatList
+          flex={1}
+          data={modulesData}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => <Modules module={item} />}
+        />
+      )}
+
     </ScreenContainer>
   );
 }
