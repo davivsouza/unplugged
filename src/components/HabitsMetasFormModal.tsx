@@ -101,11 +101,12 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
       }
       await api.post('/habits', habit);
       toast.show({
-        title: 'Meta criada com sucesso!',
+        title: 'Hábito criado com sucesso!',
         placement: 'top',
         bgColor: 'green.700',
 
       })
+
       loadTodayHabits()
       onOpenModal(false)
       setSelectedDays([])

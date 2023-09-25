@@ -7,11 +7,14 @@ export type HabitDTO = {
   daysOfWeek?: number[]
   completed?: boolean
   createdAt?: Date
-  habitsSchedule?: HabitsSchedule[]
+  habitLogs?: HabitLogs[]
 }
 
-type HabitsSchedule = {
+export type HabitLogs = {
   id: number
   habitId: number
   dayOfWeek: number
+  completed: boolean
+  date: Date
+
 }

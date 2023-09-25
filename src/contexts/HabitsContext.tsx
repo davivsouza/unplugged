@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { HabitDTO } from "../dtos/HabitDTO";
 import { api } from "../services/api";
+import { useAuth } from "@hooks/useAuth";
 
 export type GoalsContextData = {
   goals: HabitDTO[]
@@ -13,9 +14,13 @@ export const GoalsContext = createContext<GoalsContextData>({} as GoalsContextDa
 
 export function GoalsContextProvider({ children }: GoalsProviderProps) {
   const [goals, setGoals] = useState<HabitDTO[]>([])
+  const { user } = useAuth()
+
+
+
 
   async function loadTodayHabits() {
-    const { data } = await api.get('/habits/today')
+    const { data } = await api.get(`/habits/today/${user.id}`)
     setGoals(data)
   }
 
@@ -26,7 +31,7 @@ export function GoalsContextProvider({ children }: GoalsProviderProps) {
   return (
     <GoalsContext.Provider value={{
       goals,
-      loadTodayHabits
+      loadTodayHabits,
     }}>
 
       {children}
