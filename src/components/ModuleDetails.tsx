@@ -22,6 +22,8 @@ type Props = {
 export function ModuleDetails({ module_description, setSelectedInfo, selectedInfo, contents }: Props) {
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
+
+
   return (
     <VStack>
       <HStack alignItems="center" justifyContent="space-evenly" mb={10}>
@@ -88,7 +90,7 @@ export function ModuleDetails({ module_description, setSelectedInfo, selectedInf
                 borderColor="purple.500"
                 rounded="xl"
                 justifyContent="center"
-                onPress={() => navigate('moduleVideo', content)}
+                onPress={() => navigate('moduleVideo', { content, videoNumber: index })}
               >
                 <Text color="purple.500">
                   {content.contents_type === 'video' ? 'Assistir' : 'Ler'}

@@ -1,5 +1,6 @@
 import {
   Box,
+  Center,
   HStack,
   Pressable,
   Text,
@@ -23,8 +24,17 @@ export function Comments({ comments }: Props) {
   const { colors } = useTheme();
 
   return (
-    <>
-      {comments?.map(comment => (
+    <Center>
+      <Text color="white" fontSize="md" fontFamily='semiBold'>
+        🚧 Comentários em desenvolvimento... 🚧
+      </Text>
+    </Center>
+
+  );
+}
+
+
+{/* {comments?.map(comment => (
         <Box key={comment.userId} my={3} bgColor="gray.500" px={3} py={5} rounded="xl" shadow={9} >
           <VStack>
             <HStack alignItems="center" justifyContent="space-between">
@@ -58,7 +68,4 @@ export function Comments({ comments }: Props) {
             </Pressable>
           </VStack>
         </Box>
-      ))}
-    </>
-  );
-}
+      ))} */}

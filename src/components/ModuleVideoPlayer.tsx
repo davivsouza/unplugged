@@ -5,12 +5,16 @@ import * as ScreenOrientation from 'expo-screen-orientation'
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import GoBackSvg from "@assets/goback.svg";
 import { useNavigation } from "@react-navigation/native";
+import { Dimensions } from "react-native";
 
 type Props = {
   videoId: number
 }
 
+const PHONE_SCREEN_SIZE = Dimensions.get('screen').width
+
 export function ModuleVideoPlayer({ videoId }: Props) {
+
   const [position, setPosition] = useState(0);
   const videoRef = useRef<any>(null);
   const { goBack } = useNavigation<AppNavigatorRoutesProps>()
@@ -32,7 +36,7 @@ export function ModuleVideoPlayer({ videoId }: Props) {
       <Pressable
         padding={6}
         onPress={handleNavigate}
-        top={0}
+        top={4}
         left={0}
         zIndex={20}
         style={{ elevation: 10 }}
@@ -44,9 +48,11 @@ export function ModuleVideoPlayer({ videoId }: Props) {
         positionMillis={position}
         ref={videoRef}
         style={{
-          alignSelf: 'center',
-          width: 420,
-          height: 220,
+          alignSelf: 'flex-start',
+          width: PHONE_SCREEN_SIZE,
+          height: 240,
+          backgroundColor: '#221E2B',
+
         }}
         source={{
           uri: `http://192.168.1.8:3333/api/contents/${videoId}`,
@@ -55,7 +61,6 @@ export function ModuleVideoPlayer({ videoId }: Props) {
         resizeMode={ResizeMode.CONTAIN}
         isLooping={false}
         onFullscreenUpdate={async (update) => {
-          console.log(update.fullscreenUpdate);
 
           if (update.fullscreenUpdate <= 1) {
             await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE)

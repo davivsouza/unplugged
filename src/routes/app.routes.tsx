@@ -34,7 +34,7 @@ import { UpdateProfile } from "@screens/AppScreens/Profile/UpdateProfile";
 type AppRoutes = {
   journey: undefined;
   module: ModuleDTO
-  moduleVideo: ContentDTO,
+  moduleVideo: { content: ContentDTO, videoNumber: number },
   meditations: undefined,
   meditationPlayer: MeditationDTO,
   meditationIntroSlider: undefined,

@@ -26,8 +26,6 @@ export function GoalsContextProvider({ children }: GoalsProviderProps) {
 
   useEffect(() => {
     loadTodayHabits()
-    console.log(user.id);
-
   }, [])
 
   return (

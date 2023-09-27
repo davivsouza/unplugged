@@ -10,13 +10,16 @@ import { Share } from "react-native";
 
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { Input } from "@components/Input";
-type RouteParams = ContentDTO
+type RouteParams = {
+  content: ContentDTO
+  videoNumber: number
+}
 
 
 export function ModuleVideo() {
   const route = useRoute();
   const { goBack } = useNavigation<AppNavigatorRoutesProps>()
-  const content = route.params as RouteParams;
+  const { content, videoNumber } = route.params as RouteParams;
   const articleWithBreakLine = content.contents_article?.split('/n')
 
   const url = 'https://unplugged.com'
@@ -46,11 +49,11 @@ export function ModuleVideo() {
     }
   }
   return (
-    <ScreenContainer>
+    <ScreenContainer px={0} py={0}>
 
       <ScrollView
         contentContainerStyle={{
-          paddingVertical: 24,
+          paddingBottom: 24,
         }}
         showsVerticalScrollIndicator={false}
       >
@@ -59,19 +62,19 @@ export function ModuleVideo() {
         }
         {
           content.contents_type === 'article' ? (
-            <HStack alignItems='center' >
+            <HStack px={5} alignItems='center' >
               <Pressable onPress={() => goBack()} pr={4}>
                 <GoBackSvg fill="#fff" />
               </Pressable>
               <Text fontFamily="heading" fontSize="2xl" color="white" lineBreakMode="middle">
-                Aula {content.id}: {content.contents_name}
+                Aula {videoNumber + 1}: {content.contents_name}
               </Text>
             </HStack>
 
           ) :
             (
-              <Text mt={8} fontFamily="heading" fontSize="2xl" color="white" lineBreakMode="middle">
-                Aula {content.id}: {content.contents_name}
+              <Text px={5} mt={8} fontFamily="heading" fontSize="2xl" color="white" lineBreakMode="middle">
+                Aula {videoNumber + 1}: {content.contents_name}
               </Text>
             )
         }
@@ -79,23 +82,26 @@ export function ModuleVideo() {
           content.contents_type === 'article' && (
             <>
               {articleWithBreakLine?.map((linha, index) => (
-                <Text key={index} color="white" my={2}>{linha}</Text>
+                <Text px={5} key={index} color="white" my={2}>{linha}</Text>
               ))}
             </>
           )
 
         }
-        <HStack mt={10} alignItems="center" justifyContent="center">
+        <HStack px={5} mt={10} alignItems="center" justifyContent="center">
           <ModuleVideoButton icon="heart" />
           <ModuleVideoButton icon="download" />
           <ModuleVideoButton icon="share-2" onPress={onShare} />
         </HStack>
         <Divider my={7} />
-        <Input
-          bgColor="gray.500" px={3} rounded="xl" shadow={9}
-          borderColor='transparent'
-          placeholder="Adicione um comentário..."
-        />
+        <Box px={5}>
+          <Input
+
+            bgColor="gray.500" px={3} rounded="xl" shadow={9}
+            borderColor='transparent'
+            placeholder="Adicione um comentário..."
+          />
+        </Box>
         <Comments comments={[
           {
             comment: 'Aula foi muito boa, a qualidade da edição é maravilhosas e o profesor tem um domínio sobre o assunto o que torna tudo melhor.',
