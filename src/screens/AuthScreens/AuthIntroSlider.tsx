@@ -1,4 +1,5 @@
 import {
+  Box,
   Heading,
   Image,
   PresenceTransition,
@@ -7,10 +8,12 @@ import {
   useTheme,
 } from "native-base";
 import Carousel from "react-native-app-intro-slider";
+import ArrowRight from '@assets/arrow-right.svg'
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRouteProps } from "@routes/auth.routes";
 import { ChangeScreenButton } from "@components/ChangeScreenButton";
-import {slides} from '@utils/slides'
+import { slides } from '@utils/slides'
+import { FontAwesome } from '@expo/vector-icons';
 
 export function AuthIntroSlider() {
   const { colors } = useTheme();
@@ -52,6 +55,19 @@ export function AuthIntroSlider() {
           backgroundColor: colors.purple[500],
         }}
         showSkipButton
+        renderNextButton={() => (
+          <Box
+            alignItems={'center'}
+            justifyContent={'center'}
+            marginTop={20}
+            backgroundColor="gray.50"
+            rounded="full"
+            w={12}
+            h={12}
+          >
+            <ArrowRight fill="#000" />
+          </Box>
+        )}
         renderDoneButton={() => (
           <PresenceTransition
             visible
@@ -66,15 +82,20 @@ export function AuthIntroSlider() {
               },
             }}
           >
-            <ChangeScreenButton
-              onPress={handleGoToSignUp}
-              isForNextPage
-              position="absolute"
-              top={50}
-              right={-10}
-            />
+            <Box
+              alignItems={'center'}
+              justifyContent={'center'}
+              background="gray.50"
+              rounded="full"
+              w={12}
+              h={12}
+              marginTop={20}
+            >
+              <FontAwesome name="check" size={24} color="black" />
+            </Box>
           </PresenceTransition>
         )}
+        onDone={handleGoToSignUp}
       />
     </VStack>
   );

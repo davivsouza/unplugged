@@ -9,6 +9,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { UsernameForm } from "@components/UsernameForm";
+import { Button } from "@components/Button";
 
 export type SignUpFormDataProps = {
   nickname?: string;
@@ -119,12 +120,13 @@ export function SignUp() {
             </Text>{" "}
             do aplicativo.
           </Text>
-          <ChangeScreenButton
+          <Button
             onPress={handleSubmit(handleTempData)}
-            isForNextPage
-            mt={4}
+            title="Continuar"
             alignSelf="flex-end"
+            mt={4}
           />
+
         </>
       )}
     </VStack>
