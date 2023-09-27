@@ -1,9 +1,11 @@
 import { ScreenContainer } from "@components/ScreenContainer";
-import { Text, ScrollView, useTheme, HStack, Pressable, Box, Image, VStack } from "native-base";
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryLabel } from 'victory-native'
+import { Text, ScrollView, useTheme, HStack, Pressable, Box, VStack } from "native-base";
+import { VictoryBar, VictoryChart, VictoryAxis, } from 'victory-native'
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { WellbeingApp } from "@components/WellbeingApp";
+import { AntDesign } from '@expo/vector-icons'
+
 import GoBackSvg from "@assets/goback.svg";
 import TikTokIcon from '@assets/habits/tiktok-icon.svg'
 import SpotifyIcon from '@assets/habits/spotify-icon.svg'
@@ -27,14 +29,14 @@ const sharedAxisStyle = {
 }
 export function Painel() {
   const { colors } = useTheme()
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
+  const { navigate, goBack } = useNavigation<AppNavigatorRoutesProps>()
 
   function handleNavigate() {
-    navigate('habits')
+    goBack()
   }
 
   return (
-    <ScreenContainer py={0} pt={90}>
+    <ScreenContainer py={0} pt={10}>
       <HStack alignItems="center" justifyContent="space-between"   >
         <Pressable
           py={3}
@@ -48,15 +50,9 @@ export function Painel() {
         <Text color="white" fontSize="2xl" fontFamily="heading">
           Painel
         </Text>
-        <Image
-          w={12}
-          h={12}
-          rounded="full"
-          source={{
-            uri: "https://e0.pxfuel.com/wallpapers/675/779/desktop-wallpaper-funny-monkeys-pistols-necktie-suit-thumbnail.jpg",
-          }}
-          alt="Foto de perfil do criador do vídeo"
-        />
+        <Pressable p={2} rounded='full' bg="gray.400" my={8} onPress={() => navigate('profile')}>
+          <AntDesign name="user" size={35} color="white" />
+        </Pressable>
       </HStack>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{
         paddingBottom: 30
@@ -133,11 +129,11 @@ export function Painel() {
         <Text color="gray.200" fontSize="sm" fontFamily="body" >6 horas a mais que ontem</Text>
 
         <VStack space={4} mt={6}>
-          <WellbeingApp appName="TikTok" SvgIcon={TikTokIcon} seconds={16200}/>
-          <WellbeingApp appName="Spotify" SvgIcon={SpotifyIcon} seconds={4860}/>
-          <WellbeingApp appName="Youtube" SvgIcon={YoutubeIcon} seconds={4572}/>
-          <WellbeingApp appName="Google" SvgIcon={GoogleIcon} seconds={1800}/>
-          <WellbeingApp appName="Twitter" SvgIcon={TwitterIcon} seconds={1140}/>
+          <WellbeingApp appName="TikTok" SvgIcon={TikTokIcon} seconds={16200} />
+          <WellbeingApp appName="Spotify" SvgIcon={SpotifyIcon} seconds={4860} />
+          <WellbeingApp appName="Youtube" SvgIcon={YoutubeIcon} seconds={4572} />
+          <WellbeingApp appName="Google" SvgIcon={GoogleIcon} seconds={1800} />
+          <WellbeingApp appName="Twitter" SvgIcon={TwitterIcon} seconds={1140} />
         </VStack>
       </ScrollView>
 

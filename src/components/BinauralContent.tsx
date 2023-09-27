@@ -20,6 +20,7 @@ import { BinauralCategoryDTO } from "../dtos/BinauralCategoryDTO";
 import { api } from "../services/api";
 import { BinauralFavoriteSounds } from "./BinauralFavoriteSounds";
 import { useAuth } from "@hooks/useAuth";
+import { Loading } from "./Loading";
 
 
 export function BinauralContent() {
@@ -28,21 +29,22 @@ export function BinauralContent() {
   const [binaurals, setBinaurals] = useState<BinauralCategoryDTO[]>()
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const { getFavoriteBinauralSounds } = useAuth()
-
+  const [isFetching, setIsFetching] = useState(false)
   async function fetchBinauralSounds() {
-    getFavoriteBinauralSounds()
-    const { data } = await api.get('/binaurals/listCategory')
-    setBinaurals(data)
+    try {
+      setIsFetching(true)
+      getFavoriteBinauralSounds()
+      const { data } = await api.get('/binaurals/listCategory')
+      setBinaurals(data)
+    } catch (err) {
+      throw err
+    } finally {
+      setIsFetching(false)
+    }
 
   }
 
-  useFocusEffect(useCallback(() => {
-    navigate('binauralSoundsIntroSlider')
-    setShowRealApp(true)
-    if (showRealApp) {
-      navigate('binaural')
-    }
-  }, [showRealApp]))
+
 
   useEffect(() => {
     fetchBinauralSounds();
@@ -63,22 +65,24 @@ export function BinauralContent() {
       </Text>
       <BinauralFavoriteSounds />
       <Text color="white" fontFamily="semiBold" fontSize="lg" mt={12}>Playlists</Text>
-      <FlatList
-        data={binaurals}
-        mt={2}
-        height={250}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item => String(item.id)}
-        renderItem={({ item }) => (
-          <PlaylistCard playlistId={item.id} title={item.name} beatsQuantity={item.binaural.length} imgUrl={item.images} />
-        )
-        }
-        ListEmptyComponent={() => (
-          <Center>
-            <Text color="white" fontSize="lg">Nenhum som binaural postado {':('}</Text>
-          </Center>
-        )}
-      />
+      {isFetching ? <Loading /> : (
+        <FlatList
+          data={binaurals}
+          mt={2}
+          height={250}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item }) => (
+            <PlaylistCard playlistId={item.id} title={item.name} beatsQuantity={item.binaural.length} imgUrl={item.images} />
+          )
+          }
+          ListEmptyComponent={() => (
+            <Center>
+              <Text color="white" fontSize="lg">Nenhum som binaural postado ainda. </Text>
+            </Center>
+          )}
+        />
+      )}
 
     </VStack>
   )

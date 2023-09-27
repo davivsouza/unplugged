@@ -12,6 +12,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { api } from '../../../services/api'
 import { MeditationDTO } from '../../../dtos/MeditationDTO'
 import { formatTime } from '@utils/formatTime'
+import { introSlidersGetAll } from '../../../storage/storageIntroSlider'
 export function Meditations() {
   const [selectedCategory, setSelectedCategory] = useState('Sono')
   const [selectedTimeDuration, setSelectedTimeDuration] = useState('Tudo')
@@ -19,6 +20,23 @@ export function Meditations() {
   const [showRealApp, setShowRealApp] = useState(false)
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const { user } = useAuth()
+
+  async function checkIfUserHasAlreadySeenTheIntroSlider() {
+    const slidersThatUserHasWatched = await introSlidersGetAll()
+    const filter = slidersThatUserHasWatched.filter(slider => slider.introSlider === 'meditation' && slider.watched)
+
+    if (filter.length > 0) {
+      if (filter[0].watched) {
+        navigate('meditations')
+      }
+    } else {
+      navigate('meditationIntroSlider')
+    }
+
+  }
+  useEffect(() => {
+    checkIfUserHasAlreadySeenTheIntroSlider()
+  }, [])
 
 
   function handleSelectedCategory(category: string) {
@@ -109,7 +127,7 @@ export function Meditations() {
         }
         ListEmptyComponent={() => (
           <Center>
-            <Text color="white" fontSize="lg">Nenhuma meditação postada {':('}</Text>
+            <Text color="white" fontSize="lg">Nenhuma meditação postada ainda.</Text>
           </Center>
         )}
       />

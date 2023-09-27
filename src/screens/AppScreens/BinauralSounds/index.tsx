@@ -1,19 +1,29 @@
 import { BinauralContent } from "@components/BinauralContent";
 import { ScreenContainer } from "@components/ScreenContainer";
 import { AppNavigatorRoutesProps } from '@routes/app.routes'
-import { useCallback, useState } from 'react'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useEffect } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import { introSlidersGetAll } from "../../../storage/storageIntroSlider";
 export function BinauralSounds() {
-  const [showRealApp, setShowRealApp] = useState(false)
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
 
-  useFocusEffect(useCallback(() => {
-    navigate('binauralSoundsIntroSlider')
-    setShowRealApp(true)
-    if (showRealApp) {
-      navigate('binaural')
+  async function checkIfUserHasAlreadySeenTheIntroSlider() {
+    const slidersThatUserHasWatched = await introSlidersGetAll()
+    const filter = slidersThatUserHasWatched.filter(slider => slider.introSlider === 'binaural' && slider.watched)
+
+    if (filter.length > 0) {
+      if (filter[0].watched) {
+        navigate('binaural')
+      }
+    } else {
+      navigate('binauralSoundsIntroSlider')
     }
-  }, [showRealApp]))
+
+  }
+  useEffect(() => {
+    checkIfUserHasAlreadySeenTheIntroSlider()
+  }, [])
+
 
 
   return (

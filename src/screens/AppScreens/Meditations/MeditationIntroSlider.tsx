@@ -6,11 +6,16 @@ import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import ArrowRight from '@assets/arrow-right.svg'
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
+import { introSliderStorageSave } from "../../../storage/storageIntroSlider";
 export function MeditationIntroSlider() {
   const { colors } = useTheme()
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
 
-  function onDoneSlider() {
+  async function onDoneSlider() {
+    await introSliderStorageSave({
+      introSlider: 'meditation',
+      watched: true
+    })
     navigate('meditations')
   }
 

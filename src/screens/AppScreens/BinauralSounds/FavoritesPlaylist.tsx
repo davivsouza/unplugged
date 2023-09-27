@@ -1,5 +1,5 @@
 import { useAuth } from "@hooks/useAuth";
-import { FlatList, HStack, Pressable, Text, VStack } from "native-base";
+import { Center, FlatList, HStack, Pressable, Text, VStack } from "native-base";
 import { BinauralSoundCard } from "../../../components/BinauralSoundCard";
 import { ScreenContainer } from "../../../components/ScreenContainer";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
@@ -31,6 +31,11 @@ export function FavoritesPlaylist() {
         keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
           <BinauralSoundCard binaural={item.binaural} />
+        )}
+        ListEmptyComponent={() => (
+          <Center>
+            <Text color="white" fontSize="lg">Nenhum som favoritado ainda. </Text>
+          </Center>
         )}
       />
     </ScreenContainer>

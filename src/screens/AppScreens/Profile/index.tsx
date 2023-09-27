@@ -24,8 +24,8 @@ export function Profile() {
       </VStack>
       <Button title="Editar perfil" w="50%" alignSelf="center" my={6} onPress={() => navigate('updateProfile')} />
       <VStack my={8} px={2} py={4}>
-        <ProfileOption icon="hearto" label="Favoritos" screen="favoriteSounds" />
-        <ProfileOption icon="download" label="Baixados" />
+        <ProfileOption icon="hearto" label="Sons favoritos" screen="favoriteSounds" />
+        {/* <ProfileOption icon="download" label="Baixados" /> */}
         <Divider my={8} />
         <Pressable onPress={signOut}>
           <HStack alignItems={'center'} space={2}>
