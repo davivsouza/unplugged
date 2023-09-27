@@ -90,7 +90,7 @@ export function ModuleVideo() {
         }
         <HStack px={5} mt={10} alignItems="center" justifyContent="center">
           <ModuleVideoButton icon="heart" />
-          <ModuleVideoButton icon="download" />
+          {/* <ModuleVideoButton icon="download" /> */}
           <ModuleVideoButton icon="share-2" onPress={onShare} />
         </HStack>
         <Divider my={7} />
