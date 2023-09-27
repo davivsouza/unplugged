@@ -26,7 +26,7 @@ export function Profile() {
       <VStack my={8} px={2} py={4}>
         <ProfileOption icon="hearto" label="Sons favoritos" screen="favoriteSounds" />
         {/* <ProfileOption icon="download" label="Baixados" /> */}
-        <Divider my={8} />
+        <Divider mt={3} mb={5} />
         <Pressable onPress={signOut}>
           <HStack alignItems={'center'} space={2}>
             <Feather name="log-out" size={25} color={colors.red[500]} />

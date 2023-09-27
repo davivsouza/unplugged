@@ -22,7 +22,7 @@ export function FavoritesPlaylist() {
           </Pressable>
           <Text color="white" fontSize="2xl" fontFamily="heading" style={{
             elevation: 10
-          }}>Favoritos</Text>
+          }}>Sons Favoritos</Text>
         </HStack>
 
       </VStack>
