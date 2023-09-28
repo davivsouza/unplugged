@@ -17,7 +17,10 @@ import { preventAutoHideAsync } from 'expo-splash-screen'
 import { GoalsContextProvider } from "@contexts/HabitsContext";
 import { TimerControlProvider } from "@contexts/TimerControlContext";
 import { AuthContextProvider } from "@contexts/AuthContext";
+import { NotificationContextProvider } from "@contexts/NotificationsContext";
 preventAutoHideAsync();
+
+
 
 export default function App() {
   const [splashComplete, setSplashComplete] = useState(false)
@@ -39,13 +42,15 @@ export default function App() {
       {splashComplete
         ? fontsLoaded
           ? (
-            <AuthContextProvider>
-              <GoalsContextProvider>
-                <TimerControlProvider>
-                  <Routes />
-                </TimerControlProvider>
-              </GoalsContextProvider>
-            </AuthContextProvider>
+            <NotificationContextProvider>
+              <AuthContextProvider>
+                <GoalsContextProvider>
+                  <TimerControlProvider>
+                    <Routes />
+                  </TimerControlProvider>
+                </GoalsContextProvider>
+              </AuthContextProvider>
+            </NotificationContextProvider>
           )
           : <Loading />
         : <Splash onComplete={setSplashComplete} />
