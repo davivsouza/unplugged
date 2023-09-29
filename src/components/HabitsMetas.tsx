@@ -40,10 +40,10 @@ export function HabitsMetas() {
       scheduleHabitsReminderNotification({
         title: 'Ainda dá tempo! 🕐',
         body: 'Você ainda tem alguns hábitos incompletos',
-        seconds: 15
+        seconds: 30
       })
     }
-  }, [])
+  }, [goals.length])
 
   async function handleCompleteHabit(habitId: number, userId: string) {
     try {

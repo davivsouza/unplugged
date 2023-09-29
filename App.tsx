@@ -1,5 +1,5 @@
 import { NativeBaseProvider } from "native-base";
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Routes } from "./src/routes";
 import 'react-native-gesture-handler';
 import {
@@ -18,6 +18,7 @@ import { GoalsContextProvider } from "@contexts/HabitsContext";
 import { TimerControlProvider } from "@contexts/TimerControlContext";
 import { AuthContextProvider } from "@contexts/AuthContext";
 import { NotificationContextProvider } from "@contexts/NotificationsContext";
+import { useNotification } from "@hooks/useNotification";
 preventAutoHideAsync();
 
 
@@ -30,12 +31,16 @@ export default function App() {
     Epilogue_600SemiBold,
   });
 
+  const { handleCallNotification } = useNotification()
   const config = {
     dependencies: {
       "linear-gradient": LinearGradient,
     },
   };
 
+  useEffect(() => {
+    handleCallNotification()
+  })
   return (
     <NativeBaseProvider theme={THEME} config={config}>
 
