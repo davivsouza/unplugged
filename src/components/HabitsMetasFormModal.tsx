@@ -7,6 +7,7 @@ import { useGoals } from "@hooks/useGoals";
 import { useAuth } from "@hooks/useAuth";
 import { Controller, useForm } from "react-hook-form";
 import { api } from "../services/api";
+import { useNotification } from "@hooks/useNotification";
 
 const daysOfWeek = [
   {
@@ -57,6 +58,7 @@ type CreateHabitsFormDataProps = {
 
 export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
   const { user } = useAuth()
+  const { scheduleHabitsReminderNotification } = useNotification()
   const { loadTodayHabits } = useGoals()
   const [selectedDays, setSelectedDays] = useState<number[]>()
   const [isCreating, setIsCreating] = useState(false)
@@ -112,6 +114,7 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
       setSelectedDays([])
       setColor('white')
       reset()
+
 
     } catch (err) {
       throw err

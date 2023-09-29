@@ -54,10 +54,10 @@ export function UpdateProfile() {
 
       })
     } catch (err) {
-      console.log(err);
 
     } finally {
       setIsUpdating(false)
+      goBack()
     }
   }
   return (

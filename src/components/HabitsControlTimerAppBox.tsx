@@ -1,17 +1,18 @@
 import { SvgProps } from "react-native-svg"
 import { WellbeingApp } from "./WellbeingApp"
 import { Box, HStack, IPressableProps, Pressable } from "native-base"
+import { SelectedApp } from "./HabitsControlSetTimerModal"
+import { ImageSourcePropType } from "react-native"
 
 type Props = IPressableProps & {
-  svgIcon: React.FC<SvgProps>
+  icon: ImageSourcePropType
   appName: string
-  seconds: number
-  selectedApp: string
+  selectedApp: SelectedApp
 
 }
 
 
-export function HabitsControlTimerAppBox({ appName, seconds, selectedApp, svgIcon, ...rest }: Props) {
+export function HabitsControlTimerAppBox({ appName, selectedApp, icon, ...rest }: Props) {
 
 
   return (
@@ -24,7 +25,7 @@ export function HabitsControlTimerAppBox({ appName, seconds, selectedApp, svgIco
           w={6}
           h={6}
           borderWidth={2}
-          borderColor={selectedApp === appName ? "purple.500" : 'white'}
+          borderColor={selectedApp.appName === appName ? "purple.500" : 'white'}
           rounded="full"
           justifyContent="center"
           alignItems="center"
@@ -38,9 +39,9 @@ export function HabitsControlTimerAppBox({ appName, seconds, selectedApp, svgIco
             p={2}
             rounded="full"
 
-            bg={selectedApp === appName ? "purple.500" : 'transparent'} />
+            bg={selectedApp.appName === appName ? "purple.500" : 'transparent'} />
         </Box>
-        <WellbeingApp appName={appName} SvgIcon={svgIcon} seconds={seconds} />
+        <WellbeingApp appName={appName} icon={icon} />
       </HStack>
     </Pressable>
   )

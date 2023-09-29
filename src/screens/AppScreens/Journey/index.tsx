@@ -9,17 +9,12 @@ import { JourneyHeader } from "@components/JourneyHeader";
 import { useFocusEffect } from "@react-navigation/native";
 import { AppError } from "@utils/AppError";
 import { Loading } from "@components/Loading";
-import * as Notifications from 'expo-notifications'
-import { Button } from "@components/Button";
-import { useNotification } from "@hooks/useNotification";
-
 
 
 export function Journey() {
   const [modulesData, setModulesData] = useState<ModuleDTO[]>([]);
   const [isFetching, setIsFetching] = useState(false)
   const { user } = useAuth();
-  const { handleCallNotification } = useNotification();
   const toast = useToast()
 
   async function fetchModules() {
@@ -29,7 +24,7 @@ export function Journey() {
       setModulesData(data.modules)
     } catch (error) {
       const isAppError = error instanceof AppError;
-      const title = isAppError ? error.message : 'Não foi possível carregar o histórico!'
+      const title = isAppError ? error.message : 'Não foi possível carregar os módulos!'
 
       toast.show({
         title,
@@ -48,7 +43,6 @@ export function Journey() {
 
   return (
     <ScreenContainer>
-      <JourneyHeader />
       <Heading
         fontFamily="body"
         fontWeight="normal"
@@ -60,7 +54,6 @@ export function Journey() {
       <Heading fontWeight="normal" fontFamily="body" color="white">
         Jornada <Text fontWeight="bold">{user.name}</Text>
       </Heading>
-      <Button title='testar notification' onPress={handleCallNotification} />
       <Divider my={7} />
       {isFetching ? <Loading /> : (
         <FlatList

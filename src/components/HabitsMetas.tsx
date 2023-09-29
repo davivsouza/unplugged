@@ -12,6 +12,7 @@ import { Loading } from "./Loading";
 import { HabitDTO } from "../dtos/HabitDTO";
 import { useAuth } from "@hooks/useAuth";
 import { useFocusEffect } from "@react-navigation/native";
+import { useNotification } from "@hooks/useNotification";
 
 export type OnCompleteProps = {
   userId: string | undefined
@@ -30,8 +31,19 @@ const currentDayOfWeek = Number(dayjs().day())
 export function HabitsMetas() {
   const toast = useToast()
   const { goals, loadTodayHabits } = useGoals()
+  const { scheduleHabitsReminderNotification, dismissNotification } = useNotification()
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    if (goals.length > 0) {
+      scheduleHabitsReminderNotification({
+        title: 'Ainda dá tempo! 🕐',
+        body: 'Você ainda tem alguns hábitos incompletos',
+        seconds: 15
+      })
+    }
+  }, [])
 
   async function handleCompleteHabit(habitId: number, userId: string) {
     try {
@@ -65,6 +77,7 @@ export function HabitsMetas() {
 
   async function handleDeleteHabit(id: number) {
     try {
+      dismissNotification('HabitsReminder')
       setIsLoading(true)
       await api.delete(`/habits/${id}`)
       toast.show({
@@ -99,15 +112,16 @@ export function HabitsMetas() {
     setShowModal(true);
   }
 
+
   useFocusEffect(useCallback(() => {
     loadTodayHabits()
   }, []))
   return (
     <VStack position="relative">
-      {isLoading ? <Loading /> : (
-        <>
-          <HabitsMetasFormModal isModalOpen={showModal} onOpenModal={setShowModal} />
-          <Text color="white" fontFamily="semiBold" fontSize="xl" my={6}>Hábitos de hoje - {today}</Text>
+      <>
+        <HabitsMetasFormModal isModalOpen={showModal} onOpenModal={setShowModal} />
+        <Text color="white" fontFamily="semiBold" fontSize="xl" my={6}>Hábitos de hoje - {today}</Text>
+        {isLoading ? <Loading /> : (
           <FlatList
             px={2}
             data={goals}
@@ -131,8 +145,8 @@ export function HabitsMetas() {
               </Center>
             )}
           />
-        </>
-      )}
+        )}
+      </>
 
 
       <HabitsFloatButton onPress={handleOpenModal} />

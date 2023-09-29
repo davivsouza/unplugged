@@ -18,7 +18,7 @@ export function JourneyHeader({ canGoBack }: Props) {
     goBack()
   }
   return (
-    <HStack justifyContent="space-between" mb={12}>
+    <HStack justifyContent="flex-start" mb={12}>
       {canGoBack && <Pressable
         pr={3}
         py={4}
@@ -27,11 +27,6 @@ export function JourneyHeader({ canGoBack }: Props) {
         <GoBackSvg fill="#fff" />
       </Pressable>
       }
-      <HStack alignItems={'center'} space={3}>
-        <AntDesign name="user" size={35} color="white" />
-        <Text color="white" fontSize={'md'}>{user.nickname}</Text>
-      </HStack>
-      <AntDesign name="search1" size={30} color="white" />
     </HStack>
   )
 }

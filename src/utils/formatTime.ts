@@ -28,7 +28,7 @@ export function formatTimeHours(timeInSeconds: number) {
   const formattedMinutes = String(minutes).padStart(2, '0');
 
   if (timeInSeconds < 3600) {
-    return `${formattedMinutes}min`;
+    return `${formattedMinutes} min`;
   }
   return `${formattedHours}h ${formattedMinutes}min`;
 };

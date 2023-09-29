@@ -1,28 +1,70 @@
 import { HabitsControlTimerAppBox } from "./HabitsControlTimerAppBox";
-import { HStack, Modal, Pressable, Text, VStack } from "native-base";
+import { HStack, Modal, Pressable, Text, VStack, useTheme } from "native-base";
 import { useGoals } from "@hooks/useGoals";
 import GoBackSvg from "@assets/goback.svg";
-import TikTokIcon from '@assets/habits/tiktok-icon.svg'
+import TikTokIcon from '@assets/habits/tiktok.png'
 import SpotifyIcon from '@assets/habits/spotify-icon.svg'
 import YoutubeIcon from '@assets/habits/youtube-icon.svg'
-import GoogleIcon from '@assets/habits/google-icon.svg'
-import TwitterIcon from '@assets/habits/twitter-icon.svg'
+import InstagramIcon from '@assets/habits/instagram.png'
+import TwitterIcon from '@assets/habits/twitter.png'
 import { useState } from "react";
 import { HabitsTimerInputModal } from "./HabitsTimerInputModal";
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker'
+import { useTimerControl } from "@hooks/useTimerControl";
 
+export type SelectedApp = {
+  appName: string
+  iconUrl: string
+}
 type Props = {
   isModalOpen: boolean
   onOpenModal: (status: boolean) => void
 }
 
 export function HabitsControlSetTimerModal({ isModalOpen, onOpenModal }: Props) {
-  const [selectedApp, setSelectedApp] = useState('')
+  const [selectedApp, setSelectedApp] = useState<SelectedApp>({} as SelectedApp)
   const [isTimerInputModalOpen, setIsTimerInputModalOpen] = useState(false)
-  const { createGoal } = useGoals()
+  const [getSeconds, setGetSeconds] = useState(0)
+  const { saveAppTimer } = useTimerControl()
+  const { colors } = useTheme()
 
-  function handleSelectedApp(app: string) {
+  const initialHour = new Date();
+  initialHour.setHours(0, 0, 0);
+
+  function onChangeTimer(event: DateTimePickerEvent, selectedDate: Date | undefined) {
+
+    if (event.type === 'set') {
+
+      if (selectedDate) {
+        const tempHour = selectedDate.getHours()
+        const tempMin = selectedDate.getMinutes()
+        const seconds = (tempHour * 3600) + (tempMin * 60)
+        setIsTimerInputModalOpen(false)
+
+        setGetSeconds(seconds)
+        saveAppTimer({
+          appName: selectedApp.appName,
+          iconUrl: selectedApp.iconUrl,
+          limitTime: seconds
+        })
+        setSelectedApp({} as SelectedApp)
+        onOpenModal(false)
+
+      }
+    } else {
+      setIsTimerInputModalOpen(false)
+    }
+
+
+  }
+
+
+
+  function handleSelectedApp(app: SelectedApp) {
+
     setSelectedApp(app)
     setIsTimerInputModalOpen(true)
+
   }
 
 
@@ -36,6 +78,20 @@ export function HabitsControlSetTimerModal({ isModalOpen, onOpenModal }: Props) 
       }}
       onClose={() => onOpenModal(false)}
     >
+      {isTimerInputModalOpen && (
+        <DateTimePicker
+          testID="app_timer"
+          minuteInterval={5}
+          value={initialHour}
+          is24Hour
+          display="spinner"
+          mode="time"
+          accentColor="#000"
+          onChange={onChangeTimer}
+          negativeButton={{ label: 'Cancel', textColor: colors.purple[500] }}
+          positiveButton={{ label: 'OK', textColor: colors.purple[500] }}
+        />
+      )}
       <VStack
         borderTopRadius="3xl"
         bg={{
@@ -77,22 +133,35 @@ export function HabitsControlSetTimerModal({ isModalOpen, onOpenModal }: Props) 
 
           <HabitsControlTimerAppBox
             appName="TikTok"
-            svgIcon={TikTokIcon}
-            seconds={1800}
+            icon={TikTokIcon}
             selectedApp={selectedApp}
-            onPress={() => handleSelectedApp('TikTok')}
+            onPress={() => handleSelectedApp({
+              appName: 'TikTok',
+              iconUrl: 'Tiktok'
+            })}
           />
           <HabitsControlTimerAppBox
-            appName="Spotify"
-            svgIcon={SpotifyIcon}
-            seconds={1200}
+            appName="Twitter"
+            icon={TwitterIcon}
             selectedApp={selectedApp}
-            onPress={() => handleSelectedApp('Spotify')}
+            onPress={() => handleSelectedApp({
+              appName: 'Twitter',
+              iconUrl: 'Twitter'
+            })}
+          />
+          <HabitsControlTimerAppBox
+            appName="Instagram"
+            icon={InstagramIcon}
+            selectedApp={selectedApp}
+            onPress={() => handleSelectedApp({
+              appName: 'Instagram',
+              iconUrl: 'Instagram'
+            })}
           />
 
         </VStack>
 
-        <HabitsTimerInputModal isModalOpen={isTimerInputModalOpen} onOpenModal={setIsTimerInputModalOpen} />
+        {/* <HabitsTimerInputModal isModalOpen={isTimerInputModalOpen} onOpenModal={setIsTimerInputModalOpen} /> */}
       </VStack>
     </Modal>
   )

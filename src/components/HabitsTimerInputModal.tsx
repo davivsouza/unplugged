@@ -1,7 +1,4 @@
-import { HStack, Modal, Pressable, Text, VStack } from "native-base";
-import { HabitsTimerInputButton } from '@components/HabitsTimerInputButton'
-import { useState } from "react";
-import { formatTimeWithHour } from "@utils/formatTime";
+import { Modal } from "native-base";
 
 type Props = {
   isModalOpen: boolean
@@ -9,14 +6,10 @@ type Props = {
 }
 
 export function HabitsTimerInputModal({ isModalOpen, onOpenModal }: Props) {
-  const [appTimer, setAppTimer] = useState(0)
-  function handleChangeTimer(seconds: number) {
-    setAppTimer(prevState => prevState + seconds)
-  }
+
 
   function closeModal() {
     onOpenModal(false)
-    setAppTimer(0)
   }
   return (
     <Modal
@@ -28,12 +21,14 @@ export function HabitsTimerInputModal({ isModalOpen, onOpenModal }: Props) {
       isOpen={isModalOpen}
       onClose={closeModal}
     >
-      <VStack rounded="2xl" py={5} px={8} bg="gray.500">
+
+      {/* <VStack rounded="2xl" py={5} px={8} bg="gray.500">
         <Text color="white" fontSize="xl" fontFamily="semiBold">Defina seu tempo</Text>
         <Text color="white" fontSize="sm" fontFamily="body">
           Esse tempo será reiniciado toda noite.
         </Text>
 
+      
         <HStack alignItems="center" space={4} mt={8} mb={3}>
           <HabitsTimerInputButton minutes={30} onPress={() => handleChangeTimer(1800)} />
           <HabitsTimerInputButton minutes={60} onPress={() => handleChangeTimer(3600)} />
@@ -54,7 +49,7 @@ export function HabitsTimerInputModal({ isModalOpen, onOpenModal }: Props) {
             </Text>
           </Pressable>
         </HStack>
-      </VStack>
+      </VStack> */}
 
     </Modal>
   )
