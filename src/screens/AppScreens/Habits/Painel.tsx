@@ -14,8 +14,7 @@ import dayjs from 'dayjs'
 import "dayjs/locale/pt-br"
 
 const day = dayjs().locale('pt-br').format('DD').toString()
-const month = dayjs().locale('pt-br').format('MM').toString()
-const year = dayjs().locale('pt-br').format('YYYY').toString()
+const month = dayjs().locale('pt-br').format('MMMM').toString()
 const formatedMonth = month.charAt(0).toUpperCase() + month.slice(1)
 const today = `${dayjs().locale('pt-br').format('ddd').toString()}, ${day} de ${formatedMonth} `
 

@@ -145,7 +145,7 @@ export function BinauralSound() {
 
 
   useEffect(() => {
-    const idUrl = `http://192.168.1.8:3333/api/meditations/1`
+    const idUrl = `http://192.168.1.8:3333/api/binaurals/${binaural.id}`
     setAudioUrl(idUrl)
     return sound
       ? () => {
