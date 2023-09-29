@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import * as Notifications from 'expo-notifications'
 
 type scheduleProps = {
@@ -59,9 +59,13 @@ export function NotificationContextProvider({ children }: NotificationProviderPr
       Alert.alert('Você não deixou as notificações')
     }
 
+
     return
   }
 
+  useEffect(() => {
+    handleCallNotification()
+  })
   return (
     <NotificationContext.Provider value={{
       handleCallNotification,

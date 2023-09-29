@@ -38,9 +38,7 @@ export default function App() {
     },
   };
 
-  useEffect(() => {
-    handleCallNotification()
-  })
+
   return (
     <NativeBaseProvider theme={THEME} config={config}>
 
