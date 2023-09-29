@@ -7,11 +7,17 @@ import { WellbeingApp } from "@components/WellbeingApp";
 import { AntDesign } from '@expo/vector-icons'
 
 import GoBackSvg from "@assets/goback.svg";
-import TikTokIcon from '@assets/habits/tiktok-icon.svg'
-import SpotifyIcon from '@assets/habits/spotify-icon.svg'
-import YoutubeIcon from '@assets/habits/youtube-icon.svg'
-import GoogleIcon from '@assets/habits/google-icon.svg'
-import TwitterIcon from '@assets/habits/twitter-icon.svg'
+import TikTokIcon from '@assets/habits/tiktok.png'
+import InstagramIcon from '@assets/habits/instagram.png'
+import TwitterIcon from '@assets/habits/twitter.png'
+import dayjs from 'dayjs'
+import "dayjs/locale/pt-br"
+
+const day = dayjs().locale('pt-br').format('DD').toString()
+const month = dayjs().locale('pt-br').format('MM').toString()
+const year = dayjs().locale('pt-br').format('YYYY').toString()
+const formatedMonth = month.charAt(0).toUpperCase() + month.slice(1)
+const today = `${dayjs().locale('pt-br').format('ddd').toString()}, ${day} de ${formatedMonth} `
 
 
 const sharedAxisStyle = {
@@ -58,7 +64,7 @@ export function Painel() {
         paddingBottom: 30
       }}>
         <Text color="white" fontSize="3xl" fontFamily="body" textAlign="center" mt={12}>29h 47min</Text>
-        <Text color="gray.200" fontSize="md" fontFamily="body" textAlign="center" >seg, 17 de Jul</Text>
+        <Text color="gray.200" fontSize="md" fontFamily="body" textAlign="center" >{today}</Text>
         <Box alignItems="center" justifyContent="center">
           <VictoryChart
             animate={{ duration: 700, easing: "bounce" }}
@@ -129,11 +135,9 @@ export function Painel() {
         <Text color="gray.200" fontSize="sm" fontFamily="body" >6 horas a mais que ontem</Text>
 
         <VStack space={4} mt={6}>
-          <WellbeingApp appName="TikTok" SvgIcon={TikTokIcon} seconds={16200} />
-          <WellbeingApp appName="Spotify" SvgIcon={SpotifyIcon} seconds={4860} />
-          <WellbeingApp appName="Youtube" SvgIcon={YoutubeIcon} seconds={4572} />
-          <WellbeingApp appName="Google" SvgIcon={GoogleIcon} seconds={1800} />
-          <WellbeingApp appName="Twitter" SvgIcon={TwitterIcon} seconds={1140} />
+          <WellbeingApp appName="TikTok" icon={TikTokIcon} seconds={16200} />
+          <WellbeingApp appName="Twitter" icon={TwitterIcon} seconds={4860} />
+          <WellbeingApp appName="Google" icon={InstagramIcon} seconds={1800} />
         </VStack>
       </ScrollView>
 
