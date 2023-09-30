@@ -5,4 +5,16 @@ export type CommentDTO = {
   comments_text: string
   comments_rating: number
   comments_likes: number
+  created_at: Date
+  User: {
+    name: string
+  }
+}
+
+export type CommentsData = {
+  contentsId: number
+  userId: string
+  comments_text: string
+  comments_rating: number
+  comments_likes: number
 }

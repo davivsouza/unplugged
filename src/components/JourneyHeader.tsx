@@ -18,7 +18,7 @@ export function JourneyHeader({ canGoBack }: Props) {
     goBack()
   }
   return (
-    <HStack justifyContent="flex-start" mb={6}>
+    <HStack justifyContent="flex-start" mb={2}>
       {canGoBack && <Pressable
         pr={3}
         py={4}

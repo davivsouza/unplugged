@@ -26,7 +26,7 @@ export function Comments({ comment }: Props) {
                 <AntDesign name="user" size={20} color="white" />
               </Box>
               <Text color="white" fontFamily="semiBold" fontSize="sm">
-                xxxx
+                {comment.User.name}
               </Text>
               <Text color="white" fontFamily="body" fontSize="xs">
                 1 mês atrás
@@ -36,7 +36,7 @@ export function Comments({ comment }: Props) {
               {comment.comments_rating}
             </Text>
           </HStack>
-          <Text w={20} my={2} color="white" fontFamily="body" fontSize="xs" lineBreakMode="tail" numberOfLines={2}>
+          <Text w="85%" mt={4} pl={2} color="white" fontFamily="body" fontSize="xs" lineBreakMode="tail" >
             {comment.comments_text}
           </Text>
           <Pressable alignSelf="flex-end">
@@ -54,7 +54,3 @@ export function Comments({ comment }: Props) {
   );
 }
 
-
-{/* {comments?.map(comment => (
-       
-      ))} */}

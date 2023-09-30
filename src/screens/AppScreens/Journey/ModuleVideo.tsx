@@ -1,8 +1,8 @@
 import { Comments } from "@components/Comments";
 import { ModuleVideoButton } from "@components/ModuleVideoButton";
 import { ScreenContainer } from "@components/ScreenContainer";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { Box, Divider, HStack, Heading, Image, Pressable, ScrollView, Text, VStack, useTheme, useToast } from "native-base";
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
+import { Box, Button, Divider, HStack, Heading, Image, Pressable, ScrollView, Text, VStack, useTheme, useToast } from "native-base";
 import { ModuleVideoPlayer } from "@components/ModuleVideoPlayer";
 import { ContentDTO } from "../../../dtos/ModuleDTO";
 import GoBackSvg from "@assets/goback.svg";
@@ -13,9 +13,9 @@ import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { Input } from "@components/Input";
 import { api } from "../../../services/api";
 import { useAuth } from "@hooks/useAuth";
-import { CommentDTO } from "../../../dtos/CommentDTO";
+import { CommentDTO, CommentsData } from "../../../dtos/CommentDTO";
 import { AppError } from "@utils/AppError";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Loading } from "@components/Loading";
 type RouteParams = {
   content: ContentDTO
@@ -27,6 +27,7 @@ export function ModuleVideo() {
   const route = useRoute();
   const [commentText, setCommentText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isSending, setIsSending] = useState(false)
   const [comments, setComments] = useState<CommentDTO[]>([])
   const { goBack } = useNavigation<AppNavigatorRoutesProps>()
   const { content, videoNumber } = route.params as RouteParams;
@@ -65,22 +66,32 @@ export function ModuleVideo() {
 
   async function handleComment() {
     try {
-      setIsLoading(true)
-      const commentData: CommentDTO = {
-        userId: user.id,
+      setIsSending(true)
+      const commentData: CommentsData = {
+        userId: user.id!!,
         comments_likes: 0,
         comments_rating: 0,
         comments_text: commentText,
-        contentId: content.id
+        contentsId: content.id
       }
       await api.post('/comments/add', commentData)
 
+      toast.show({
+        title: 'Coméntario postado',
+        placement: 'top',
+        bgColor: 'green.700'
+      })
+
+      setCommentText('')
+      fetchComments()
+
+
     } catch (error) {
-      setIsLoading(false);
+      setIsSending(false);
 
-      const isAppError = error instanceof AppError;
+      // const isAppError = error instanceof AppError;
 
-      const title = isAppError ? error.message : 'Não foi possível criar o hábito.';
+      const title = 'Não foi possível enviar o comentário. Tente novamente';
 
       toast.show({
         title,
@@ -88,15 +99,16 @@ export function ModuleVideo() {
         bgColor: 'red.500'
       })
 
+
     } finally {
-      setIsLoading(false)
+      setIsSending(false)
     }
   }
 
   async function fetchComments() {
     try {
       setIsLoading(true)
-      const { data } = await api.get('/comments')
+      const { data } = await api.get(`/comments/${content.id}`)
       setComments(data.comments)
 
     } catch (error) {
@@ -118,9 +130,9 @@ export function ModuleVideo() {
 
   }
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     fetchComments()
-  }, [comments.length])
+  }, [content.id]))
   return (
     <ScreenContainer px={0} py={0}>
 
@@ -146,7 +158,7 @@ export function ModuleVideo() {
 
           ) :
             (
-              <Text px={5} mt={8} fontFamily="heading" fontSize="2xl" color="white" lineBreakMode="middle">
+              <Text px={5} mt={4} fontFamily="heading" fontSize="xl" color="white" lineBreakMode="middle">
                 Aula {videoNumber + 1}: {content.contents_name}
               </Text>
             )
@@ -178,9 +190,11 @@ export function ModuleVideo() {
               value={commentText}
               onChangeText={(text) => setCommentText(text)}
             />
-            <Pressable position="absolute" right={4} onPress={handleComment} p={2}>
+            <Button position="absolute" right={4} onPress={handleComment} p={2} rounded="full" bg="transparent" isLoading={isSending} _pressed={{
+              backgroundColor: "gray.600",
+            }}>
               <Ionicons name="md-send" size={24} color={colors.gray[400]} />
-            </Pressable>
+            </Button>
           </HStack>
         </VStack>
         {/* {isLoading ? <Loading /> : (
@@ -189,7 +203,9 @@ export function ModuleVideo() {
           ))
         )} */}
         <VStack>
-          {comments.length > 0 && comments.map(comment => (
+          {isLoading ? <VStack h="250" alignItems="center" justifyContent="center">
+            <Loading />
+          </VStack> : comments.map(comment => (
             <Comments comment={comment} key={comment.id} />
           ))}
         </VStack>
