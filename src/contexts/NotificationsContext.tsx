@@ -59,8 +59,9 @@ export function NotificationContextProvider({ children }: NotificationProviderPr
       Alert.alert('Você não deixou as notificações')
     }
 
-
     return
+
+
   }
 
   useEffect(() => {

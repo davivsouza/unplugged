@@ -12,6 +12,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState } from "react";
 import { useAuth } from "@hooks/useAuth";
+import { AuthNavigatorRouteProps } from "@routes/auth.routes";
 
 type FormDataProps = {
   email: string;
@@ -24,11 +25,10 @@ const signUpSchema = yup.object({
 });
 
 export function SignIn() {
-  const navigation = useNavigation<AppNavigatorRoutesProps>();
-  const [loginTrys, setLoginTrys] = useState(5);
+  const navigation = useNavigation<AuthNavigatorRouteProps>();
+  const [loginTrys, setLoginTrys] = useState(4);
   const [tooManyTries, setTooManyTries] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
-  const error = 1;
   const toast = useToast();
   const { signIn } = useAuth();
   const {
@@ -67,6 +67,7 @@ export function SignIn() {
           placement: "top",
           bgColor: "red.500",
         });
+        navigation.navigate('signIn')
       }
     }
   }

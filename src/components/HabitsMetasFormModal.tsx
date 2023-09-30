@@ -8,6 +8,7 @@ import { useAuth } from "@hooks/useAuth";
 import { Controller, useForm } from "react-hook-form";
 import { api } from "../services/api";
 import { useNotification } from "@hooks/useNotification";
+import { AppError } from "@utils/AppError";
 
 const daysOfWeek = [
   {
@@ -116,8 +117,18 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
       reset()
 
 
-    } catch (err) {
-      throw err
+    } catch (error) {
+      setIsCreating(false);
+
+      const isAppError = error instanceof AppError;
+
+      const title = isAppError ? error.message : 'Não foi possível criar o hábito.';
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500'
+      })
     } finally {
       setIsCreating(false)
     }

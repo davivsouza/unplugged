@@ -161,6 +161,9 @@ export function AppRoutes() {
         name="moduleVideo"
         component={ModuleVideo}
         options={{
+          tabBarStyle: {
+            display: "none",
+          },
           tabBarButton: () => null,
         }}
       />

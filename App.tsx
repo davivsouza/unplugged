@@ -31,7 +31,6 @@ export default function App() {
     Epilogue_600SemiBold,
   });
 
-  const { handleCallNotification } = useNotification()
   const config = {
     dependencies: {
       "linear-gradient": LinearGradient,

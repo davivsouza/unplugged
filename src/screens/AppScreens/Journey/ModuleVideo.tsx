@@ -2,14 +2,21 @@ import { Comments } from "@components/Comments";
 import { ModuleVideoButton } from "@components/ModuleVideoButton";
 import { ScreenContainer } from "@components/ScreenContainer";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Box, Divider, HStack, Heading, Image, Pressable, ScrollView, Text, VStack } from "native-base";
+import { Box, Divider, HStack, Heading, Image, Pressable, ScrollView, Text, VStack, useTheme, useToast } from "native-base";
 import { ModuleVideoPlayer } from "@components/ModuleVideoPlayer";
 import { ContentDTO } from "../../../dtos/ModuleDTO";
 import GoBackSvg from "@assets/goback.svg";
 import { Share } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { Input } from "@components/Input";
+import { api } from "../../../services/api";
+import { useAuth } from "@hooks/useAuth";
+import { CommentDTO } from "../../../dtos/CommentDTO";
+import { AppError } from "@utils/AppError";
+import { useEffect, useState } from "react";
+import { Loading } from "@components/Loading";
 type RouteParams = {
   content: ContentDTO
   videoNumber: number
@@ -18,11 +25,18 @@ type RouteParams = {
 
 export function ModuleVideo() {
   const route = useRoute();
+  const [commentText, setCommentText] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [comments, setComments] = useState<CommentDTO[]>([])
   const { goBack } = useNavigation<AppNavigatorRoutesProps>()
   const { content, videoNumber } = route.params as RouteParams;
-  const articleWithBreakLine = content.contents_article?.split('/n')
+  const { colors } = useTheme()
+  const { user } = useAuth()
+  const toast = useToast()
 
+  const articleWithBreakLine = content.contents_article?.split('/n')
   const url = 'https://unplugged.com'
+
   async function onShare() {
     try {
       const result = await Share.share({
@@ -48,6 +62,65 @@ export function ModuleVideo() {
       console.log(err);
     }
   }
+
+  async function handleComment() {
+    try {
+      setIsLoading(true)
+      const commentData: CommentDTO = {
+        userId: user.id,
+        comments_likes: 0,
+        comments_rating: 0,
+        comments_text: commentText,
+        contentId: content.id
+      }
+      await api.post('/comments/add', commentData)
+
+    } catch (error) {
+      setIsLoading(false);
+
+      const isAppError = error instanceof AppError;
+
+      const title = isAppError ? error.message : 'Não foi possível criar o hábito.';
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500'
+      })
+
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  async function fetchComments() {
+    try {
+      setIsLoading(true)
+      const { data } = await api.get('/comments')
+      setComments(data.comments)
+
+    } catch (error) {
+      setIsLoading(false);
+
+      const isAppError = error instanceof AppError;
+
+      const title = isAppError ? error.message : 'Não foi possível criar o hábito.';
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500'
+      })
+
+    } finally {
+      setIsLoading(false)
+    }
+
+  }
+
+  useEffect(() => {
+    fetchComments()
+  }, [comments.length])
   return (
     <ScreenContainer px={0} py={0}>
 
@@ -94,24 +167,32 @@ export function ModuleVideo() {
           <ModuleVideoButton icon="share-2" onPress={onShare} />
         </HStack>
         <Divider my={7} />
-        <Box px={5}>
-          <Input
-
-            bgColor="gray.500" px={3} rounded="xl" shadow={9}
-            borderColor='transparent'
-            placeholder="Adicione um comentário..."
-          />
-        </Box>
-        <Comments comments={[
-          {
-            comment: 'Aula foi muito boa, a qualidade da edição é maravilhosas e o profesor tem um domínio sobre o assunto o que torna tudo melhor.',
-            likes: 2,
-            stars: [0, 1, 2],
-            userId: '21dasdacdascas',
-            username: 'Halisson Lima'
-
-          }
-        ]} />
+        <VStack px={5}>
+          <HStack w="full" alignItems="center" shadow={9} position="relative" p={0}>
+            <Input
+              bgColor="gray.500"
+              rounded="xl"
+              borderColor='transparent'
+              placeholder="Adicione um comentário..."
+              color="white"
+              value={commentText}
+              onChangeText={(text) => setCommentText(text)}
+            />
+            <Pressable position="absolute" right={4} onPress={handleComment} p={2}>
+              <Ionicons name="md-send" size={24} color={colors.gray[400]} />
+            </Pressable>
+          </HStack>
+        </VStack>
+        {/* {isLoading ? <Loading /> : (
+          comments.map(comment => (
+            <Comments comment={comment} />
+          ))
+        )} */}
+        <VStack>
+          {comments.length > 0 && comments.map(comment => (
+            <Comments comment={comment} key={comment.id} />
+          ))}
+        </VStack>
       </ScrollView>
 
 

@@ -7,65 +7,54 @@ import {
   VStack,
   useTheme,
 } from "native-base";
-import { AntDesign, Fontisto } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { CommentDTO } from "../dtos/CommentDTO";
 
 type Props = {
-  comments?: [
-    {
-      userId: string;
-      username: string;
-      comment: string;
-      likes: number;
-      stars: number[];
-    }
-  ];
+  comment: CommentDTO
 };
-export function Comments({ comments }: Props) {
+export function Comments({ comment }: Props) {
   const { colors } = useTheme();
 
   return (
-    <Center>
-      <Text color="white" fontSize="md" fontFamily='semiBold'>
-        🚧 Comentários em desenvolvimento... 🚧
-      </Text>
-    </Center>
+    <VStack alignSelf="center">
+      <Box w={400} my={3} bgColor="gray.500" px={3} py={5} rounded="xl" shadow={9} >
+        <VStack>
+          <HStack alignItems="center" justifyContent="space-between">
+            <HStack alignItems="center" space={2}>
+              <Box p={2} rounded='full' bg="gray.400">
+                <AntDesign name="user" size={20} color="white" />
+              </Box>
+              <Text color="white" fontFamily="semiBold" fontSize="sm">
+                xxxx
+              </Text>
+              <Text color="white" fontFamily="body" fontSize="xs">
+                1 mês atrás
+              </Text>
+            </HStack>
+            <Text color="white" fontFamily="body" fontSize="xs">
+              {comment.comments_rating}
+            </Text>
+          </HStack>
+          <Text w={20} my={2} color="white" fontFamily="body" fontSize="xs" lineBreakMode="tail" numberOfLines={2}>
+            {comment.comments_text}
+          </Text>
+          <Pressable alignSelf="flex-end">
+            <HStack alignItems="center">
+              <AntDesign name="hearto" size={20} color={colors.white} />
+              <Text color="white" fontFamily="body" fontSize="xs" ml={2}>
+                {comment.comments_likes}
+              </Text>
+            </HStack>
+          </Pressable>
+        </VStack>
+      </Box>
+    </VStack >
 
   );
 }
 
 
 {/* {comments?.map(comment => (
-        <Box key={comment.userId} my={3} bgColor="gray.500" px={3} py={5} rounded="xl" shadow={9} >
-          <VStack>
-            <HStack alignItems="center" justifyContent="space-between">
-              <HStack alignItems="center" space={2}>
-                <Box p={2} rounded='full' bg="gray.400">
-                  <AntDesign name="user" size={20} color="white" />
-                </Box>
-                <Text color="white" fontFamily="semiBold" fontSize="sm">
-                  {comment.username}
-                </Text>
-                <Text color="white" fontFamily="body" fontSize="xs">
-                  1 mês atrás
-                </Text>
-              </HStack>
-              <Text color="white" fontFamily="body" fontSize="xs">
-                {comment.stars.map((stars, idx) => (
-                  <AntDesign key={idx} name="star" size={12} color={colors.yellow[300]} />
-                ))}
-              </Text>
-            </HStack>
-            <Text my={2} color="white" fontFamily="body" fontSize="xs">
-              {comment.comment}
-            </Text>
-            <Pressable alignSelf="flex-end">
-              <HStack alignItems="center">
-                <Fontisto name="heart" size={15} color={colors.red[300]} />
-                <Text color="white" fontFamily="body" fontSize="xs" ml={2}>
-                  25
-                </Text>
-              </HStack>
-            </Pressable>
-          </VStack>
-        </Box>
+       
       ))} */}
