@@ -70,7 +70,7 @@ export function ModuleVideo() {
       const commentData: CommentsData = {
         userId: user.id!!,
         comments_likes: 0,
-        comments_rating: 0,
+        comments_rating: 4,
         comments_text: commentText,
         contentsId: content.id
       }
@@ -105,6 +105,53 @@ export function ModuleVideo() {
     }
   }
 
+  async function handleDeleteComment(data: CommentDTO) {
+    try {
+      await api.delete(`/comments/${data.id}/user/${data.userId}`)
+      toast.show({
+        title: 'Comentário deletado com sucesso!',
+        placement: 'top',
+        bgColor: 'red.500',
+
+      })
+      fetchComments()
+
+    } catch (error) {
+
+      const title = 'Não foi possível excluir o comentário. Tente novamente';
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500'
+      })
+
+    }
+  }
+  async function handleEditComment(data: CommentDTO) {
+    try {
+      await api.put(`/comments/${data.id}/${data.userId}`, data)
+      toast.show({
+        title: 'Comentário editado com sucesso!',
+        placement: 'top',
+        bgColor: 'green.700',
+
+      })
+      fetchComments()
+
+    } catch (error) {
+
+      const title = 'Não foi possível editar o comentário. Tente novamente';
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500'
+      })
+
+    }
+  }
+
   async function fetchComments() {
     try {
       setIsLoading(true)
@@ -112,10 +159,7 @@ export function ModuleVideo() {
       setComments(data.comments)
 
     } catch (error) {
-      setIsLoading(false);
-
       const isAppError = error instanceof AppError;
-
       const title = isAppError ? error.message : 'Não foi possível criar o hábito.';
 
       toast.show({
@@ -189,6 +233,8 @@ export function ModuleVideo() {
               color="white"
               value={commentText}
               onChangeText={(text) => setCommentText(text)}
+              returnKeyType="send"
+              onSubmitEditing={handleComment}
             />
             <Button position="absolute" right={4} onPress={handleComment} p={2} rounded="full" bg="transparent" isLoading={isSending} _pressed={{
               backgroundColor: "gray.600",
@@ -197,17 +243,18 @@ export function ModuleVideo() {
             </Button>
           </HStack>
         </VStack>
-        {/* {isLoading ? <Loading /> : (
-          comments.map(comment => (
-            <Comments comment={comment} />
-          ))
-        )} */}
+
         <VStack>
-          {isLoading ? <VStack h="250" alignItems="center" justifyContent="center">
-            <Loading />
-          </VStack> : comments.map(comment => (
-            <Comments comment={comment} key={comment.id} />
-          ))}
+          {isLoading ? <Loading /> :
+            comments.map(comment => (
+              <Comments
+                handleDeleteComment={handleDeleteComment}
+                handleEditComment={handleEditComment}
+                comment={comment}
+                key={comment.id}
+              />
+            ))
+          }
         </VStack>
       </ScrollView>
 

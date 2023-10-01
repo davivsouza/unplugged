@@ -6,19 +6,32 @@ import {
   Text,
   VStack,
   useTheme,
+  useToast,
 } from "native-base";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Feather } from "@expo/vector-icons";
 import { CommentDTO } from "../dtos/CommentDTO";
 import { dateDifference } from "@utils/timeDiference";
+import { AvaliationStars } from "./AvaliationStars";
+import { useAuth } from "@hooks/useAuth";
+import { useState } from "react";
+import { EditCommentModal } from "./EditCommentModal";
+import { api } from "../services/api";
 
 type Props = {
   comment: CommentDTO
+  handleEditComment(data: CommentDTO): Promise<void>
+  handleDeleteComment(data: CommentDTO): Promise<void>
 };
-export function Comments({ comment }: Props) {
+export function Comments({ comment, handleDeleteComment, handleEditComment }: Props) {
   const { colors } = useTheme();
+  const { user } = useAuth()
+  const [showModal, setShowModal] = useState(false);
+  const toast = useToast()
+
 
   return (
     <VStack alignSelf="center">
+      <EditCommentModal onDeleteComment={handleDeleteComment} onEditComment={handleEditComment} comment={comment} onOpenModal={setShowModal} isModalOpen={showModal} />
       <Box w={400} my={3} bgColor="gray.500" px={3} py={5} rounded="xl" shadow={9} >
         <VStack>
           <HStack alignItems="center" justifyContent="space-between">
@@ -34,20 +47,27 @@ export function Comments({ comment }: Props) {
               </Text>
             </HStack>
             <Text color="white" fontFamily="body" fontSize="xs">
-              {comment.comments_rating}
+              <AvaliationStars rating={comment.comments_rating} />
             </Text>
           </HStack>
           <Text w="85%" mt={4} pl={2} color="white" fontFamily="body" fontSize="xs" lineBreakMode="tail" >
             {comment.comments_text}
           </Text>
-          <Pressable alignSelf="flex-end">
-            <HStack alignItems="center">
-              <AntDesign name="hearto" size={20} color={colors.white} />
-              <Text color="white" fontFamily="body" fontSize="xs" ml={2}>
-                {comment.comments_likes}
-              </Text>
-            </HStack>
-          </Pressable>
+          {comment.userId === user.id && (
+            <Box alignSelf="flex-end">
+              <Pressable
+                alignItems="center"
+                justifyContent="center"
+                rounded="full" p={2}
+                _pressed={{
+                  backgroundColor: "gray.600",
+                }}
+                onPress={() => setShowModal(true)}
+              >
+                <Feather name="edit" size={20} color={colors.gray[300]} />
+              </Pressable>
+            </Box>
+          )}
         </VStack>
       </Box>
     </VStack >
