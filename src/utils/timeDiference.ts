@@ -1,24 +1,40 @@
-function diferencaEmHoras(data1: any, data2: any) {
-  const diferencaEmMilissegundos = Math.abs(data2 - data1);
-  const horas = diferencaEmMilissegundos / (1000 * 60 * 60);
-  return horas;
+import dayjs from 'dayjs'
+import "dayjs/locale/pt-br"
+
+export function dateDifference(date1: Date) {
+  const initialDate = dayjs(date1)
+  const currentDate = dayjs()
+
+  const diffSec = currentDate.diff(initialDate, 'seconds')
+  const diffMin = currentDate.diff(initialDate, 'minute')
+  const diffHour = currentDate.diff(initialDate, 'hour')
+  const diffDay = currentDate.diff(initialDate, 'day')
+  const diffMonth = currentDate.diff(initialDate, 'month')
+
+  if (diffSec < 60) {
+    return `${diffSec} segundos atrás`
+  }
+  if (diffMin < 60) {
+    if (diffMin === 1) {
+
+      return `${diffMin} minuto atrás`
+    }
+    return `${diffMin} minutos atrás`
+  }
+  if (diffHour < 24) {
+    return `${diffHour} horas atrás`
+  }
+  if (diffDay <= 31) {
+    if (diffDay === 1) {
+      return `${diffDay} dia atrás`
+
+    }
+    return `${diffDay} dias atrás`
+  }
+  if (diffMonth <= 12) {
+    if (diffMonth === 1) {
+      return `${diffMonth} mês atrás`
+    }
+    return `${diffMonth} meses atrás`
+  }
 }
-
-function diferencaEmSemanas(data1: any, data2: any) {
-  const diferencaEmMilissegundos = Math.abs(data2 - data1);
-  const semanas = diferencaEmMilissegundos / (1000 * 60 * 60 * 24 * 7);
-  return semanas;
-}
-
-function diferencaEmMeses(data1: any, data2: any) {
-  const ano1 = data1.getFullYear();
-  const mes1 = data1.getMonth();
-  const ano2 = data2.getFullYear();
-  const mes2 = data2.getMonth();
-
-  const diferencaEmMeses = (ano2 - ano1) * 12 + (mes2 - mes1);
-  return diferencaEmMeses;
-}
-
-export { diferencaEmHoras, diferencaEmMeses, diferencaEmSemanas }
-

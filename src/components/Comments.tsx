@@ -9,6 +9,7 @@ import {
 } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import { CommentDTO } from "../dtos/CommentDTO";
+import { dateDifference } from "@utils/timeDiference";
 
 type Props = {
   comment: CommentDTO
@@ -29,7 +30,7 @@ export function Comments({ comment }: Props) {
                 {comment.User.name}
               </Text>
               <Text color="white" fontFamily="body" fontSize="xs">
-                1 mês atrás
+                {dateDifference(comment.created_at)}
               </Text>
             </HStack>
             <Text color="white" fontFamily="body" fontSize="xs">
