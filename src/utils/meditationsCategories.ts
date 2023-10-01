@@ -1,17 +1,39 @@
- const meditationsCategories = [
-  "Sono",
-  "Relaxar",
-  "Calma",
-  "Foco",
-  'Estudo',
-  'Criativo',
+const meditationsCategories = [
+  {
+    category: 'Sleep',
+    text: 'Sono'
+  },
+  {
+    category: 'Focus',
+    text: 'Foco'
+  },
+  {
+    category: 'Relax',
+    text: 'Relaxar'
+  },
+  {
+    category: 'Calm',
+    text: 'Calma'
+  },
 ]
 
 const meditationTimeDurations = [
-  'Tudo',
-  '5 min',
-  '10 min',
-  '15 min'
+  {
+    label: '5 min',
+    timeInMinutes: 5
+  },
+  {
+    label: '10 min',
+    timeInMinutes: 10
+  },
+  {
+    label: '15 min',
+    timeInMinutes: 15
+  },
+  {
+    label: '20 min',
+    timeInMinutes: 20
+  },
 ]
 
-export {meditationTimeDurations, meditationsCategories}
+export { meditationTimeDurations, meditationsCategories }

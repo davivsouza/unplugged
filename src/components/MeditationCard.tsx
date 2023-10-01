@@ -31,7 +31,7 @@ export function MeditationCard({ meditation }: Props) {
               </Text>
               <HStack>
                 <Text fontFamily="body" color="white" fontSize="xs">
-                  {meditation.Meditation_autor} - {Math.floor(meditation.meditation_duration / 60)} min
+                  {meditation.Meditation_autor} - {Math.round(meditation.meditation_duration / 60)} min
                 </Text>
               </HStack>
             </VStack>

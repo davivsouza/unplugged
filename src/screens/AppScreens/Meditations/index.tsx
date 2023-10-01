@@ -1,5 +1,5 @@
 import { MeditationCategory } from '@components/MeditationCategory'
-import { VStack, Text, HStack, Image, FlatList, ScrollView, Center } from 'native-base'
+import { VStack, Text, HStack, Image, FlatList, ScrollView, Center, useToast } from 'native-base'
 import { useCallback, useEffect, useState } from 'react'
 import { meditationsCategories, meditationTimeDurations } from '../../../utils/meditationsCategories'
 import { MeditationTimeDurationCategory } from '@components/MeditationTimeDurationCategory'
@@ -13,13 +13,16 @@ import { api } from '../../../services/api'
 import { MeditationDTO } from '../../../dtos/MeditationDTO'
 import { formatTime } from '@utils/formatTime'
 import { introSlidersGetAll } from '../../../storage/storageIntroSlider'
+import { Loading } from '@components/Loading'
 export function Meditations() {
-  const [selectedCategory, setSelectedCategory] = useState('Sono')
-  const [selectedTimeDuration, setSelectedTimeDuration] = useState('Tudo')
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedTimeDuration, setSelectedTimeDuration] = useState(0)
   const [meditations, setMeditations] = useState<MeditationDTO[]>([])
   const [showRealApp, setShowRealApp] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const { user } = useAuth()
+  const toast = useToast()
 
   async function checkIfUserHasAlreadySeenTheIntroSlider() {
     const slidersThatUserHasWatched = await introSlidersGetAll()
@@ -39,11 +42,75 @@ export function Meditations() {
   }, [])
 
 
-  function handleSelectedCategory(category: string) {
-    setSelectedCategory(category)
+  async function handleSelectedCategory(category: string) {
+    try {
+
+      if (selectedCategory === category) {
+
+        setSelectedCategory('')
+        if (selectedTimeDuration) {
+          const { data } = await api.get<MeditationDTO[]>('/meditations/')
+          const filtered = data.filter(meditation => Math.round(meditation.meditation_duration / 60) >= selectedTimeDuration && Math.round(meditation.meditation_duration / 60) < selectedTimeDuration + 5)
+          setMeditations(filtered)
+          return;
+        }
+        fetchMeditations()
+      } else {
+        setSelectedCategory(category)
+        setIsLoading(true)
+        const { data } = await api.get<MeditationDTO[]>('/meditations/')
+        const filtered = data.filter(meditation => meditation.meditation_category.name === category)
+        setMeditations(filtered)
+      }
+
+    } catch (error) {
+      toast.show({
+        title: 'Erro ao selecionar categoria.',
+        placement: 'top',
+        bgColor: 'red.500',
+
+      })
+    } finally {
+      setIsLoading(false)
+    }
+
   }
-  function handleSelectedTimeDuration(timeDuration: string) {
-    setSelectedTimeDuration(timeDuration)
+  async function handleSelectedTimeDuration(timeDuration: number) {
+    try {
+      if (selectedTimeDuration === timeDuration) {
+        setSelectedTimeDuration(0)
+        fetchMeditations()
+        if (selectedCategory) {
+          const { data } = await api.get<MeditationDTO[]>('/meditations/')
+          const filtered = data.filter(meditation => meditation.meditation_category.name === selectedCategory)
+          setMeditations(filtered)
+        }
+      } else {
+        if (selectedCategory) {
+          setSelectedTimeDuration(timeDuration)
+          setIsLoading(true)
+          const { data } = await api.get<MeditationDTO[]>('/meditations/')
+          const filtered = data.filter(meditation => meditation.meditation_category.name === selectedCategory && Math.round(meditation.meditation_duration / 60) >= timeDuration && Math.round(meditation.meditation_duration / 60) < timeDuration + 5)
+          setMeditations(filtered)
+        } else {
+          setSelectedTimeDuration(timeDuration)
+          const { data } = await api.get<MeditationDTO[]>('/meditations/')
+          const filtered = data.filter(meditation => Math.round(meditation.meditation_duration / 60) >= timeDuration && Math.round(meditation.meditation_duration / 60) < timeDuration + 5)
+          setMeditations(filtered)
+        }
+      }
+    } catch (error) {
+      toast.show({
+        title: 'Erro ao selecionar categoria.',
+        placement: 'top',
+        bgColor: 'red.500',
+
+      })
+    } finally {
+      setIsLoading(false)
+    }
+
+
   }
 
   useFocusEffect(useCallback(() => {
@@ -55,11 +122,26 @@ export function Meditations() {
   }, [showRealApp]))
 
   async function fetchMeditations() {
-    const { data } = await api.get('/meditations/')
-    setMeditations(data)
+    try {
+      setIsLoading(true)
+      const { data } = await api.get('/meditations/')
+      setMeditations(data)
+    } catch (error) {
+      toast.show({
+        title: 'Meditações não encontradas',
+        placement: 'top',
+        bgColor: 'red.500',
+
+      })
+    } finally {
+      setIsLoading(false)
+    }
+
   }
   useEffect(() => {
     fetchMeditations()
+    setSelectedCategory('')
+    setSelectedTimeDuration(0)
   }, [])
 
 
@@ -90,10 +172,11 @@ export function Meditations() {
           data={meditationsCategories}
           horizontal
           showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item}
+          keyExtractor={item => item.category}
           renderItem={({ item }) => (
             <MeditationCategory
-              category={item}
+              category={item.category}
+              label={item.text}
               selectedCategory={selectedCategory}
               onSelectCategory={handleSelectedCategory}
             />
@@ -103,34 +186,36 @@ export function Meditations() {
           data={meditationTimeDurations}
           horizontal
           showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item}
+          keyExtractor={item => item.label}
           renderItem={({ item }) => (
             <MeditationTimeDurationCategory
-              timeDuration={item}
+              timeDuration={item.timeInMinutes}
               onSelectTimeDuration={handleSelectedTimeDuration}
               selectedTimeDuration={selectedTimeDuration}
             />
           )}
         />
       </VStack>
-      <FlatList
-        data={meditations}
-        mt={12}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item => String(item.id)}
-        renderItem={({ item }) => (
-          <MeditationCard
-            meditation={item}
-          />
-        )
+      {isLoading ? <Loading /> : (
+        <FlatList
+          data={meditations}
+          mt={12}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item }) => (
+            <MeditationCard
+              meditation={item}
+            />
+          )
 
-        }
-        ListEmptyComponent={() => (
-          <Center>
-            <Text color="white" fontSize="lg">Nenhuma meditação postada ainda.</Text>
-          </Center>
-        )}
-      />
+          }
+          ListEmptyComponent={() => (
+            <Center>
+              <Text color="white" fontSize="lg">Nenhuma meditação encontrada.</Text>
+            </Center>
+          )}
+        />
+      )}
 
     </ScreenContainer>
   )
