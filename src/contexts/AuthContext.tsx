@@ -9,6 +9,8 @@ import { AppNavigatorRoutesProps } from '@routes/app.routes';
 
 export type AuthContextDataProps = {
   user: UserDTO;
+  tryToLogin: boolean
+  setTryToLogin: (bool: boolean) => void;
   favoritesBinauralSounds: BinauralSoundsFavoriteDTO[]
   isLoadingUserStorageData: boolean
   signIn: (email: string, password: string) => Promise<void>;
@@ -28,7 +30,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState({} as UserDTO);
   const [favoritesBinauralSounds, setFavoritesBinauralSounds] = useState<BinauralSoundsFavoriteDTO[]>([]);
   const [isLoadingUserStorageData, setIsLoadingUserStorageData] = useState(true);
-
+  const [tryToLogin, setTryToLogin] = useState(false)
   function userAndTokenUpdate(userData: UserDTO, token: string) {
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`
     setUser(userData)
@@ -41,6 +43,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   async function storageUserAndTokenSave(userData: UserDTO, token: string) {
     try {
       setIsLoadingUserStorageData(true)
+
 
       await userStorageSave(userData)
       await storageAuthTokenSave(token)
@@ -59,10 +62,14 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       setIsLoadingUserStorageData(true)
       const { data } = await api.post("/users/auth", { email, password });
 
+
       if (data.user && data.token) {
         await storageUserAndTokenSave(data.user, data.token)
         userAndTokenUpdate(data.user, data.token);
+        setTryToLogin(false)
       }
+
+
 
     } catch (error) {
       throw error;
@@ -125,7 +132,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
 
   return (
-    <AuthContext.Provider value={{ user, isLoadingUserStorageData, signIn, signOut, favoritesBinauralSounds, getFavoriteBinauralSounds, updateUserProfile }}>
+    <AuthContext.Provider value={{ user, isLoadingUserStorageData, signIn, signOut, favoritesBinauralSounds, getFavoriteBinauralSounds, updateUserProfile, tryToLogin, setTryToLogin }}>
       {children}
     </AuthContext.Provider>
   );

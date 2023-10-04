@@ -4,13 +4,13 @@ import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { TouchableOpacity } from "react-native";
 import { ChangeScreenButton } from "@components/ChangeScreenButton";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { ThirdPartyAuth } from "@components/ThirdPartyAuth";
 import { Controller, useForm } from "react-hook-form";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@hooks/useAuth";
 import { AuthNavigatorRouteProps } from "@routes/auth.routes";
 
@@ -30,7 +30,7 @@ export function SignIn() {
   const [tooManyTries, setTooManyTries] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
   const toast = useToast();
-  const { signIn } = useAuth();
+  const { signIn, setTryToLogin } = useAuth();
   const {
     control,
     handleSubmit,
@@ -39,8 +39,9 @@ export function SignIn() {
     resolver: yupResolver(signUpSchema),
   });
 
+
   function handleGoBack() {
-    navigation.goBack();
+    navigation.navigate('welcome');
   }
 
   async function handleSignIn(data: FormDataProps, e: any) {
@@ -50,7 +51,9 @@ export function SignIn() {
       await signIn(data.email, data.password);
 
     } catch (error) {
+      setTryToLogin(true)
       setIsLoading(false)
+
       setLoginTrys((prevState) => prevState - 1);
 
       if (loginTrys <= 3 && loginTrys >= 1) {
@@ -67,10 +70,15 @@ export function SignIn() {
           placement: "top",
           bgColor: "red.500",
         });
-        navigation.navigate('signIn')
+
       }
     }
   }
+
+
+  useFocusEffect(useCallback(() => {
+    setTryToLogin(true)
+  }, []))
   return (
     <VStack flex={1} bg="white">
       <ChangeScreenButton onPress={handleGoBack} />

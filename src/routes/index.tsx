@@ -12,7 +12,7 @@ export function Routes() {
 
   const { colors } = useTheme();
   const { colorMode } = useColorMode()
-  const { user, isLoadingUserStorageData } = useAuth()
+  const { user, isLoadingUserStorageData, tryToLogin } = useAuth()
   const theme = DefaultTheme;
   theme.colors.background = colorMode === 'light' ? colors.white : colors.black;
 
@@ -24,13 +24,17 @@ export function Routes() {
         backgroundColor="transparent"
         translucent
       />
-      {isLoadingUserStorageData ? <Loading /> : (
-        <NavigationContainer theme={theme}>
-          {
-            user.id ? <AppRoutes /> : <AuthRoutes />
-          }
+      {isLoadingUserStorageData ? <Loading /> : tryToLogin ?
+        <NavigationContainer>
+          <AuthRoutes hasAlreadyTriedToLogin={tryToLogin} />
         </NavigationContainer>
-      )}
+        : (
+          <NavigationContainer theme={theme}>
+            {
+              user.id ? <AppRoutes /> : <AuthRoutes />
+            }
+          </NavigationContainer>
+        )}
     </Box>
   );
 }
