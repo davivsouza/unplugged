@@ -14,6 +14,7 @@ import { MeditationDTO } from '../../../dtos/MeditationDTO'
 import { formatTime } from '@utils/formatTime'
 import { introSlidersGetAll } from '../../../storage/storageIntroSlider'
 import { Loading } from '@components/Loading'
+import Animated, { FadeInDown, FadeInLeft } from "react-native-reanimated";
 export function Meditations() {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedTimeDuration, setSelectedTimeDuration] = useState(0)
@@ -30,6 +31,7 @@ export function Meditations() {
 
     if (filter.length > 0) {
       if (filter[0].watched) {
+
         navigate('meditations')
       }
     } else {
@@ -37,9 +39,7 @@ export function Meditations() {
     }
 
   }
-  useEffect(() => {
-    checkIfUserHasAlreadySeenTheIntroSlider()
-  }, [])
+
 
 
   async function handleSelectedCategory(category: string) {
@@ -113,13 +113,7 @@ export function Meditations() {
 
   }
 
-  useFocusEffect(useCallback(() => {
-    navigate('meditationIntroSlider')
-    setShowRealApp(true)
-    if (showRealApp) {
-      navigate('meditations')
-    }
-  }, [showRealApp]))
+
 
   async function fetchMeditations() {
     try {
@@ -139,6 +133,7 @@ export function Meditations() {
 
   }
   useEffect(() => {
+    checkIfUserHasAlreadySeenTheIntroSlider()
     fetchMeditations()
     setSelectedCategory('')
     setSelectedTimeDuration(0)
@@ -147,21 +142,23 @@ export function Meditations() {
 
   return (
     <ScreenContainer>
+
       <HStack alignItems="center" justifyContent="space-between">
         <VStack>
-
-          <Text
-            fontFamily="body"
-            fontWeight="normal"
-            color="white"
-            lineBreakMode="clip"
-            fontSize="md"
-          >
-            Olá,
-          </Text>
-          <Text fontFamily="semiBold" color="white" fontSize="2xl">
-            {user.name}
-          </Text>
+          <Animated.View entering={FadeInLeft.delay(100).duration(1000).springify()}>
+            <Text
+              fontFamily="body"
+              fontWeight="normal"
+              color="white"
+              lineBreakMode="clip"
+              fontSize="md"
+            >
+              Olá,
+            </Text>
+            <Text fontFamily="semiBold" color="white" fontSize="2xl">
+              {user.name}
+            </Text>
+          </Animated.View>
         </VStack>
         <AntDesign name="user" size={35} color="white" />
       </HStack>
@@ -173,26 +170,34 @@ export function Meditations() {
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => item.category}
-          renderItem={({ item }) => (
-            <MeditationCategory
-              category={item.category}
-              label={item.text}
-              selectedCategory={selectedCategory}
-              onSelectCategory={handleSelectedCategory}
-            />
+          renderItem={({ item, index }) => (
+            <Animated.View entering={FadeInDown.delay(100 * index).duration(500).springify()}>
+              <MeditationCategory
+                category={item.category}
+                label={item.text}
+                selectedCategory={selectedCategory}
+                onSelectCategory={handleSelectedCategory}
+              />
+            </Animated.View>
           )}
         />
         <FlatList
           data={meditationTimeDurations}
           horizontal
+          contentContainerStyle={{
+            paddingVertical: 10
+          }}
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => item.label}
-          renderItem={({ item }) => (
-            <MeditationTimeDurationCategory
-              timeDuration={item.timeInMinutes}
-              onSelectTimeDuration={handleSelectedTimeDuration}
-              selectedTimeDuration={selectedTimeDuration}
-            />
+          renderItem={({ item, index }) => (
+            <Animated.View entering={FadeInDown.delay(100 * index).duration(500).springify()}>
+
+              <MeditationTimeDurationCategory
+                timeDuration={item.timeInMinutes}
+                onSelectTimeDuration={handleSelectedTimeDuration}
+                selectedTimeDuration={selectedTimeDuration}
+              />
+            </Animated.View>
           )}
         />
       </VStack>
@@ -202,10 +207,12 @@ export function Meditations() {
           mt={12}
           showsVerticalScrollIndicator={false}
           keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => (
-            <MeditationCard
-              meditation={item}
-            />
+          renderItem={({ item, index }) => (
+            <Animated.View entering={FadeInDown.delay(100 * index).duration(500).springify()}>
+              <MeditationCard
+                meditation={item}
+              />
+            </Animated.View>
           )
 
           }

@@ -4,15 +4,16 @@ import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { TouchableOpacity } from "react-native";
 import { ChangeScreenButton } from "@components/ChangeScreenButton";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { ThirdPartyAuth } from "@components/ThirdPartyAuth";
 import { Controller, useForm } from "react-hook-form";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "@hooks/useAuth";
 import { AuthNavigatorRouteProps } from "@routes/auth.routes";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 type FormDataProps = {
   email: string;
@@ -30,7 +31,7 @@ export function SignIn() {
   const [tooManyTries, setTooManyTries] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
   const toast = useToast();
-  const { signIn, setTryToLogin } = useAuth();
+  const { signIn } = useAuth();
   const {
     control,
     handleSubmit,
@@ -39,9 +40,8 @@ export function SignIn() {
     resolver: yupResolver(signUpSchema),
   });
 
-
   function handleGoBack() {
-    navigation.navigate('welcome');
+    navigation.goBack();
   }
 
   async function handleSignIn(data: FormDataProps, e: any) {
@@ -51,9 +51,7 @@ export function SignIn() {
       await signIn(data.email, data.password);
 
     } catch (error) {
-      setTryToLogin(true)
       setIsLoading(false)
-
       setLoginTrys((prevState) => prevState - 1);
 
       if (loginTrys <= 3 && loginTrys >= 1) {
@@ -70,15 +68,10 @@ export function SignIn() {
           placement: "top",
           bgColor: "red.500",
         });
-
+        navigation.navigate('signIn')
       }
     }
   }
-
-
-  useFocusEffect(useCallback(() => {
-    setTryToLogin(true)
-  }, []))
   return (
     <VStack flex={1} bg="white">
       <ChangeScreenButton onPress={handleGoBack} />
@@ -87,49 +80,45 @@ export function SignIn() {
         text="Sentimos sua falta, bem vindo de volta ao Unplugged."
       />
       <VStack>
-        <Controller
-          control={control}
-          name="email"
-          render={({ field: { onChange, value } }) => (
-            <Input
-              placeholder="E-mail"
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="email-address"
-              autoComplete='email'
-              onChangeText={onChange}
-              value={value}
-              errorMessage={errors.email?.message}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="password"
-          render={({ field: { onChange, value } }) => (
-            <Input
-              placeholder="Senha"
-              secureTextEntry
-              autoCapitalize="none"
-              returnKeyType="send"
-              onChangeText={onChange}
-              value={value}
-              errorMessage={errors.password?.message}
-              onSubmitEditing={handleSubmit(handleSignIn)}
-            />
-          )}
-        />
+        <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()}>
 
-        <TouchableOpacity>
-          <Text
-            alignSelf="flex-end"
-            color="gray.400"
-            fontFamily="semiBold"
-            fontSize="xs"
-          >
-            Esqueceu a senha?
-          </Text>
-        </TouchableOpacity>
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { onChange, value } }) => (
+              <Input
+                placeholder="E-mail"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="email-address"
+                autoComplete='email'
+                onChangeText={onChange}
+                value={value}
+                errorMessage={errors.email?.message}
+              />
+            )}
+          />
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(300).duration(1000).springify()}>
+
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { onChange, value } }) => (
+              <Input
+                placeholder="Senha"
+                secureTextEntry
+                autoCapitalize="none"
+                returnKeyType="send"
+                onChangeText={onChange}
+                value={value}
+                errorMessage={errors.password?.message}
+                onSubmitEditing={handleSubmit(handleSignIn)}
+              />
+            )}
+          />
+        </Animated.View>
+
 
         {tooManyTries ? (
           <>
@@ -146,14 +135,17 @@ export function SignIn() {
             </Text>
           </>
         ) : (
-          <Button
-            title="Entrar"
-            isLoading={isLoading}
-            mt={12}
-            mb={3}
+          <Animated.View entering={FadeInDown.delay(400).duration(100).springify()}>
 
-            onPress={handleSubmit(handleSignIn)}
-          />
+            <Button
+              title="Entrar"
+              isLoading={isLoading}
+              mt={4}
+              mb={3}
+
+              onPress={handleSubmit(handleSignIn)}
+            />
+          </Animated.View>
         )}
       </VStack>
 

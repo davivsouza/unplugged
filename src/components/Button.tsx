@@ -8,16 +8,16 @@ export function Button({ title, ...rest }: Props) {
     <NativeBaseButton
       w="full"
       bg="purple.500"
-      rounded="3xl"
-    
+      rounded="xl"
+
       _pressed={
         {
           bgColor: 'purple.600',
         }
       }
-      
+
       {...rest}
-      >
+    >
       <Text
         fontFamily="heading"
         fontWeight="bold"

@@ -10,6 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { UsernameForm } from "@components/UsernameForm";
 import { Button } from "@components/Button";
+import Animated, { FadeInLeft, FadeInDown } from "react-native-reanimated";
 
 export type SignUpFormDataProps = {
   nickname?: string;
@@ -66,66 +67,77 @@ export function SignUp() {
               heading="Vamos Começar"
               text="Preencha os campos abaixo."
             />
-            <Controller
-              control={control}
-              name="name"
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  placeholder="Nome completo"
-                  autoCapitalize="words"
-                  onChangeText={onChange}
-                  value={value}
-                  errorMessage={errors.name?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="email"
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  placeholder="E-mail"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  keyboardType="email-address"
-                  autoComplete='email'
-                  onChangeText={onChange}
-                  value={value}
-                  errorMessage={errors.email?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="password"
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  placeholder="Senha"
-                  secureTextEntry
-                  autoCapitalize="none"
-                  onChangeText={onChange}
-                  value={value}
-                  errorMessage={errors.password?.message}
-                  returnKeyType="send"
-                  onSubmitEditing={handleSubmit(handleTempData)}
-                />
-              )}
-            />
+
+            <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()}>
+              <Controller
+                control={control}
+                name="name"
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    placeholder="Nome completo"
+                    autoCapitalize="words"
+                    onChangeText={onChange}
+                    value={value}
+                    errorMessage={errors.name?.message}
+                  />
+                )}
+              />
+            </Animated.View>
+
+            <Animated.View entering={FadeInDown.delay(300).duration(1000).springify()}>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    placeholder="E-mail"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardType="email-address"
+                    autoComplete='email'
+                    onChangeText={onChange}
+                    value={value}
+                    errorMessage={errors.email?.message}
+                  />
+                )}
+              />
+            </Animated.View>
+
+            <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    placeholder="Senha"
+                    secureTextEntry
+                    autoCapitalize="none"
+                    onChangeText={onChange}
+                    value={value}
+                    errorMessage={errors.password?.message}
+                    returnKeyType="send"
+                    onSubmitEditing={handleSubmit(handleTempData)}
+                  />
+                )}
+              />
+            </Animated.View>
           </VStack>
 
-          <Text textAlign="center" mt={6} color="gray.400">
-            ao avançar você confirma os{" "}
-            <Text fontWeight="bold" color="gray.500" underline>
-              termos de uso
-            </Text>{" "}
-            do aplicativo.
-          </Text>
-          <Button
-            onPress={handleSubmit(handleTempData)}
-            title="Continuar"
-            alignSelf="flex-end"
-            mt={4}
-          />
+          <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()}>
+            <Text textAlign="center" mt={6} color="gray.400">
+              ao avançar você confirma os{" "}
+              <Text fontWeight="bold" color="gray.500" underline>
+                termos de uso
+              </Text>{" "}
+              do aplicativo.
+            </Text>
+            <Button
+              onPress={handleSubmit(handleTempData)}
+              title="Continuar"
+              alignSelf="flex-end"
+              mt={4}
+            />
+          </Animated.View>
 
         </>
       )}
