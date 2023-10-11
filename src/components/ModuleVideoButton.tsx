@@ -1,23 +1,22 @@
-import { Pressable, IPressableProps, useTheme } from "native-base";
+import { Pressable, IPressableProps, useTheme, HStack, Text } from "native-base";
 import { Feather } from "@expo/vector-icons";
 type Props = IPressableProps & {
   icon: keyof typeof Feather.glyphMap;
+  label: string
 };
-export function ModuleVideoButton({ icon, ...rest }: Props) {
+export function ModuleVideoButton({ icon, label, ...rest }: Props) {
   const { colors } = useTheme();
   return (
     <Pressable
-      w={12}
       h={12}
-      mr={5}
       alignItems="center"
       justifyContent="center"
-      rounded="full"
-      borderWidth={1}
-      borderColor="white"
       {...rest}
     >
-      <Feather name={icon} size={20} color={colors.white}  />
+      <HStack alignItems="center" space={2} mr={5}>
+        <Feather name={icon} size={22} color={colors.white} />
+        <Text color="white" fontSize="md" fontFamily="body">{label}</Text>
+      </HStack>
     </Pressable>
   );
 }

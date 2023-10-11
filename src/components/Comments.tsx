@@ -11,7 +11,6 @@ import {
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { CommentDTO } from "../dtos/CommentDTO";
 import { dateDifference } from "@utils/timeDiference";
-import { AvaliationStars } from "./AvaliationStars";
 import { useAuth } from "@hooks/useAuth";
 import { useState } from "react";
 import { EditCommentModal } from "./EditCommentModal";
@@ -46,28 +45,26 @@ export function Comments({ comment, handleDeleteComment, handleEditComment }: Pr
                 {dateDifference(comment.created_at)}
               </Text>
             </HStack>
-            <Text color="white" fontFamily="body" fontSize="xs">
-              <AvaliationStars rating={comment.comments_rating} />
-            </Text>
+            {comment.userId === user.id && (
+              <Box alignSelf="flex-end">
+                <Pressable
+                  alignItems="center"
+                  justifyContent="center"
+                  rounded="full" p={2}
+                  _pressed={{
+                    backgroundColor: "gray.600",
+                  }}
+                  onPress={() => setShowModal(true)}
+                >
+                  <Feather name="edit" size={20} color={colors.gray[300]} />
+                </Pressable>
+              </Box>
+            )}
           </HStack>
           <Text w="85%" mt={4} pl={2} color="white" fontFamily="body" fontSize="xs" lineBreakMode="tail" >
             {comment.comments_text}
           </Text>
-          {comment.userId === user.id && (
-            <Box alignSelf="flex-end">
-              <Pressable
-                alignItems="center"
-                justifyContent="center"
-                rounded="full" p={2}
-                _pressed={{
-                  backgroundColor: "gray.600",
-                }}
-                onPress={() => setShowModal(true)}
-              >
-                <Feather name="edit" size={20} color={colors.gray[300]} />
-              </Pressable>
-            </Box>
-          )}
+
         </VStack>
       </Box>
     </VStack >

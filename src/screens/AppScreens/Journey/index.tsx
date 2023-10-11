@@ -62,7 +62,8 @@ export function Journey() {
         </Heading>
       </Animated.View>
       <Divider my={7} />
-      {isFetching ? <Loading /> : (
+      {isFetching && <Loading />}
+      {!isFetching && (
         <FlatList
           flex={1}
           data={modulesData}

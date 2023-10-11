@@ -21,7 +21,7 @@ import { JourneyHeader } from "@components/JourneyHeader";
 type RouteParams = ModuleDTO;
 
 export function Module() {
-  const [selectedInfo, setSelectedInfo] = useState<"about" | "downloaded" | "content">("about");
+  const [selectedInfo, setSelectedInfo] = useState<"about" | "content">("about");
 
   const route = useRoute();
   const tempProgress = 0

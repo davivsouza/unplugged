@@ -64,14 +64,15 @@ export function BinauralContent() {
       </Text>
       <BinauralFavoriteSounds />
       <Text color="white" fontFamily="semiBold" fontSize="lg" mt={12}>Playlists</Text>
-      {isFetching ? <Loading /> : (
+      {isFetching && <Loading />}
+      {!isFetching && (
         <FlatList
           data={binaurals}
           mt={2}
           height={290}
           showsVerticalScrollIndicator={false}
           keyExtractor={item => String(item.id)}
-          renderItem={({ item, index }) => (
+          renderItem={({ item }) => (
 
             <PlaylistCard playlistId={item.id} title={item.name} beatsQuantity={item.binaural.length} imgUrl={item.images} />
           )

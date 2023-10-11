@@ -12,11 +12,12 @@ import { DetailsButton } from "./DetailsButton";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { ContentDTO } from "../dtos/ModuleDTO";
+import Animated, { FadeInDown, FadeInLeft, FadeInRight } from 'react-native-reanimated'
 type Props = {
   module_description: string
   contents: ContentDTO[]
   selectedInfo: string
-  setSelectedInfo: (info: "about" | "downloaded" | "content") => void
+  setSelectedInfo: (info: "about" | "content") => void
 }
 
 export function ModuleDetails({ module_description, setSelectedInfo, selectedInfo, contents }: Props) {
@@ -27,76 +28,87 @@ export function ModuleDetails({ module_description, setSelectedInfo, selectedInf
   return (
     <VStack>
       <HStack alignItems="center" justifyContent="space-evenly" mb={10}>
-        <DetailsButton
-          title="Sobre"
-          isSelected={selectedInfo === "about" && true}
-          onPress={() => setSelectedInfo("about")}
-        />
-        <DetailsButton
-          title="Conteúdo"
-          isSelected={selectedInfo === "content" && true}
-          onPress={() => setSelectedInfo("content")}
-        />
-        <DetailsButton
-          title="Baixados"
-          isSelected={selectedInfo === "downloaded" && true}
-          onPress={() => setSelectedInfo("downloaded")}
-        />
+        <Animated.View entering={FadeInLeft.delay(200).duration(800).springify()}>
+
+          <DetailsButton
+            title="Sobre"
+            isSelected={selectedInfo === "about"}
+            onPress={() => setSelectedInfo("about")}
+          />
+        </Animated.View>
+        <Animated.View entering={FadeInRight.delay(400).duration(800).springify()}>
+
+          <DetailsButton
+            title="Conteúdo"
+            isSelected={selectedInfo === "content"}
+            onPress={() => setSelectedInfo("content")}
+          />
+        </Animated.View>
+
       </HStack>
       {selectedInfo === "about" && (
-        <Text color="white" fontFamily="body" fontSize="sm">
-          {module_description}
-        </Text>
+        <Animated.View entering={FadeInDown.delay(200).duration(800).springify()}>
+          <Text color="white" fontFamily="body" fontSize="sm">
+
+            {module_description}
+          </Text>
+        </Animated.View>
       )}
       {selectedInfo === "content" && (
         <FlatList
           data={contents}
           showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingVertical: 8,
+          }}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item: content, index }) => (
-            <HStack justifyContent="space-between" alignItems="center" mb={6}>
-              <HStack flex={1} alignItems="center">
-                <Box
-                  width={12}
-                  height={12}
-                  borderWidth={1}
-                  borderColor="white"
-                  rounded="full"
+            <Animated.View entering={FadeInDown.delay(200 * index).duration(800).springify()}>
+
+              <HStack justifyContent="space-between" alignItems="center" mb={6}>
+                <HStack flex={1} alignItems="center">
+                  <Box
+                    width={12}
+                    height={12}
+                    borderWidth={1}
+                    borderColor="white"
+                    rounded="full"
+                    textAlign="center"
+                    alignItems="center"
+                    justifyContent="center"
+                    mr={4}
+                  >
+                    <Text color="white" fontFamily="body" fontSize="lg">
+                      {index + 1}
+                    </Text>
+                  </Box>
+                  <VStack>
+                    <Text maxW="230" w="100%" color="white" fontFamily="body" fontSize="sm" numberOfLines={2}>
+                      {content.contents_name}
+                    </Text>
+                    <Text color="white" fontFamily="body" fontSize="xs">
+                      {content.contents_type === 'video' ? Math.floor(content.contets_duration / 60) + 'min' : 'Artigo'}
+                    </Text>
+                  </VStack>
+                </HStack>
+                <Pressable
+                  height={8}
+                  px={4}
+                  py={1}
                   textAlign="center"
                   alignItems="center"
+                  borderWidth={1}
+                  borderColor="purple.500"
+                  rounded="xl"
                   justifyContent="center"
-                  mr={4}
+                  onPress={() => navigate('moduleVideo', { content, videoNumber: index })}
                 >
-                  <Text color="white" fontFamily="body" fontSize="lg">
-                    {index + 1}
+                  <Text color="purple.500">
+                    {content.contents_type === 'video' ? 'Assistir' : 'Ler'}
                   </Text>
-                </Box>
-                <VStack>
-                  <Text maxW="230" w="100%" color="white" fontFamily="body" fontSize="sm" numberOfLines={2}>
-                    {content.contents_name}
-                  </Text>
-                  <Text color="white" fontFamily="body" fontSize="xs">
-                    {content.contents_type === 'video' ? Math.floor(content.contets_duration / 60) + 'min' : 'Artigo'}
-                  </Text>
-                </VStack>
+                </Pressable>
               </HStack>
-              <Pressable
-                height={8}
-                px={4}
-                py={1}
-                textAlign="center"
-                alignItems="center"
-                borderWidth={1}
-                borderColor="purple.500"
-                rounded="xl"
-                justifyContent="center"
-                onPress={() => navigate('moduleVideo', { content, videoNumber: index })}
-              >
-                <Text color="purple.500">
-                  {content.contents_type === 'video' ? 'Assistir' : 'Ler'}
-                </Text>
-              </Pressable>
-            </HStack>
+            </Animated.View>
           )}
         />
       )}

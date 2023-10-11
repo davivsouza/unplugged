@@ -17,6 +17,7 @@ import { CommentDTO, CommentsData } from "../../../dtos/CommentDTO";
 import { AppError } from "@utils/AppError";
 import { useCallback, useEffect, useState } from "react";
 import { Loading } from "@components/Loading";
+import Animated, { FadeInDown } from "react-native-reanimated";
 type RouteParams = {
   content: ContentDTO
   videoNumber: number
@@ -70,7 +71,7 @@ export function ModuleVideo() {
       const commentData: CommentsData = {
         userId: user.id!!,
         comments_likes: 0,
-        comments_rating: 4,
+        comments_rating: 0,
         comments_text: commentText,
         contentsId: content.id
       }
@@ -190,7 +191,7 @@ export function ModuleVideo() {
           content.contents_type === 'video' && <ModuleVideoPlayer videoId={content.id} />
         }
         {
-          content.contents_type === 'article' ? (
+          content.contents_type === 'article' && (
             <HStack px={5} alignItems='center' >
               <Pressable onPress={() => goBack()} pr={4}>
                 <GoBackSvg fill="#fff" />
@@ -200,13 +201,13 @@ export function ModuleVideo() {
               </Text>
             </HStack>
 
-          ) :
-            (
-              <Text px={5} mt={4} fontFamily="heading" fontSize="xl" color="white" lineBreakMode="middle">
-                Aula {videoNumber + 1}: {content.contents_name}
-              </Text>
-            )
+          )
         }
+        {content.contents_type !== 'article' && (
+          <Text px={5} mt={6} fontFamily="heading" fontSize="xl" color="white" lineBreakMode="middle">
+            Aula {videoNumber + 1}: {content.contents_name}
+          </Text>
+        )}
         {
           content.contents_type === 'article' && (
             <>
@@ -217,10 +218,9 @@ export function ModuleVideo() {
           )
 
         }
-        <HStack px={5} mt={10} alignItems="center" justifyContent="center">
-          <ModuleVideoButton icon="heart" />
-          {/* <ModuleVideoButton icon="download" /> */}
-          <ModuleVideoButton icon="share-2" onPress={onShare} />
+        <HStack px={5} mt={2} alignItems="center" >
+          <ModuleVideoButton icon="heart" label="Curtir" />
+          <ModuleVideoButton icon="share-2" label="Compartilhar" onPress={onShare} />
         </HStack>
         <Divider my={7} />
         <VStack px={5}>
@@ -246,19 +246,21 @@ export function ModuleVideo() {
 
         <VStack>
           {isLoading ? <Loading /> :
-            comments.map(comment => (
-              <Comments
-                handleDeleteComment={handleDeleteComment}
-                handleEditComment={handleEditComment}
-                comment={comment}
-                key={comment.id}
-              />
+            comments.map((comment, index) => (
+              <Animated.View entering={FadeInDown.delay(150 * index).duration(500).springify()}>
+                <Comments
+                  handleDeleteComment={handleDeleteComment}
+                  handleEditComment={handleEditComment}
+                  comment={comment}
+                  key={comment.id}
+                />
+              </Animated.View>
             ))
           }
         </VStack>
       </ScrollView>
 
 
-    </ScreenContainer>
+    </ScreenContainer >
   );
 }

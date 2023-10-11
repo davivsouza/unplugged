@@ -1,4 +1,4 @@
-import { VStack, Pressable } from "native-base";
+import { VStack, Pressable, useTheme } from "native-base";
 import { Video, ResizeMode } from 'expo-av'
 import { useRef, useState } from "react";
 import * as ScreenOrientation from 'expo-screen-orientation'
@@ -18,7 +18,7 @@ export function ModuleVideoPlayer({ videoId }: Props) {
   const [position, setPosition] = useState(0);
   const videoRef = useRef<any>(null);
   const { goBack } = useNavigation<AppNavigatorRoutesProps>()
-
+  const { colors } = useTheme()
 
 
 
@@ -42,15 +42,16 @@ export function ModuleVideoPlayer({ videoId }: Props) {
         style={{ elevation: 10 }}
         position="absolute"
       >
-        <GoBackSvg fill="#fff" />
+        <GoBackSvg fill={colors.purple[700]} />
       </Pressable>
       <Video
         positionMillis={position}
+
         ref={videoRef}
         style={{
-          alignSelf: 'flex-start',
+          alignSelf: 'center',
           width: PHONE_SCREEN_SIZE,
-          height: 240,
+          height: 300,
           backgroundColor: '#221E2B',
 
         }}
@@ -58,8 +59,9 @@ export function ModuleVideoPlayer({ videoId }: Props) {
           uri: `http://192.168.1.8:3333/api/contents/${videoId}`,
         }}
         useNativeControls
-        resizeMode={ResizeMode.CONTAIN}
+        resizeMode={ResizeMode.COVER}
         isLooping={false}
+        shouldPlay
         onFullscreenUpdate={async (update) => {
 
           if (update.fullscreenUpdate <= 1) {

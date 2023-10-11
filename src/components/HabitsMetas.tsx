@@ -10,7 +10,6 @@ import dayjs from 'dayjs'
 import "dayjs/locale/pt-br"
 import { Loading } from "./Loading";
 import { HabitDTO } from "../dtos/HabitDTO";
-import { useAuth } from "@hooks/useAuth";
 import { useFocusEffect } from "@react-navigation/native";
 import { useNotification } from "@hooks/useNotification";
 import Animated, { FadeInDown } from "react-native-reanimated";
@@ -31,10 +30,9 @@ const currentDayOfWeek = Number(dayjs().day())
 
 export function HabitsMetas() {
   const toast = useToast()
-  const { goals, loadTodayHabits } = useGoals()
+  const { goals, loadTodayHabits, isLoadingHabits } = useGoals()
   const { scheduleHabitsReminderNotification, dismissNotification } = useNotification()
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (goals.length > 0) {
@@ -48,7 +46,6 @@ export function HabitsMetas() {
 
   async function handleCompleteHabit(habitId: number, userId: string) {
     try {
-      setIsLoading(true)
       await api.post(`/habits/complete`, {
         habitId,
         userId,
@@ -69,15 +66,12 @@ export function HabitsMetas() {
         placement: 'top',
         bgColor: 'red.500'
       });
-    } finally {
-      setIsLoading(false)
     }
   }
 
   async function handleDeleteHabit(id: number) {
     try {
       dismissNotification('HabitsReminder')
-      setIsLoading(true)
       await api.delete(`/habits/${id}`)
       toast.show({
         title: 'Hábito excluído com sucesso!',
@@ -95,8 +89,6 @@ export function HabitsMetas() {
         placement: 'top',
         bgColor: 'red.500'
       });
-    } finally {
-      setIsLoading(false)
     }
 
   }
@@ -120,7 +112,9 @@ export function HabitsMetas() {
       <>
         <HabitsMetasFormModal isModalOpen={showModal} onOpenModal={setShowModal} />
         <Text color="white" fontFamily="semiBold" fontSize="xl" my={6}>Hábitos de hoje - {today}</Text>
-        {isLoading ? <Loading /> : (
+        {isLoadingHabits && <Loading />}
+
+        {!isLoadingHabits && (
           <FlatList
             px={2}
             data={goals}
