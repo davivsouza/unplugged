@@ -21,13 +21,12 @@ import { api } from "../services/api";
 import { BinauralFavoriteSounds } from "./BinauralFavoriteSounds";
 import { useAuth } from "@hooks/useAuth";
 import { Loading } from "./Loading";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 
 export function BinauralContent() {
 
-  const [showRealApp, setShowRealApp] = useState(false)
   const [binaurals, setBinaurals] = useState<BinauralCategoryDTO[]>()
-  const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const { getFavoriteBinauralSounds } = useAuth()
   const [isFetching, setIsFetching] = useState(false)
   async function fetchBinauralSounds() {
@@ -69,10 +68,11 @@ export function BinauralContent() {
         <FlatList
           data={binaurals}
           mt={2}
-          height={250}
+          height={290}
           showsVerticalScrollIndicator={false}
           keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
+
             <PlaylistCard playlistId={item.id} title={item.name} beatsQuantity={item.binaural.length} imgUrl={item.images} />
           )
           }

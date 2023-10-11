@@ -5,9 +5,12 @@ import { View } from "react-native";
 import { useAuth } from "@hooks/useAuth";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
+import { useEffect, useState } from "react";
+import { Loading } from "./Loading";
 export function BinauralFavoriteSounds() {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const { colors } = useTheme();
+  const [isLoading, setIsLoading] = useState(true)
 
   const { favoritesBinauralSounds } = useAuth()
 
@@ -15,16 +18,22 @@ export function BinauralFavoriteSounds() {
     navigate('favoriteBinauralSounds')
   }
 
+  useEffect(() => {
+    if (favoritesBinauralSounds.length === 0) {
+      setIsLoading(true)
+    }
+    setIsLoading(false)
+  }, [favoritesBinauralSounds.length])
   return (
 
     <>
       {favoritesBinauralSounds.length > 0 ? (
-        <Box position="relative" h={250}>
+        <Box position="relative" h={220} >
           <VStack alignItems="center">
             <Image
               w="full"
-              h={250}
-              rounded="3xl"
+              h={220}
+              rounded="xl"
               source={{ uri: favoritesBinauralSounds[favoritesBinauralSounds.length - 1].binaural.binaural_img }}
               alt="Foto de perfil do usuário"
               position="absolute"
@@ -32,7 +41,7 @@ export function BinauralFavoriteSounds() {
             <View
               style={{
                 width: "94%",
-                height: 250,
+                height: 220,
                 borderRadius: 20,
                 backgroundColor: colors.gray[400],
                 elevation: -1,
@@ -43,7 +52,7 @@ export function BinauralFavoriteSounds() {
             <View
               style={{
                 width: "89%",
-                height: 250,
+                height: 220,
                 borderRadius: 20,
                 backgroundColor: colors.gray[600],
                 elevation: -2,
@@ -57,6 +66,8 @@ export function BinauralFavoriteSounds() {
             alignItems="flex-end"
             height="full"
             width="full"
+            rounded="xl"
+
             borderBottomLeftRadius="3xl"
             borderBottomRightRadius="3xl"
             position="absolute"
@@ -80,42 +91,48 @@ export function BinauralFavoriteSounds() {
           </HStack>
         </Box>
       ) : (
-        <Box position="relative" h={250}>
-          <VStack alignItems="center">
-            <Box
-              w="full"
-              bg="gray.500"
-              h={250}
-              rounded="3xl"
-              position="absolute"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Foundation name="music" size={90} color="white" style={{
-                marginBottom: 50,
-              }} />
-            </Box>
-          </VStack>
-          <HStack
-            justifyContent="space-between"
-            alignItems="center"
-            bottom={-0.5}
-            height={75}
-            width="full"
-            borderBottomLeftRadius="3xl"
-            borderBottomRightRadius="3xl"
-            position="absolute"
-            bg="rgba(0, 0, 0, 0.6)"
-            py={1}
-            px={5}
-          >
-            <VStack flex={1}>
-              <Text color="white" fontFamily="semiBold" fontSize="2xl" textAlign="center">
-                Nenhum som favoritado!
-              </Text>
-            </VStack>
+        <Box position="relative" h={220}>
+          {isLoading ? <Loading /> : (
+            <>
+              <VStack alignItems="center">
+                <Box
+                  w="full"
+                  bg="gray.500"
+                  h={220}
+                  rounded="xl"
+                  position="absolute"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Foundation name="music" size={90} color="white" style={{
+                    marginBottom: 50,
+                  }} />
+                </Box>
+              </VStack>
+              <HStack
+                justifyContent="space-between"
+                alignItems="center"
+                rounded="xl"
 
-          </HStack>
+                bottom={-0.5}
+                height={75}
+                width="full"
+                borderBottomLeftRadius="3xl"
+                borderBottomRightRadius="3xl"
+                position="absolute"
+                bg="rgba(0, 0, 0, 0.6)"
+                py={1}
+                px={5}
+              >
+                <VStack flex={1}>
+                  <Text color="white" fontFamily="semiBold" fontSize="2xl" textAlign="center">
+                    Nenhum som favoritado!
+                  </Text>
+                </VStack>
+
+              </HStack>
+            </>
+          )}
         </Box>
       )}
     </>

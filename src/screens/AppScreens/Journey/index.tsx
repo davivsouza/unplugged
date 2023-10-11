@@ -9,6 +9,7 @@ import { JourneyHeader } from "@components/JourneyHeader";
 import { useFocusEffect } from "@react-navigation/native";
 import { AppError } from "@utils/AppError";
 import { Loading } from "@components/Loading";
+import Animated, { FadeInDown, FadeInLeft } from "react-native-reanimated";
 
 
 export function Journey() {
@@ -43,17 +44,23 @@ export function Journey() {
 
   return (
     <ScreenContainer>
-      <Heading
-        fontFamily="body"
-        fontWeight="normal"
-        color="white"
-        lineBreakMode="clip"
-      >
-        Bem-vindo á
-      </Heading>
-      <Heading fontWeight="normal" fontFamily="body" color="white">
-        Jornada <Text fontWeight="bold">{user.name}</Text>
-      </Heading>
+      <Animated.View entering={FadeInLeft.delay(200).duration(800).springify()}>
+
+        <Heading
+          fontFamily="body"
+          fontWeight="normal"
+          color="white"
+          lineBreakMode="clip"
+        >
+          Bem-vindo á
+        </Heading>
+      </Animated.View>
+      <Animated.View entering={FadeInLeft.delay(400).duration(800).springify()}>
+
+        <Heading fontWeight="normal" fontFamily="body" color="white">
+          Jornada <Text fontWeight="bold">{user.name}</Text>
+        </Heading>
+      </Animated.View>
       <Divider my={7} />
       {isFetching ? <Loading /> : (
         <FlatList
@@ -61,7 +68,12 @@ export function Journey() {
           data={modulesData}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => <Modules module={item} />}
+          renderItem={({ item, index }) => (
+            <Animated.View entering={FadeInDown.delay(150 * index).duration(800).springify()}>
+
+              <Modules module={item} />
+            </Animated.View>
+          )}
         />
       )}
 

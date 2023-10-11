@@ -13,6 +13,7 @@ import { HabitDTO } from "../dtos/HabitDTO";
 import { useAuth } from "@hooks/useAuth";
 import { useFocusEffect } from "@react-navigation/native";
 import { useNotification } from "@hooks/useNotification";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 export type OnCompleteProps = {
   userId: string | undefined
@@ -40,7 +41,7 @@ export function HabitsMetas() {
       scheduleHabitsReminderNotification({
         title: 'Ainda dá tempo! 🕐',
         body: 'Você ainda tem alguns hábitos incompletos',
-        seconds: 30
+        seconds: 3600 * 2
       })
     }
   }, [goals.length])
@@ -62,11 +63,9 @@ export function HabitsMetas() {
       })
       loadTodayHabits()
     } catch (error) {
-      const isAppError = error instanceof AppError;
-      const title = isAppError ? error.message : 'Não foi possível carregar o histórico!'
 
       toast.show({
-        title,
+        title: "Não foi possível completar o hábito",
         placement: 'top',
         bgColor: 'red.500'
       });
@@ -127,15 +126,20 @@ export function HabitsMetas() {
             data={goals}
             h="80%"
             keyExtractor={item => String(item.id)}
-            renderItem={({ item: habit }) => (
-              <HabitsCard
-                habit={habit}
-                onComplete={handleCompleteHabit}
-                onDelete={handleDeleteHabit}
-                checkIsHabitCompleted={checkIsHabitCompleted}
-              />
+            renderItem={({ item: habit, index }) => (
+              <Animated.View entering={FadeInDown.delay(150 * index).duration(800).springify()}>
+                <HabitsCard
+                  habit={habit}
+                  onComplete={handleCompleteHabit}
+                  onDelete={handleDeleteHabit}
+                  checkIsHabitCompleted={checkIsHabitCompleted}
+                />
+              </Animated.View>
             )}
-            contentContainerStyle={{ paddingBottom: 120 }}
+            contentContainerStyle={{
+              paddingTop: 12,
+              paddingBottom: 120
+            }}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={() => (
               <Center>

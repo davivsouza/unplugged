@@ -80,28 +80,6 @@ export function BinauralSound() {
   };
 
 
-  async function handleSkipForward() {
-    if (sound && position) {
-      const newPosition = position + 15000
-      try {
-        await sound.setPositionAsync(newPosition)
-        setPosition(newPosition)
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }
-  async function handleRewind() {
-    if (sound && position) {
-      const newPosition = position - 15000
-      try {
-        await sound.setPositionAsync(newPosition)
-        setPosition(newPosition)
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }
   async function loadAudio() {
     try {
       setIsLoading(true)

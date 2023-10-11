@@ -6,6 +6,7 @@ import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import GoBackSvg from "@assets/goback.svg";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
+import Animated, { FadeInDown, FadeInLeft } from "react-native-reanimated";
 
 export function FavoritesPlaylist() {
   const { favoritesBinauralSounds, getFavoriteBinauralSounds } = useAuth();
@@ -28,9 +29,16 @@ export function FavoritesPlaylist() {
       </VStack>
       <FlatList
         data={favoritesBinauralSounds}
+        contentContainerStyle={{
+          paddingVertical: 12,
+          paddingHorizontal: 8,
+        }}
         keyExtractor={item => String(item.id)}
-        renderItem={({ item }) => (
-          <BinauralSoundCard binaural={item.binaural} />
+        renderItem={({ item, index }) => (
+          <Animated.View entering={FadeInLeft.delay(100 * index).duration(500).springify().damping(12)}>
+
+            <BinauralSoundCard binaural={item.binaural} />
+          </Animated.View>
         )}
         ListEmptyComponent={() => (
           <Center>

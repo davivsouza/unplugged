@@ -17,6 +17,7 @@ export type SignUpFormDataProps = {
   name: string;
   email: string;
   password: string;
+  password_confirm: string;
 };
 
 const signUpSchema = yup.object({
@@ -29,11 +30,15 @@ const signUpSchema = yup.object({
     .matches(/[0-9]/, "Senha deve conter pelo menos 1 número")
     .matches(/[A-Z]/, "Senha deve conter pelo menos 1 letra maiúscula")
     .matches(/\W|_/, "Senha deve conter pelo menos 1 caractere especial"),
+  password_confirm: yup
+    .string()
+    .required("Confirme a senha.")
+    .oneOf([yup.ref("password")], "As senhas precisam ser iguais."),
 });
 export function SignUp() {
   const { navigate } = useNavigation<AuthNavigatorRouteProps>();
   const [tempUserData, setTempUserData] = useState<SignUpFormDataProps>();
-
+  const [isLoadingToNextForm, setIsLoadingToNextForm] = useState(false)
   const [usernameForm, setUsernameForm] = useState(false);
   const {
     control,
@@ -49,10 +54,13 @@ export function SignUp() {
 
   async function handleTempData(data: SignUpFormDataProps) {
     try {
+      setIsLoadingToNextForm(true)
       setTempUserData(data);
       handleAskUsername();
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoadingToNextForm(false)
     }
   }
   return (
@@ -121,6 +129,24 @@ export function SignUp() {
                 )}
               />
             </Animated.View>
+            <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
+              <Controller
+                control={control}
+                name="password_confirm"
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    mt={3}
+                    placeholder="Confirmar a Senha"
+                    secureTextEntry
+                    onChangeText={onChange}
+                    value={value}
+                    errorMessage={errors.password_confirm?.message}
+                    onSubmitEditing={handleSubmit(handleTempData)}
+                    returnKeyType="send"
+                  />
+                )}
+              />
+            </Animated.View>
           </VStack>
 
           <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()}>
@@ -133,6 +159,7 @@ export function SignUp() {
             </Text>
             <Button
               onPress={handleSubmit(handleTempData)}
+              isLoading={isLoadingToNextForm}
               title="Continuar"
               alignSelf="flex-end"
               mt={4}
