@@ -64,6 +64,17 @@ export function ModuleVideo() {
       console.log(err);
     }
   }
+  async function likeComment(commentId: number) {
+    try {
+      await api.post(`/comments/${commentId}/like`)
+    } catch (err) {
+      return
+    } finally {
+      fetchComments()
+    }
+  }
+
+
 
   async function handleComment() {
     try {
@@ -155,13 +166,30 @@ export function ModuleVideo() {
 
   async function fetchComments() {
     try {
-      setIsLoading(true)
       const { data } = await api.get(`/comments/${content.id}`)
       setComments(data.comments)
 
     } catch (error) {
       const isAppError = error instanceof AppError;
-      const title = isAppError ? error.message : 'Não foi possível criar o hábito.';
+      const title = isAppError ? error.message : 'Não foi possível carregar os comentários.';
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500'
+      })
+
+    }
+
+  }
+
+  async function loadComments() {
+    try {
+      setIsLoading(true)
+      await fetchComments()
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const title = isAppError ? error.message : 'Não foi possível carregar os comentários.';
 
       toast.show({
         title,
@@ -172,11 +200,9 @@ export function ModuleVideo() {
     } finally {
       setIsLoading(false)
     }
-
   }
-
   useFocusEffect(useCallback(() => {
-    fetchComments()
+    loadComments()
   }, [content.id]))
   return (
     <ScreenContainer px={0} py={0}>
@@ -247,12 +273,12 @@ export function ModuleVideo() {
         <VStack>
           {isLoading ? <Loading /> :
             comments.map((comment, index) => (
-              <Animated.View entering={FadeInDown.delay(150 * index).duration(500).springify()}>
+              <Animated.View entering={FadeInDown.delay(150 * index).duration(500).springify()} key={comment.id}>
                 <Comments
                   handleDeleteComment={handleDeleteComment}
                   handleEditComment={handleEditComment}
                   comment={comment}
-                  key={comment.id}
+                  onLikeComment={likeComment}
                 />
               </Animated.View>
             ))

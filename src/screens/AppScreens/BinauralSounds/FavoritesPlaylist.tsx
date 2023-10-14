@@ -5,13 +5,26 @@ import { ScreenContainer } from "../../../components/ScreenContainer";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import GoBackSvg from "@assets/goback.svg";
 import { useNavigation } from "@react-navigation/native";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Animated, { FadeInDown, FadeInLeft } from "react-native-reanimated";
+import { Loading } from "@components/Loading";
 
 export function FavoritesPlaylist() {
   const { favoritesBinauralSounds, getFavoriteBinauralSounds } = useAuth();
+  const [isLoading, setIsLoading] = useState(false)
+
+  async function getSounds() {
+    try {
+      setIsLoading(true)
+      await getFavoriteBinauralSounds()
+    } catch (err) {
+      return
+    } finally {
+      setIsLoading(false)
+    }
+  }
   useEffect(() => {
-    getFavoriteBinauralSounds()
+    getSounds()
   }, [])
   const { goBack } = useNavigation<AppNavigatorRoutesProps>()
   return (
@@ -27,25 +40,28 @@ export function FavoritesPlaylist() {
         </HStack>
 
       </VStack>
-      <FlatList
-        data={favoritesBinauralSounds}
-        contentContainerStyle={{
-          paddingVertical: 12,
-          paddingHorizontal: 8,
-        }}
-        keyExtractor={item => String(item.id)}
-        renderItem={({ item, index }) => (
-          <Animated.View entering={FadeInLeft.delay(100 * index).duration(500).springify().damping(12)}>
+      {isLoading && <Loading />}
+      {!isLoading && (
+        <FlatList
+          data={favoritesBinauralSounds}
+          contentContainerStyle={{
+            paddingVertical: 12,
+            paddingHorizontal: 8,
+          }}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item, index }) => (
+            <Animated.View entering={FadeInLeft.delay(100 * index).duration(500).springify().damping(12)}>
 
-            <BinauralSoundCard binaural={item.binaural} />
-          </Animated.View>
-        )}
-        ListEmptyComponent={() => (
-          <Center>
-            <Text color="white" fontSize="lg">Nenhum som favoritado ainda. </Text>
-          </Center>
-        )}
-      />
+              <BinauralSoundCard binaural={item.binaural} />
+            </Animated.View>
+          )}
+          ListEmptyComponent={() => (
+            <Center>
+              <Text color="white" fontSize="lg">Nenhum som favoritado ainda. </Text>
+            </Center>
+          )}
+        />
+      )}
     </ScreenContainer>
   )
 }

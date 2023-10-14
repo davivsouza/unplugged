@@ -10,7 +10,6 @@ import { Loading } from "./Loading";
 export function BinauralFavoriteSounds() {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const { colors } = useTheme();
-  const [isLoading, setIsLoading] = useState(true)
 
   const { favoritesBinauralSounds } = useAuth()
 
@@ -18,18 +17,11 @@ export function BinauralFavoriteSounds() {
     navigate('favoriteBinauralSounds')
   }
 
-  useEffect(() => {
-    if (favoritesBinauralSounds.length === 0) {
-      setIsLoading(true)
-    } else {
 
-      setIsLoading(false)
-    }
-  }, [favoritesBinauralSounds.length])
   return (
 
     <>
-      {isLoading && (
+      {/* {isLoading && (
         <Box position="relative" h={220}>
           <Box
             w="full"
@@ -40,9 +32,9 @@ export function BinauralFavoriteSounds() {
             alignItems="center"
             justifyContent="center"
           />
-
+          <Loading />
         </Box>
-      )}
+      )} */}
       {favoritesBinauralSounds.length > 0 && (
         <Box position="relative" h={220} >
           <VStack alignItems="center">
@@ -59,7 +51,7 @@ export function BinauralFavoriteSounds() {
               style={{
                 width: "94%",
                 height: 220,
-                borderRadius: 20,
+                borderRadius: 10,
                 backgroundColor: colors.gray[400],
                 elevation: -1,
                 position: "absolute",
@@ -70,7 +62,7 @@ export function BinauralFavoriteSounds() {
               style={{
                 width: "89%",
                 height: 220,
-                borderRadius: 20,
+                borderRadius: 10,
                 backgroundColor: colors.gray[600],
                 elevation: -2,
                 position: "absolute",
@@ -108,7 +100,7 @@ export function BinauralFavoriteSounds() {
           </HStack>
         </Box>
       )}
-      {favoritesBinauralSounds.length === 0 && !isLoading && (
+      {favoritesBinauralSounds.length === 0 && (
         <Box position="relative" h={220}>
           <VStack alignItems="center">
             <Box
@@ -128,13 +120,11 @@ export function BinauralFavoriteSounds() {
           <HStack
             justifyContent="space-between"
             alignItems="center"
-            rounded="xl"
-
             bottom={-0.5}
             height={75}
             width="full"
-            borderBottomLeftRadius="3xl"
-            borderBottomRightRadius="3xl"
+            borderBottomLeftRadius="xl"
+            borderBottomRightRadius="xl"
             position="absolute"
             bg="rgba(0, 0, 0, 0.6)"
             py={1}

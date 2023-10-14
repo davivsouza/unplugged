@@ -14,14 +14,15 @@ import { dateDifference } from "@utils/timeDiference";
 import { useAuth } from "@hooks/useAuth";
 import { useState } from "react";
 import { EditCommentModal } from "./EditCommentModal";
-import { api } from "../services/api";
 
 type Props = {
   comment: CommentDTO
   handleEditComment(data: CommentDTO): Promise<void>
   handleDeleteComment(data: CommentDTO): Promise<void>
+  onLikeComment(commentId: number): Promise<void>
+
 };
-export function Comments({ comment, handleDeleteComment, handleEditComment }: Props) {
+export function Comments({ comment, handleDeleteComment, handleEditComment, onLikeComment }: Props) {
   const { colors } = useTheme();
   const { user } = useAuth()
   const [showModal, setShowModal] = useState(false);
@@ -64,6 +65,16 @@ export function Comments({ comment, handleDeleteComment, handleEditComment }: Pr
           <Text w="85%" mt={4} pl={2} color="white" fontFamily="body" fontSize="xs" lineBreakMode="tail" >
             {comment.comments_text}
           </Text>
+          <Pressable position="absolute" right={2} bottom={0} disabled={comment.userId === user.id} _disabled={{
+            display: 'none'
+          }} onPress={() => onLikeComment(comment.id)}>
+            <HStack space={2} alignItems="center">
+              <AntDesign name="like2" size={20} color={colors.gray[300]} />
+              <Text color="gray.300" fontFamily="body" fontSize="xs">
+                {comment.comments_likes}
+              </Text>
+            </HStack>
+          </Pressable>
 
         </VStack>
       </Box>

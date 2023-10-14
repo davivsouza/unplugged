@@ -22,7 +22,7 @@ export function PlaylistCard({ beatsQuantity, title, playlistId, imgUrl }: Props
         <HStack flex={1} mt={6} alignItems="center" justifyContent="space-between">
           <HStack>
 
-            <Image source={{ uri: imgUrl }} alt="Thumbnail do som binaural" w={120} h={20} rounded="xl" mr={4} />
+            <Image source={{ uri: imgUrl }} alt="Thumbnail do som binaural" w={120} h={20} rounded="lg" mr={4} />
             <VStack alignItems="flex-start">
               <Text color="white" fontFamily="body" fontSize="lg">{title}</Text>
               <Text color="white" fontFamily="body" fontSize="xs">{beatsQuantity} beats</Text>

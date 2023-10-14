@@ -39,7 +39,7 @@ export function BinauralSoundCard({ binaural, playlistId }: Props) {
       <HStack flex={1} mt={3} alignItems="flex-start" justifyContent="space-between">
         <HStack>
 
-          <Image source={{ uri: binaural.binaural_img }} alt="Thumbnail do som binaural" w={60} h={60} rounded="xl" mr={4} />
+          <Image source={{ uri: binaural.binaural_img }} alt="Thumbnail do som binaural" w={60} h={60} rounded="lg" mr={4} />
           <VStack alignItems="flex-start">
             <Text color="white" fontFamily="body" fontSize="md">{binaural.binaural_name}</Text>
             <Text color="gray.300" fontFamily="body" fontSize="xs">{binaural.binaral_autor}</Text>

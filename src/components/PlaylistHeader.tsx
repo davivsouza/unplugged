@@ -31,7 +31,7 @@ export function PlaylistHeader({ banner }: Props) {
         alignSelf="center" source={{ uri: banner }}
         alt="Playlist Banner"
         mt={10}
-        rounded="2xl"
+        rounded="lg"
       />
 
     </VStack>

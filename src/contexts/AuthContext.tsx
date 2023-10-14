@@ -31,6 +31,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [favoritesBinauralSounds, setFavoritesBinauralSounds] = useState<BinauralSoundsFavoriteDTO[]>([]);
   const [isLoadingUserStorageData, setIsLoadingUserStorageData] = useState(true);
   const [tryToLogin, setTryToLogin] = useState(false)
+
   function userAndTokenUpdate(userData: UserDTO, token: string) {
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`
     setUser(userData)
