@@ -12,7 +12,7 @@ import { Loading } from "./Loading";
 import { HabitDTO } from "../dtos/HabitDTO";
 import { useFocusEffect } from "@react-navigation/native";
 import { useNotification } from "@hooks/useNotification";
-import Animated, { FadeInDown } from "react-native-reanimated";
+import Animated, { FadeInDown, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 
 export type OnCompleteProps = {
   userId: string | undefined
@@ -73,13 +73,12 @@ export function HabitsMetas() {
     try {
       dismissNotification('HabitsReminder')
       await api.delete(`/habits/${id}`)
-      toast.show({
-        title: 'Hábito excluído com sucesso!',
-        placement: 'top',
-        bgColor: 'red.500',
+      // toast.show({
+      //   title: 'Hábito excluído com sucesso!',
+      //   placement: 'top',
+      //   bgColor: 'red.500',
 
-      })
-      loadTodayHabits()
+      // })
     } catch (error) {
       const isAppError = error instanceof AppError;
       const title = isAppError ? error.message : 'Não foi possível carregar o histórico!'
@@ -89,6 +88,8 @@ export function HabitsMetas() {
         placement: 'top',
         bgColor: 'red.500'
       });
+    } finally {
+      loadTodayHabits()
     }
 
   }
@@ -121,7 +122,7 @@ export function HabitsMetas() {
             h="80%"
             keyExtractor={item => String(item.id)}
             renderItem={({ item: habit, index }) => (
-              <Animated.View entering={FadeInDown.delay(150 * index).duration(800).springify()}>
+              <Animated.View entering={FadeInDown.delay(150 * index).duration(800).springify()} >
                 <HabitsCard
                   habit={habit}
                   onComplete={handleCompleteHabit}

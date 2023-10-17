@@ -9,7 +9,8 @@ import { Controller, useForm } from "react-hook-form";
 import { api } from "../services/api";
 import { useNotification } from "@hooks/useNotification";
 import { AppError } from "@utils/AppError";
-
+import dayjs from 'dayjs'
+import "dayjs/locale/pt-br"
 const daysOfWeek = [
   {
     dayNumber: 0,
@@ -42,7 +43,7 @@ const daysOfWeek = [
 
 ]
 
-
+const currentDayOfWeek = Number(dayjs().day())
 
 
 type Props = {
@@ -61,7 +62,7 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
   const { user } = useAuth()
   const { scheduleHabitsReminderNotification } = useNotification()
   const { loadTodayHabits } = useGoals()
-  const [selectedDays, setSelectedDays] = useState<number[]>()
+  const [selectedDays, setSelectedDays] = useState<number[]>([currentDayOfWeek])
   const [isCreating, setIsCreating] = useState(false)
   const [color, setColor] = useState('white')
   const toast = useToast()
@@ -112,7 +113,7 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
 
       loadTodayHabits()
       onOpenModal(false)
-      setSelectedDays([])
+      setSelectedDays([currentDayOfWeek])
       setColor('white')
       reset()
 

@@ -23,6 +23,7 @@ export function GoalsContextProvider({ children }: GoalsProviderProps) {
 
   async function loadTodayHabits() {
     try {
+
       setIsLoadingHabits(true)
       const { data } = await api.get(`/habits/today/${user.id}`)
       setGoals(data)
