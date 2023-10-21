@@ -19,6 +19,7 @@ import { TimerControlProvider } from "@contexts/TimerControlContext";
 import { AuthContextProvider } from "@contexts/AuthContext";
 import { NotificationContextProvider } from "@contexts/NotificationsContext";
 import { useNotification } from "@hooks/useNotification";
+import { TesteDeTudo } from "@screens/AppScreens/TesteDeTudo";
 preventAutoHideAsync();
 
 
@@ -48,7 +49,8 @@ export default function App() {
               <AuthContextProvider>
                 <GoalsContextProvider>
                   <TimerControlProvider>
-                    <Routes />
+                    {/* <Routes /> */}
+                    <TesteDeTudo />
                   </TimerControlProvider>
                 </GoalsContextProvider>
               </AuthContextProvider>
