@@ -77,6 +77,9 @@ export function BinauralContent() {
             <PlaylistCard playlistId={item.id} title={item.name} beatsQuantity={item.binaural.length} imgUrl={item.images} />
           )
           }
+          contentContainerStyle={{
+            paddingBottom: 90
+          }}
           ListEmptyComponent={() => (
             <Center>
               <Text color="white" fontSize="lg">Nenhum som binaural postado ainda. </Text>
