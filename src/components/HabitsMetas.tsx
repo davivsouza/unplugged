@@ -109,7 +109,7 @@ export function HabitsMetas() {
     loadTodayHabits()
   }, []))
   return (
-    <VStack position="relative">
+    <VStack position="relative" px={3}>
       <>
         <HabitsMetasFormModal isModalOpen={showModal} onOpenModal={setShowModal} />
         <Text color="white" fontFamily="semiBold" fontSize="xl" my={6}>Hábitos de hoje - {today}</Text>

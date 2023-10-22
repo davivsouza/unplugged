@@ -12,6 +12,7 @@ import InstagramIcon from '@assets/habits/instagram.png'
 import TwitterIcon from '@assets/habits/twitter.png'
 import dayjs from 'dayjs'
 import "dayjs/locale/pt-br"
+import { formatTime, formatTimeHours } from "@utils/formatTime";
 
 const day = dayjs().locale('pt-br').format('DD').toString()
 const month = dayjs().locale('pt-br').format('MMMM').toString()
@@ -62,7 +63,9 @@ export function Painel() {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{
         paddingBottom: 30
       }}>
-        <Text color="white" fontSize="3xl" fontFamily="body" textAlign="center" mt={12}>29h 47min</Text>
+
+        <Text color="gray.200" fontSize="2xl" fontFamily="body" textAlign="center" mt={12}>Tempo da semana</Text>
+        <Text color="white" fontSize="3xl" fontFamily="body" textAlign="center">23h 47min</Text>
         <Text color="gray.200" fontSize="md" fontFamily="body" textAlign="center" >{today}</Text>
         <Box alignItems="center" justifyContent="center">
           <VictoryChart
@@ -130,13 +133,13 @@ export function Painel() {
             />
           </VictoryChart>
         </Box>
-        <Text color="white" fontSize="2xl" fontFamily="semiBold" mt={12}>8h 47min</Text>
-        <Text color="gray.200" fontSize="sm" fontFamily="body" >6 horas a mais que ontem</Text>
+        <Text color="white" fontSize="2xl" fontFamily="semiBold" mt={12}>{formatTimeHours(15410)}</Text>
+        <Text color="gray.200" fontSize="sm" fontFamily="body" >1h 20min a mais que ontem</Text>
 
         <VStack space={4} mt={6}>
-          <WellbeingApp appName="TikTok" icon={TikTokIcon} seconds={16200} />
+          <WellbeingApp appName="TikTok" icon={TikTokIcon} seconds={8750} />
           <WellbeingApp appName="Twitter" icon={TwitterIcon} seconds={4860} />
-          <WellbeingApp appName="Google" icon={InstagramIcon} seconds={1800} />
+          <WellbeingApp appName="Instagram" icon={InstagramIcon} seconds={1800} />
         </VStack>
       </ScrollView>
 

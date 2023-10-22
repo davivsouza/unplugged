@@ -1,50 +1,87 @@
 import { useTimerControl } from "@hooks/useTimerControl";
 import { HabitsFloatButton } from "./HabitsFloatButton";
-import { Center, FlatList, HStack, Image, Text, VStack } from "native-base";
-import { formatTimeHours } from "@utils/formatTime";
+import { Center, FlatList, Text, VStack, } from "native-base";
 import { useState } from "react";
 import { HabitsControlSetTimerModal } from "./HabitsControlSetTimerModal";
-import { checkIconUrl } from "@utils/checkIconUrl";
+import { AppTimer } from "@contexts/TimerControlContext";
+import { Alert } from "react-native";
+import { Loading } from "./Loading";
+import { AppTimerCard } from "./AppTimerCard";
+import Animated, { FadeInUp } from "react-native-reanimated";
+
+
+
+
 export function HabitsControl() {
-  const { timers } = useTimerControl()
+  const { timers, removeTimerControl } = useTimerControl()
   const [showModal, setShowModal] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false)
 
   function handleOpenModal() {
     setShowModal(true);
   }
 
+  async function removeTimer(timer: AppTimer) {
+    try {
+      setIsRemoving(true)
+      removeTimerControl(timer)
+    } catch (error) {
+      setIsRemoving(false)
+      return
+    } finally {
+      setIsRemoving(false)
+    }
+  }
+
+
+  function handleDeleteTimer(timer: AppTimer) {
+    Alert.alert(
+      'Confirmação',
+      'Deseja realmente excluir?',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Excluir',
+          onPress: () => removeTimer(timer)
+        },
+      ],
+      { cancelable: false }
+    );
+  }
+
 
   return (
-    <VStack position="relative">
-      <FlatList
-        px={2}
-        data={timers}
-        h="85%"
-        keyExtractor={item => item.appName}
-        renderItem={({ item: timer }) => (
-          <HStack alignItems="center" justifyContent="space-between" flex={1} mt={3} mb={5}>
-            <HStack alignItems="center" space={4}>
-              <Image source={checkIconUrl(timer.iconUrl)} alt={timer.appName} width={50} height={50} bg="white" rounded="lg" resizeMode="contain" />
-              <Text color="white" fontSize="xl" fontFamily="semiBold">
-                {timer.appName}
-              </Text>
-            </HStack>
+    <VStack position="relative" >
+      {isRemoving && <Loading />}
+      {!isRemoving && (
+        <FlatList
+          px={2}
+          data={timers}
+          h="85%"
+          keyExtractor={item => item.appName}
+          renderItem={({ item: timer, index }) => (
+            <Animated.View entering={FadeInUp.delay(150 * index).duration(800).springify()} >
 
-            <Text color="white" fontSize="lg" fontFamily="semiBold">
-              {formatTimeHours(timer.limitTime)}
-            </Text>
-          </HStack>
-        )}
-        contentContainerStyle={{ paddingBottom: 20 }}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={() => (
-          <Center>
-            <Text color="gray.300" fontSize="xl" fontFamily="heading">
-              Nenhum timer configurado ainda.
-            </Text>
-          </Center>
-        )}
-      />
+              <AppTimerCard
+                onDeleteTimer={handleDeleteTimer}
+                timer={timer}
+              />
+            </Animated.View>
+          )}
+          contentContainerStyle={{ paddingBottom: 20, paddingTop: 20 }}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={() => (
+            <Center>
+              <Text color="gray.300" fontSize="xl" fontFamily="heading">
+                Nenhum timer configurado ainda.
+              </Text>
+            </Center>
+          )}
+        />
+      )}
       <HabitsControlSetTimerModal isModalOpen={showModal} onOpenModal={setShowModal} />
       <HabitsFloatButton onPress={handleOpenModal} />
     </VStack>

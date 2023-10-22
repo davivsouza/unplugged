@@ -12,7 +12,7 @@ export function Habits() {
   }
 
   return (
-    <ScreenContainer>
+    <ScreenContainer px={2}>
       <HStack alignItems="center" justifyContent="center" position="relative" mb={12}>
         <Text color="white" fontFamily="semiBold" fontSize="3xl" textAlign="center">
           Hábitos

@@ -35,12 +35,12 @@ export function HabitsFloatButton({ ...rest }: Props) {
       bg="purple.500"
       position="absolute"
       right={4}
-      top="478"
+      top={408}
       alignItems="center"
       justifyContent="center"
-      zIndex={10}
+      zIndex={2000}
       style={[{
-        elevation: 10,
+        elevation: 200,
       }, animatedContainerStyle]}
       {...rest}
     >

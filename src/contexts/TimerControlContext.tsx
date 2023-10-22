@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 
-import { timerControlGetApps, timerControlSaveStorageRemove, timerControlStorageSave } from "../storage/storageTimerControl";
+import { timerControlGetApps, timerControlStorageRemoveSpecificAppTimer, timerControlStorageSave } from "../storage/storageTimerControl";
 
 
 export type AppTimer = {
@@ -11,6 +11,7 @@ export type AppTimer = {
 type TimerControlContextData = {
   timers: AppTimer[]
   saveAppTimer: ({ appName, limitTime }: AppTimer) => void
+  removeTimerControl: (app: AppTimer) => void
 }
 
 type TimerControlProviderProps = {
@@ -22,14 +23,16 @@ export function TimerControlProvider({ children }: TimerControlProviderProps) {
   const [timers, setTimers] = useState<AppTimer[]>([])
 
 
-  function saveAppTimer({ appName, iconUrl, limitTime }: AppTimer) {
-    let timersList = timers
-    timersList.push({ appName, iconUrl, limitTime })
-
-    setTimers(timersList)
-    timerControlStorageSave({ appName, iconUrl, limitTime })
+  async function saveAppTimer({ appName, iconUrl, limitTime }: AppTimer) {
+    await timerControlStorageSave({ appName, iconUrl, limitTime })
+    loadTimers()
   }
 
+  async function removeTimerControl(app: AppTimer) {
+    await timerControlStorageRemoveSpecificAppTimer(app)
+    loadTimers()
+
+  }
   async function loadTimers() {
     const appTimers = await timerControlGetApps()
     setTimers(appTimers);
@@ -37,9 +40,11 @@ export function TimerControlProvider({ children }: TimerControlProviderProps) {
 
   useEffect(() => {
     loadTimers()
+
+
   }, [])
   return (
-    <TimerControlContext.Provider value={{ timers, saveAppTimer }}>
+    <TimerControlContext.Provider value={{ timers, saveAppTimer, removeTimerControl }}>
       {children}
     </TimerControlContext.Provider>
   )

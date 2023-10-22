@@ -123,8 +123,6 @@ export function SignUp() {
                     onChangeText={onChange}
                     value={value}
                     errorMessage={errors.password?.message}
-                    returnKeyType="send"
-                    onSubmitEditing={handleSubmit(handleTempData)}
                   />
                 )}
               />
