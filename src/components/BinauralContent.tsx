@@ -47,6 +47,8 @@ export function BinauralContent() {
 
   useEffect(() => {
     fetchBinauralSounds();
+
+
   }, [])
 
 
@@ -69,7 +71,7 @@ export function BinauralContent() {
         <FlatList
           data={binaurals}
           mt={2}
-          height={290}
+          height={250}
           showsVerticalScrollIndicator={false}
           keyExtractor={item => String(item.id)}
           renderItem={({ item }) => (

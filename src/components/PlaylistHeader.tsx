@@ -28,7 +28,7 @@ export function PlaylistHeader({ banner }: Props) {
       <Image
         w="full"
         h={250}
-        alignSelf="center" source={{ uri: banner }}
+        alignSelf="center" source={{ uri: `http://192.168.1.8/images/${banner}` }}
         alt="Playlist Banner"
         mt={10}
         rounded="lg"

@@ -7,7 +7,7 @@ export type CommentDTO = {
   comments_likes: number
   created_at: Date
   User: {
-    name: string
+    nickname: string
   }
 }
 
