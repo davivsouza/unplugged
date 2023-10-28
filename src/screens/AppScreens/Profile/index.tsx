@@ -30,11 +30,11 @@ export function Profile() {
             alt={user.name}
             rounded="full"
           />}
-          {user.img_user === null && (
+          {/* {user.img_user === null && (
             <Box p={2} rounded='full' bg="gray.400" my={8}>
               <AntDesign name="user" size={80} color="white" />
             </Box>
-          )}
+          )} */}
         </Animated.View>
         <Animated.View entering={FadeInUp.delay(400).duration(500)}>
 

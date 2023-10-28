@@ -1,5 +1,5 @@
 import { ScreenContainer } from "@components/ScreenContainer";
-import { Text, ScrollView, useTheme, HStack, Pressable, Box, VStack } from "native-base";
+import { Text, ScrollView, useTheme, HStack, Pressable, Box, VStack, Image } from "native-base";
 import { VictoryBar, VictoryChart, VictoryAxis, } from 'victory-native'
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
@@ -13,6 +13,8 @@ import TwitterIcon from '@assets/habits/twitter.png'
 import dayjs from 'dayjs'
 import "dayjs/locale/pt-br"
 import { formatTime, formatTimeHours } from "@utils/formatTime";
+import { useAuth } from "@hooks/useAuth";
+import { imagesUrl } from "@utils/baseUrls";
 
 const day = dayjs().locale('pt-br').format('DD').toString()
 const month = dayjs().locale('pt-br').format('MMMM').toString()
@@ -36,7 +38,7 @@ const sharedAxisStyle = {
 export function Painel() {
   const { colors } = useTheme()
   const { navigate, goBack } = useNavigation<AppNavigatorRoutesProps>()
-
+  const { user } = useAuth()
   function handleNavigate() {
     goBack()
   }
@@ -56,8 +58,14 @@ export function Painel() {
         <Text color="white" fontSize="2xl" fontFamily="heading">
           Painel
         </Text>
-        <Pressable p={2} rounded='full' bg="gray.400" my={8} onPress={() => navigate('profile')}>
-          <AntDesign name="user" size={35} color="white" />
+        <Pressable my={8} onPress={() => navigate('profile')}>
+          <Image
+            w={12}
+            h={12}
+            source={{ uri: `${imagesUrl}/${user.img_user}` }}
+            alt={user.name}
+            rounded="full"
+          />
         </Pressable>
       </HStack>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{

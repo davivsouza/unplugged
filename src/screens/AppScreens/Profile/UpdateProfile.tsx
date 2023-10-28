@@ -107,7 +107,7 @@ export function UpdateProfile() {
             <AntDesign name="edit" size={15} color="white" />
           </Pressable>
         </Box>
-        {imgName === null && (
+        {/* {imgName === null && (
           <Box p={2} rounded='full' bg="gray.400" my={4} position="relative">
             <AntDesign name="user" size={80} color="white" />
             <Pressable
@@ -125,7 +125,7 @@ export function UpdateProfile() {
               <AntDesign name="edit" size={15} color="white" />
             </Pressable>
           </Box>
-        )}
+        )} */}
 
       </VStack>
       <Text color="white" fontSize="xl" fontFamily="semiBold" mt={6} mb={4}>Suas informações</Text>
