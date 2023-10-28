@@ -123,7 +123,7 @@ export function BinauralSound() {
 
 
   useEffect(() => {
-    const idUrl = `http://192.168.1.8:3333/api/binaurals/${binaural.id}`
+    const idUrl = `${process.env.EXPO_PUBLIC_API_URL}/api/binaurals/${binaural.id}`
     setAudioUrl(idUrl)
     return sound
       ? () => {
@@ -154,7 +154,7 @@ export function BinauralSound() {
           </HStack>
           <Box justifyContent="center" flex={1} alignItems="center" mt={3}>
             <VStack mb={5}>
-              <Image source={{ uri: binaural.binaural_img }} alt="Banner do áudio" w="300" height="300" rounded="xl" mb={4} />
+              <Image source={{ uri: `${process.env.EXPO_PUBLIC_IMAGES_URL}/${binaural.binaural_img}` }} alt="Banner do áudio" w="300" height="300" rounded="xl" mb={4} />
               <HStack alignItems="center" justifyContent="space-between">
 
                 <Text color="white" fontSize="lg" fontFamily="semiBold">

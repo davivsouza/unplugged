@@ -122,7 +122,7 @@ export function MeditationPlayer() {
   );
 
   useEffect(() => {
-    const idUrl = `http://192.168.1.8:3333/api/meditations/${meditation.id}`
+    const idUrl = `${process.env.EXPO_PUBLIC_API_URL}/api/meditations/${meditation.id}`
     setAudioUrl(idUrl)
     return sound
       ? () => {
@@ -134,7 +134,7 @@ export function MeditationPlayer() {
   return (
     <>
       {isLoading ? <Loading /> : (
-        <ImageBackground source={{ uri: `http://192.168.1.8/images/${meditation.meditation_img}` }} blurRadius={7} resizeMode='cover' style={{
+        <ImageBackground source={{ uri: `${process.env.EXPO_PUBLIC_IMAGES_URL}/${meditation.meditation_img}` }} blurRadius={7} resizeMode='cover' style={{
           flex: 1,
         }}>
           <VStack
@@ -162,7 +162,7 @@ export function MeditationPlayer() {
             </HStack>
             <Box justifyContent="center" flex={1} alignItems="center" mt={3}>
               <VStack mb={5}>
-                <Image source={{ uri: `http://192.168.1.8/images/${meditation.meditation_img}` }} alt="Banner do áudio" w="300" height="300" rounded="xl" mb={4} />
+                <Image source={{ uri: `${process.env.EXPO_PUBLIC_IMAGES_URL}/${meditation.meditation_img}` }} alt="Banner do áudio" w="300" height="300" rounded="xl" mb={4} />
                 <Text color="white" fontSize="lg" fontFamily="semiBold">
                   {meditation.meditation_name}
                 </Text>

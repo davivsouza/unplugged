@@ -19,7 +19,7 @@ export function MeditationCard({ meditation }: Props) {
   return (
     <Pressable mb={6} overflow="hidden" rounded="3xl" shadow={9} style={{ elevation: 10 }} onPress={handleNavigate}>
 
-      <ImageBackground source={{ uri: `http://192.168.1.8/images/${meditation.meditation_img}` }} resizeMode='cover' style={{
+      <ImageBackground source={{ uri: `${process.env.EXPO_PUBLIC_IMAGES_URL}/${meditation.meditation_img}` }} resizeMode='cover' style={{
         flex: 1,
       }}>
         <View bg="rgba(0,0,0,0.5)" rounded="3xl" mb={6} justifyContent="center" w="full" h="full" py={4} px={8}>

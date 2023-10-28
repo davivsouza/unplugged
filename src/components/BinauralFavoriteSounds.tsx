@@ -43,7 +43,7 @@ export function BinauralFavoriteSounds() {
               h={220}
               resizeMode="contain"
               rounded="xl"
-              source={{ uri: `http://192.168.1.8/images/${favoritesBinauralSounds[favoritesBinauralSounds.length - 1].binaural.binaural_img}` }}
+              source={{ uri: `${process.env.EXPO_PUBLIC_IMAGES_URL}/${favoritesBinauralSounds[favoritesBinauralSounds.length - 1].binaural.binaural_img}` }}
               alt="Foto de perfil do usuário"
               position="absolute"
             />

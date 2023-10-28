@@ -56,7 +56,7 @@ export function ModuleVideoPlayer({ videoId }: Props) {
 
         }}
         source={{
-          uri: `http://192.168.1.8:3333/api/contents/${videoId}`,
+          uri: `${process.env.EXPO_PUBLIC_API_URL}/api/contents/${videoId}`,
         }}
         useNativeControls
         resizeMode={ResizeMode.COVER}

@@ -26,7 +26,7 @@ export function PlaylistCard({ beatsQuantity, title, playlistId, imgUrl }: Props
           <HStack>
 
 
-            <Image source={{ uri: `http://192.168.1.8/images/${imgUrl}` }} alt="Thumbnail do som binaural" w={120} h={20} rounded="lg" mr={4} />
+            <Image source={{ uri: `${process.env.EXPO_PUBLIC_IMAGES_URL}/${imgUrl}` }} alt="Thumbnail do som binaural" w={120} h={20} rounded="lg" mr={4} />
             <VStack alignItems="flex-start">
               <Text color="white" fontFamily="body" fontSize="lg">{title}</Text>
               <Text color="white" fontFamily="body" fontSize="xs">{beatsQuantity} beats</Text>
