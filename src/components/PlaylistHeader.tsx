@@ -2,6 +2,7 @@ import { HStack, Image, Pressable, Text, VStack } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import GoBackSvg from "@assets/goback.svg";
+import { imagesUrl } from "@utils/baseUrls";
 
 type Props = {
   banner: string
@@ -28,7 +29,7 @@ export function PlaylistHeader({ banner }: Props) {
       <Image
         w="full"
         h={250}
-        alignSelf="center" source={{ uri: `${process.env.EXPO_PUBLIC_IMAGES_URL}/${banner}` }}
+        alignSelf="center" source={{ uri: `${imagesUrl}/${banner}` }}
         alt="Playlist Banner"
         mt={10}
         rounded="lg"

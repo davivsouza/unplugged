@@ -1,7 +1,8 @@
 import { AppError } from '@utils/AppError';
+import { localUrl } from '@utils/baseUrls';
 import axios from 'axios'
 const api = axios.create({
-  baseURL: `${process.env.EXPO_PUBLIC_API_URL}/api`
+  baseURL: `${localUrl}/api`
 })
 
 api.interceptors.response.use(response => response, error => {

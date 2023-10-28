@@ -147,13 +147,7 @@ export function HabitsMetasFormModal({ isModalOpen, onOpenModal }: Props) {
       <VStack
 
         borderTopRadius="3xl"
-        bg={{
-          linearGradient: {
-            colors: ["gray.800", "purple.800"],
-            start: [0, 1],
-            end: [0, 0],
-          },
-        }}
+        bg={"#16141C"}
         py={8}
         px={6}
         width="full"

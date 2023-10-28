@@ -1,27 +1,32 @@
 import GoBackSvg from "@assets/goback.svg";
 import { ScreenContainer } from "@components/ScreenContainer";
-import { Box, HStack, Pressable, Text, VStack, useToast } from "native-base";
+import { Box, HStack, Image, Pressable, Text, VStack, useToast } from "native-base";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { useNavigation } from "@react-navigation/native";
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign, Feather } from '@expo/vector-icons'
 import { Input } from "@components/Input";
 import { useAuth } from "@hooks/useAuth";
 import { Button } from "@components/Button";
 import { Controller, useForm } from "react-hook-form";
 import { api } from "../../../services/api";
 import { useState } from "react";
+import { ChangeProfilePhotoModal } from "@components/ChangeProfilePhotoModal";
+import { imagesUrl } from "@utils/baseUrls";
 
 
 type UpdateFormDataProps = {
   name: string
   nickname: string
   email: string
+  img_user: string
 }
 
 export function UpdateProfile() {
   const { goBack, navigate } = useNavigation<AppNavigatorRoutesProps>()
   const { user, updateUserProfile } = useAuth()
   const [isUpdating, setIsUpdating] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const [imgName, setImgName] = useState(user.img_user)
   const toast = useToast()
   const {
     control,
@@ -31,9 +36,14 @@ export function UpdateProfile() {
     defaultValues: {
       name: user.name,
       nickname: user.nickname,
-      email: user.email
+      email: user.email,
+      img_user: user.img_user,
     },
   });
+
+  function handleOpenModal() {
+    setShowModal(true)
+  }
 
 
 
@@ -44,6 +54,7 @@ export function UpdateProfile() {
       updatedUser.name = data.name
       updatedUser.email = data.email
       updatedUser.nickname = data.nickname
+      updatedUser.img_user = imgName
 
       await api.put('/users/update', data)
       await updateUserProfile(updatedUser)
@@ -62,6 +73,7 @@ export function UpdateProfile() {
   }
   return (
     <ScreenContainer>
+      <ChangeProfilePhotoModal onChangeImgProfile={setImgName} isModalOpen={showModal} onCloseModal={setShowModal} />
       <HStack alignItems="center" justifyContent="center" >
         <Pressable onPress={() => goBack()} position={'absolute'} left={-10} p={4}>
           <GoBackSvg fill="#fff" />
@@ -71,9 +83,50 @@ export function UpdateProfile() {
         }}>Editando Perfil</Text>
       </HStack>
       <VStack alignItems={'center'} mt={8}>
-        <Box p={2} rounded='full' bg="gray.400" my={4}>
-          <AntDesign name="user" size={80} color="white" />
+        <Box position="relative">
+          {imgName && <Image
+            w={32}
+            h={32}
+            mb={4}
+            source={{ uri: `${imagesUrl}/${imgName}` }}
+            alt={user.name}
+            rounded="full"
+          />}
+          <Pressable
+            position="absolute"
+            bottom={5}
+            right={0}
+            bg="purple.500"
+            w={8}
+            h={8}
+            rounded="full"
+            justifyContent="center"
+            alignItems="center"
+            onPress={handleOpenModal}
+          >
+            <AntDesign name="edit" size={15} color="white" />
+          </Pressable>
         </Box>
+        {imgName === null && (
+          <Box p={2} rounded='full' bg="gray.400" my={4} position="relative">
+            <AntDesign name="user" size={80} color="white" />
+            <Pressable
+              position="absolute"
+              bottom={0}
+              right={0}
+              bg="purple.500"
+              w={8}
+              h={8}
+              rounded="full"
+              justifyContent="center"
+              alignItems="center"
+              onPress={handleOpenModal}
+            >
+              <AntDesign name="edit" size={15} color="white" />
+            </Pressable>
+          </Box>
+        )}
+
       </VStack>
       <Text color="white" fontSize="xl" fontFamily="semiBold" mt={6} mb={4}>Suas informações</Text>
       <VStack position="relative">

@@ -1,5 +1,5 @@
 import { ScreenContainer } from "@components/ScreenContainer";
-import { Box, Divider, HStack, Pressable, Text, VStack, useTheme } from "native-base";
+import { Box, Divider, HStack, Image, Pressable, Text, VStack, useTheme } from "native-base";
 import { useAuth } from "@hooks/useAuth";
 import { AntDesign, Feather } from '@expo/vector-icons'
 import { ProfileOption } from "@components/ProfileOption";
@@ -7,6 +7,7 @@ import { Button } from "@components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import { imagesUrl } from "@utils/baseUrls";
 export function Profile() {
   const { user, signOut } = useAuth()
   const { colors } = useTheme()
@@ -21,9 +22,19 @@ export function Profile() {
       </Animated.View>
       <VStack alignItems={'center'} mt={8}>
         <Animated.View entering={FadeInUp.delay(300).duration(500)}>
-          <Box p={2} rounded='full' bg="gray.400" my={8}>
-            <AntDesign name="user" size={80} color="white" />
-          </Box>
+          {user.img_user && <Image
+            w={32}
+            h={32}
+            mb={4}
+            source={{ uri: `${imagesUrl}/${user.img_user}` }}
+            alt={user.name}
+            rounded="full"
+          />}
+          {user.img_user === null && (
+            <Box p={2} rounded='full' bg="gray.400" my={8}>
+              <AntDesign name="user" size={80} color="white" />
+            </Box>
+          )}
         </Animated.View>
         <Animated.View entering={FadeInUp.delay(400).duration(500)}>
 

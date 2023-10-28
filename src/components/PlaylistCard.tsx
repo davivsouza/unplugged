@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { ImagesTest, getImg } from "@utils/images";
+import { imagesUrl } from "@utils/baseUrls";
 type Props = {
   playlistId: number
   title: string
@@ -26,7 +27,7 @@ export function PlaylistCard({ beatsQuantity, title, playlistId, imgUrl }: Props
           <HStack>
 
 
-            <Image source={{ uri: `${process.env.EXPO_PUBLIC_IMAGES_URL}/${imgUrl}` }} alt="Thumbnail do som binaural" w={120} h={20} rounded="lg" mr={4} />
+            <Image source={{ uri: `${imagesUrl}/${imgUrl}` }} alt="Thumbnail do som binaural" w={120} h={20} rounded="lg" mr={4} />
             <VStack alignItems="flex-start">
               <Text color="white" fontFamily="body" fontSize="lg">{title}</Text>
               <Text color="white" fontFamily="body" fontSize="xs">{beatsQuantity} beats</Text>

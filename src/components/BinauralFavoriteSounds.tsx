@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { useEffect, useState } from "react";
 import { Loading } from "./Loading";
+import { imagesUrl } from "@utils/baseUrls";
 export function BinauralFavoriteSounds() {
   const { navigate } = useNavigation<AppNavigatorRoutesProps>()
   const { colors } = useTheme();
@@ -43,7 +44,7 @@ export function BinauralFavoriteSounds() {
               h={220}
               resizeMode="contain"
               rounded="xl"
-              source={{ uri: `${process.env.EXPO_PUBLIC_IMAGES_URL}/${favoritesBinauralSounds[favoritesBinauralSounds.length - 1].binaural.binaural_img}` }}
+              source={{ uri: `${imagesUrl}/${favoritesBinauralSounds[favoritesBinauralSounds.length - 1].binaural.binaural_img}` }}
               alt="Foto de perfil do usuário"
               position="absolute"
             />

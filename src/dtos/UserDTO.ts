@@ -3,4 +3,5 @@ export type UserDTO = {
   email?: string,
   name?: string
   nickname?: string
+  img_user?: string
 }
