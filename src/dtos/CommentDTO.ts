@@ -8,6 +8,7 @@ export type CommentDTO = {
   created_at: Date
   User: {
     nickname: string
+    img_user: string
   }
 }
 

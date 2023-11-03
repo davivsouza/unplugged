@@ -100,7 +100,6 @@ export function Painel() {
                   target: 'data',
                   eventHandlers: {
                     onPress: (data) => {
-                      console.log('s');
                       return [{
                         target: "data",
                         mutation: (props) => {

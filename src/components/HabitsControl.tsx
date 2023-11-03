@@ -75,7 +75,7 @@ export function HabitsControl() {
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={() => (
             <Center>
-              <Text color="gray.300" fontSize="xl" fontFamily="heading">
+              <Text color="gray.300" fontSize="md" fontFamily="heading">
                 Nenhum timer configurado ainda.
               </Text>
             </Center>

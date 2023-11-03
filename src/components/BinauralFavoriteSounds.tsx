@@ -132,7 +132,7 @@ export function BinauralFavoriteSounds() {
             px={5}
           >
             <VStack flex={1}>
-              <Text color="white" fontFamily="semiBold" fontSize="2xl" textAlign="center">
+              <Text color="white" fontFamily="semiBold" fontSize="lg" textAlign="center">
                 Nenhum som favoritado!
               </Text>
             </VStack>

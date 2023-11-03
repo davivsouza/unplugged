@@ -28,7 +28,7 @@ export function HabitsInsights() {
     },
     {
       x: 'Spotify',
-      y: 110,
+      y: 20,
       color: colors.green[300]
     },
   ]

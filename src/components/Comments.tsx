@@ -2,6 +2,7 @@ import {
   Box,
   Center,
   HStack,
+  Image,
   Pressable,
   Text,
   VStack,
@@ -15,6 +16,7 @@ import { useAuth } from "@hooks/useAuth";
 import { useState } from "react";
 import { EditCommentModal } from "./EditCommentModal";
 import Animated, { interpolate, interpolateColor, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import { imagesUrl } from "@utils/baseUrls";
 
 type Props = {
   comment: CommentDTO
@@ -71,13 +73,17 @@ export function Comments({ comment, handleDeleteComment, handleEditComment, onLi
   return (
     <VStack alignSelf="center">
       <EditCommentModal onDeleteComment={handleDeleteComment} onEditComment={handleEditComment} comment={comment} onOpenModal={setShowModal} isModalOpen={showModal} />
-      <Box w={400} my={3} bgColor="gray.500" px={3} py={5} rounded="xl" shadow={9} >
+      <Box w={360} my={3} bgColor="gray.500" px={3} py={5} rounded="xl" shadow={9} >
         <VStack>
           <HStack alignItems="center" justifyContent="space-between">
             <HStack alignItems="center" space={2}>
-              <Box p={2} rounded='full' bg="gray.400">
-                <AntDesign name="user" size={20} color="white" />
-              </Box>
+              <Image
+                w={8}
+                h={8}
+                source={{ uri: `${imagesUrl}/${comment.User.img_user}` }}
+                alt={user.name}
+                rounded="full"
+              />
               <Text color="white" fontFamily="semiBold" fontSize="sm">
                 {comment.User.nickname}
               </Text>

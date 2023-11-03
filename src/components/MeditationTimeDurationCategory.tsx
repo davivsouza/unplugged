@@ -13,7 +13,7 @@ export function MeditationTimeDurationCategory({ onSelectTimeDuration, selectedT
         px={2}
         h={12}
         w={100}
-        mr={6}
+        mr={3}
         rounded="full"
         borderWidth={2}
         bg={timeDuration === selectedTimeDuration ? 'white' : "transparent"}

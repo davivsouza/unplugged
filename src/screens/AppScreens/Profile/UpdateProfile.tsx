@@ -12,6 +12,7 @@ import { api } from "../../../services/api";
 import { useState } from "react";
 import { ChangeProfilePhotoModal } from "@components/ChangeProfilePhotoModal";
 import { imagesUrl } from "@utils/baseUrls";
+import { UserDTO } from "../../../dtos/UserDTO";
 
 
 type UpdateFormDataProps = {
@@ -37,7 +38,7 @@ export function UpdateProfile() {
       name: user.name,
       nickname: user.nickname,
       email: user.email,
-      img_user: user.img_user,
+      img_user: imgName,
     },
   });
 
@@ -56,7 +57,13 @@ export function UpdateProfile() {
       updatedUser.nickname = data.nickname
       updatedUser.img_user = imgName
 
-      await api.put('/users/update', data)
+
+      await api.put('/users/update', {
+        name: updatedUser.name,
+        email: updatedUser.email,
+        img_user: updatedUser.img_user,
+        nickname: updatedUser.nickname
+      })
       await updateUserProfile(updatedUser)
       toast.show({
         title: 'Perfil atualizado com sucesso!',

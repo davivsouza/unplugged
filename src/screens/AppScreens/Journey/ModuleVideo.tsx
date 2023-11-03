@@ -48,20 +48,9 @@ export function ModuleVideo() {
         `,
       })
 
-      if (result.action == Share.sharedAction) {
-        if (result.activityType) {
-          console.log('typeof: ', result.activityType)
-        }
-        else {
-          console.log('shared');
 
-        }
-      } else if (result.action === Share.dismissedAction) {
-        console.log('dismissed');
-
-      }
     } catch (err) {
-      console.log(err);
+      return
     }
   }
   async function likeComment(commentId: number) {

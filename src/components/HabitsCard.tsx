@@ -53,7 +53,7 @@ export function HabitsCard({
       rounded="lg"
       bg="purple.600"
       px={4}
-      py={3}
+      py={2}
       shadow={9}
       style={[{
         elevation: 10,

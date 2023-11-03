@@ -50,26 +50,6 @@ export function Module() {
           0/{module.content_count}
         </Text>
       </HStack>
-      <HStack alignItems="center">
-        <Box flex={1} alignSelf="flex-start" mt={2}>
-          <Progress
-            bg="purple.900"
-            _filledTrack={{
-              bg: {
-                linearGradient: {
-                  colors: ["purple.500", "purple.700"],
-                  start: [1, 1],
-                  end: [0.4, 1],
-                },
-              },
-            }}
-            value={tempProgress}
-          />
-        </Box>
-        <Text color="white" fontFamily="body" fontSize="xs" ml={5}>
-          {tempProgress}%
-        </Text>
-      </HStack>
       <Divider my={7} />
       <ModuleDetails
         module_description={module.module_description}

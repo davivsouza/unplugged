@@ -68,7 +68,7 @@ export function MeditationPlayer() {
         await sound.setPositionAsync(newPosition)
         setPosition(newPosition)
       } catch (error) {
-        console.log(error);
+        return
       }
     }
   }
@@ -79,7 +79,7 @@ export function MeditationPlayer() {
         await sound.setPositionAsync(newPosition)
         setPosition(newPosition)
       } catch (error) {
-        console.log(error);
+        return
       }
     }
   }

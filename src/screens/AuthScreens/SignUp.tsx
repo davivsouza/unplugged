@@ -58,7 +58,7 @@ export function SignUp() {
       setTempUserData(data);
       handleAskUsername();
     } catch (error) {
-      console.log(error);
+      return
     } finally {
       setIsLoadingToNextForm(false)
     }

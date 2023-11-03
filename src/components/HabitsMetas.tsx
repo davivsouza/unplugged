@@ -112,12 +112,11 @@ export function HabitsMetas() {
     <VStack position="relative" px={3}>
       <>
         <HabitsMetasFormModal isModalOpen={showModal} onOpenModal={setShowModal} />
-        <Text color="white" fontFamily="semiBold" fontSize="xl" my={6}>Hábitos de hoje - {today}</Text>
+        <Text color="white" fontFamily="semiBold" fontSize="xl" my={6} px={2}>Hoje - {today}</Text>
         {isLoadingHabits && <Loading />}
 
         {!isLoadingHabits && (
           <FlatList
-            px={2}
             data={goals}
             h="80%"
             keyExtractor={item => String(item.id)}
@@ -138,8 +137,8 @@ export function HabitsMetas() {
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={() => (
               <Center>
-                <Text color="gray.300" fontSize="xl" fontFamily="heading">
-                  Nenhuma meta criada ainda.
+                <Text color="gray.300" fontSize="md" fontFamily="heading">
+                  Nenhum hábito criado hoje ainda.
                 </Text>
               </Center>
             )}

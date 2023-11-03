@@ -46,7 +46,7 @@ export function UsernameForm({ tempData, onOpenUsernameForm }: Props) {
 
 
     } catch (error) {
-      console.log(error);
+      return
     }
   }
   return (

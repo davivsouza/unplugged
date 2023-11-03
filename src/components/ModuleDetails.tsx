@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { ContentDTO } from "../dtos/ModuleDTO";
 import Animated, { FadeInDown, FadeInLeft, FadeInRight } from 'react-native-reanimated'
+import { Feather } from '@expo/vector-icons';
 type Props = {
   module_description: string
   contents: ContentDTO[]
@@ -47,9 +48,8 @@ export function ModuleDetails({ module_description, setSelectedInfo, selectedInf
 
       </HStack>
       {selectedInfo === "about" && (
-        <Animated.View entering={FadeInDown.delay(200).duration(800).springify()}>
+        <Animated.View entering={FadeInDown.delay(200).duration(800).springify()} style={{ paddingHorizontal: 12 }}>
           <Text color="white" fontFamily="body" fontSize="sm">
-
             {module_description}
           </Text>
         </Animated.View>
@@ -82,11 +82,11 @@ export function ModuleDetails({ module_description, setSelectedInfo, selectedInf
                       {index + 1}
                     </Text>
                   </Box>
-                  <VStack>
-                    <Text maxW="230" w="100%" color="white" fontFamily="body" fontSize="sm" numberOfLines={2}>
+                  <VStack flex={1}>
+                    <Text flex={1} color="white" fontFamily="body" fontSize="md" lineBreakMode="clip" textBreakStrategy="balanced" numberOfLines={2}>
                       {content.contents_name}
                     </Text>
-                    <Text color="white" fontFamily="body" fontSize="xs">
+                    <Text color="gray.300" fontFamily="body" fontSize="xs">
                       {content.contents_type === 'video' ? Math.floor(content.contets_duration / 60) + 'min' : 'Artigo'}
                     </Text>
                   </VStack>
@@ -103,8 +103,8 @@ export function ModuleDetails({ module_description, setSelectedInfo, selectedInf
                   justifyContent="center"
                   onPress={() => navigate('moduleVideo', { content, videoNumber: index })}
                 >
-                  <Text color="purple.500">
-                    {content.contents_type === 'video' ? 'Assistir' : 'Ler'}
+                  <Text color="purple.500" fontSize="xs">
+                    {content.contents_type === 'video' ? <Feather name="play" size={24} color="black" /> : 'Ler'}
                   </Text>
                 </Pressable>
               </HStack>
