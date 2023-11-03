@@ -20,7 +20,7 @@ export function Modules({ module }: Props) {
         jumpTo("module", module)
       }
     >
-      <VStack bg="gray.700" py={3} px={4} rounded="xl" mb={5} shadow={3} flex={1}>
+      <VStack bg="gray.700" py={5} px={4} rounded="xl" mb={5} shadow={3} flex={1}>
         <HStack alignItems="center" justifyContent="space-between">
           <VStack>
             <HStack alignItems="center">

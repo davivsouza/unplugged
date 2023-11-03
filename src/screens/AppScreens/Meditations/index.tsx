@@ -143,25 +143,13 @@ export function Meditations() {
   return (
     <ScreenContainer>
 
-      <HStack alignItems="center" justifyContent="space-between">
-        <VStack>
-          <Animated.View entering={FadeInLeft.delay(100).duration(1000).springify()}>
-            <Text
-              fontFamily="body"
-              fontWeight="normal"
-              color="white"
-              lineBreakMode="clip"
-              fontSize="md"
-            >
-              Olá,
-            </Text>
-            <Text fontFamily="semiBold" color="white" fontSize="2xl">
-              {user.name}
-            </Text>
-          </Animated.View>
-        </VStack>
-        <AntDesign name="user" size={35} color="white" />
-      </HStack>
+      <VStack>
+        <Animated.View entering={FadeInLeft.delay(100).duration(1000).springify()} >
+          <Text color="white" fontFamily="semiBold" fontSize="3xl" textAlign="center">
+            Meditações
+          </Text>
+        </Animated.View>
+      </VStack>
 
       <VStack>
         <FlatList
