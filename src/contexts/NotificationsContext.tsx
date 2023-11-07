@@ -53,15 +53,7 @@ export function NotificationContextProvider({ children }: NotificationProviderPr
     })
   }
   async function handleCallNotification() {
-    const { status } = await Notifications.getPermissionsAsync();
-
-    if (status !== 'granted') {
-      Alert.alert('Você não deixou as notificações')
-    }
-
-    return
-
-
+    await Notifications.getPermissionsAsync();
   }
 
   useEffect(() => {
