@@ -6,7 +6,7 @@ import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import GoBackSvg from "@assets/goback.svg";
 import { useNavigation } from "@react-navigation/native";
 import { Dimensions } from "react-native";
-import { imagesUrl } from "@utils/baseUrls";
+import { imagesUrl, localUrl } from "@utils/baseUrls";
 
 type Props = {
   videoId: number
@@ -57,7 +57,7 @@ export function ModuleVideoPlayer({ videoId }: Props) {
 
         }}
         source={{
-          uri: `${imagesUrl}/api/contents/${videoId}`,
+          uri: `${localUrl}/api/contents/${videoId}`,
         }}
         useNativeControls
         resizeMode={ResizeMode.COVER}

@@ -1,39 +1,41 @@
 import { Box, VStack, Slider, Text, Image, HStack, Pressable, PresenceTransition, useTheme } from "native-base";
-import { MaterialIcons, AntDesign, Entypo, Ionicons } from '@expo/vector-icons'
+import { AntDesign, Entypo } from '@expo/vector-icons'
 import { useCallback, useEffect, useState } from 'react'
 import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import { AudioPlayerButton } from "@components/AudioPlayerButton";
-import { ScreenContainer } from "@components/ScreenContainer";
 import { BackHandler } from 'react-native';
 import { formatTime } from "@utils/formatTime";
 import { Audio } from 'expo-av'
-import DotMenuSvg from '@assets/binauralsounds/dotmenu-icon.svg'
-import AudioBanner from '@assets/binauralsounds/beat-bg-template.png'
 import GoBackSvg from "@assets/goback.svg";
-import { BinauralDTO } from "../../../dtos/BinauralCategoryDTO";
+import { BinauralDTO } from "../dtos/BinauralCategoryDTO";
 import { Loading } from "@components/Loading";
 import { useAuth } from "@hooks/useAuth";
-import { api } from "../../../services/api";
+import { api } from "../services/api";
 import { imagesUrl, localUrl } from "@utils/baseUrls";
 
 
-type RouteParams = { binaural: BinauralDTO, playlistId: number }
+type Props = {
+  binaural: BinauralDTO
+  onCloseSound: () => void
 
-export function BinauralSound() {
+}
+
+
+export function BinauralSound({ binaural, onCloseSound }: Props) {
 
   const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState<number | undefined>();
   const [position, setPosition] = useState<number | null>(null);
-  const { goBack } = useNavigation<AppNavigatorRoutesProps>()
+  const { goBack, navigate } = useNavigation<AppNavigatorRoutesProps>()
   const [isLoading, setIsLoading] = useState(false)
   const [audioUrl, setAudioUrl] = useState<string>('')
   const route = useRoute()
 
-  const { playlistId, binaural } = route.params as RouteParams;
   const { user, favoritesBinauralSounds, getFavoriteBinauralSounds } = useAuth()
   const { colors } = useTheme()
+
   async function favoritedSound(id: number) {
     if (isFavorited(id)) {
       await api.delete(`binaurals/unfavorite/${user.id}/${binaural.id}`)
@@ -51,12 +53,7 @@ export function BinauralSound() {
   }
 
   async function handleNavigate() {
-    if (sound) {
-      await sound.stopAsync()
-      await sound.unloadAsync()
-      setAudioUrl('')
-      goBack();
-    }
+    onCloseSound()
   }
 
   const playTrack = async () => {
@@ -83,61 +80,49 @@ export function BinauralSound() {
 
   async function loadAudio() {
     try {
-      setIsLoading(true)
 
-      const { sound } = await Audio.Sound.createAsync({ uri: audioUrl });
+      setIsLoading(true)
+      const { sound } = await Audio.Sound.createAsync({ uri: `${localUrl}/api/binaurals/${binaural.id}` });
       setSound(sound);
-      sound.setOnPlaybackStatusUpdate((status) => {
+      sound.setOnPlaybackStatusUpdate(async (status) => {
         if (status.isLoaded) {
           setDuration(status.durationMillis);
           setPosition(status.positionMillis);
           setIsPlaying(status.isPlaying);
           if (status.didJustFinish) {
-            sound.setPositionAsync(0)
-            sound.pauseAsync()
+            await sound.unloadAsync()
           }
+
         }
+
       });
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false)
-
     }
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      if (audioUrl) {
-        loadAudio();
-      }
-      function onBackPress() {
-        return true
-      };
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
-      loadAudio();
-      return () => {
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-      };
-    }, [audioUrl])
-  );
 
+
+  useFocusEffect(useCallback(() => {
+    loadAudio()
+  }, []))
 
   useEffect(() => {
-    const idUrl = `${localUrl}/api/binaurals/${binaural.id}`
-    setAudioUrl(idUrl)
     return sound
       ? () => {
         sound.unloadAsync();
+        setSound(null)
       }
       : undefined;
-  }, [binaural]);
+  }, [sound]);
 
   return (
     <>
       {isLoading ? <Loading /> : (
-        <ScreenContainer space={40}>
-          <HStack alignItems="center" justifyContent="center" >
+        <>
+          <HStack alignItems="center" justifyContent="center" mb={10}>
             <Pressable
               py={3}
               pr={8}
@@ -153,7 +138,7 @@ export function BinauralSound() {
               elevation: 10
             }}>Sons Binaurais</Text>
           </HStack>
-          <Box justifyContent="center" flex={1} alignItems="center" mt={3}>
+          <Box justifyContent="center" flex={1} alignItems="center" mt={3} px={2}>
             <VStack mb={5}>
               <Image source={{ uri: `${imagesUrl}/${binaural.binaural_img}` }} alt="Banner do áudio" w="300" height="300" rounded="xl" mb={4} />
               <HStack alignItems="center" justifyContent="space-between">
@@ -249,7 +234,7 @@ export function BinauralSound() {
               </AudioPlayerButton>
             )}
           </Box>
-        </ScreenContainer>)}
+        </>)}
     </>
 
 

@@ -17,6 +17,14 @@ export function Playlist() {
   const [playlist, setPlaylist] = useState<BinauralCategoryDTO>({} as BinauralCategoryDTO)
   const { playlistId } = route.params as RouteParams;
   const [isLoading, setIsLoading] = useState(false)
+  const [isOpenSound, setIsOpenSound] = useState(false)
+
+  function onOpenSound() {
+    setIsOpenSound(true)
+  }
+  function onCloseSound() {
+    setIsOpenSound(false)
+  }
 
   async function getPlaylistById() {
     try {
@@ -38,20 +46,26 @@ export function Playlist() {
 
 
   return (
-    <ScreenContainer>
+    <ScreenContainer >
 
-      {isLoading ? <Loading /> : (
+      {isLoading && <Loading />}
+
+      {!isLoading && (
         <>
-          <PlaylistHeader banner={playlist.images} />
+
+          {!isOpenSound && <PlaylistHeader banner={playlist.images} />}
           <FlatList
             data={playlist.binaural}
-            mt={12}
+            mt={isOpenSound ? 0 : 12}
             showsVerticalScrollIndicator={false}
             keyExtractor={item => String(item.id)}
             renderItem={({ item }) => (
               <BinauralSoundCard
                 binaural={item}
                 playlistId={playlist.id}
+                isOpenSound={isOpenSound}
+                onOpenSound={onOpenSound}
+                onCloseSound={onCloseSound}
               />
             )
             }
@@ -63,6 +77,8 @@ export function Playlist() {
           />
         </>
       )}
+
+
 
 
     </ScreenContainer>

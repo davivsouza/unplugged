@@ -2,7 +2,6 @@ import { HStack, Pressable, Text, VStack, Image } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
 import Animated, { FadeInDown } from "react-native-reanimated";
-import { ImagesTest, getImg } from "@utils/images";
 import { imagesUrl } from "@utils/baseUrls";
 type Props = {
   playlistId: number

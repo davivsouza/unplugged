@@ -19,7 +19,7 @@ import { Playlist } from "@screens/AppScreens/BinauralSounds/Playlist";
 import { Meditations } from "@screens/AppScreens/Meditations";
 import { MeditationPlayer } from "@screens/AppScreens/Meditations/MeditationPlayer";
 import { Habits } from "@screens/AppScreens/Habits";
-import { BinauralSound } from "@screens/AppScreens/BinauralSounds/BinauralSound";
+import { BinauralSound } from "@components/BinauralSound";
 import { Painel } from "@screens/AppScreens/Habits/Painel";
 import { MeditationIntroSlider } from "@screens/AppScreens/Meditations/MeditationIntroSlider";
 import { BinauralSoundsIntroSlider } from "@screens/AppScreens/BinauralSounds/BinauralSoundsIntroSlider";

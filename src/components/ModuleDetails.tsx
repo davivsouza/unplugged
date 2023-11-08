@@ -6,6 +6,7 @@ import {
   FlatList,
   Box,
   Heading,
+  useTheme,
 } from "native-base";
 import { useEffect, useState } from "react";
 import { DetailsButton } from "./DetailsButton";
@@ -24,7 +25,7 @@ type Props = {
 export function ModuleDetails({ module_description, setSelectedInfo, selectedInfo, contents }: Props) {
 
   const { navigate } = useNavigation<AppNavigatorRoutesProps>();
-
+  const { colors } = useTheme()
 
   return (
     <VStack>
@@ -104,7 +105,7 @@ export function ModuleDetails({ module_description, setSelectedInfo, selectedInf
                   onPress={() => navigate('moduleVideo', { content, videoNumber: index })}
                 >
                   <Text color="purple.500" fontSize="xs">
-                    {content.contents_type === 'video' ? <Feather name="play" size={24} color="black" /> : 'Ler'}
+                    {content.contents_type === 'video' ? <Feather name="play" size={15} color={colors.purple[500]} /> : 'Ler'}
                   </Text>
                 </Pressable>
               </HStack>
